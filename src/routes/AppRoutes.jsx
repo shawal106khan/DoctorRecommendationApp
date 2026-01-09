@@ -12,6 +12,7 @@ function AppRoutes() {
     <>
       <Routes>
         {/* Auth routes */}
+        <Route path="/" element={<LoginPage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/sigunp" element={<SignupPage />}></Route>
 
