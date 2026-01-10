@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 import Button from "../../components/common/components/Button";
 import Input from "../../components/common/components/Input";
 import RadioGroup from "../../components/common/components/RadioGroup";
@@ -7,14 +9,23 @@ import AuthSideImage from "../../components/common/components/AuthSideImage";
 import illustration from "../../assets/LoginPage-img.png";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("patient");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    role: "patient",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log({ email, password, role });
-    alert(`Logged in as ${role} (Frontend only)`);
+    console.log({ formData });
+    alert(`Logged in as ${formData.role} `);
   };
 
   return (
@@ -24,9 +35,9 @@ const LoginPage = () => {
       <AuthSideImage image={illustration} />
 
       {/* RIGHT SECTION */}
-      <div className="lg:w-1/2 flex items-center justify-center bg-white">
+      <div className="lg:w-3/5 flex items-center justify-center bg-white">
         <form onSubmit={handleLogin}>
-          <div className="w-full lg:max-w-md px-6 py-3 shadow-md shadow-slate-300 rounded-md bg-slate-20">
+          <div className="w-full lg:max-w-md px-8 py-6 shadow-lg shadow-slate-400 rounded-md bg-slate-20">
             <Title
               heading="Doctor Recommendation & Appointment System"
               subheading="Find the right doctor and manage appointments easily"
@@ -37,9 +48,10 @@ const LoginPage = () => {
               <Input
                 label="Email address"
                 type="email"
+                name="email"
                 placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={handleChange}
               />
             </div>
 
@@ -48,9 +60,10 @@ const LoginPage = () => {
               <Input
                 label="Password"
                 type="password"
+                name="password"
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
               />
             </div>
 
@@ -59,8 +72,8 @@ const LoginPage = () => {
               <RadioGroup
                 label="Select Role"
                 name="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
+                value={formData.role}
+                onChange={handleChange}
                 options={[
                   { label: "Patient", value: "patient" },
                   { label: "Doctor", value: "doctor" },
@@ -75,9 +88,12 @@ const LoginPage = () => {
             {/* SIGN UP */}
             <p className="text-center text-sm text-gray-500 mt-6">
               Don&apos;t have an account?
-              <span className="text-blue-600 cursor-pointer hover:underline ml-1">
-                Sign up here
-              </span>
+              <Link
+                to="/signup"
+                className="text-blue-600 font-medium ml-1 hover:underline"
+              >
+                Sign up
+              </Link>
             </p>
           </div>
         </form>

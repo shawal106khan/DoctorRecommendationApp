@@ -8,7 +8,7 @@ const Title = ({
     <div className="mb-8">
       {heading && (
         <h1
-          className={`text-2xl font-bold font-serif text-gray-900 mb-2 text-center ${
+          className={`text-lg font-bold font-heading text-gray-900 mb-2 text-center ${
             classNameHeading || ""
           }`}
         >
@@ -17,7 +17,7 @@ const Title = ({
       )}
       {subheading && (
         <p
-          className={`text-gray-500 mb-8 font-serif text-center ${
+          className={`text-gray-500 text-xs  font-body text-center ${
             classNameSubheading || ""
           }`}
         >

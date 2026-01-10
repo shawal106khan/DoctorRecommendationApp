@@ -11,7 +11,7 @@ const RadioGroup = ({ label, name, options, value, onChange }) => {
         {options.map((option) => (
           <label
             key={option.value}
-            className="flex items-center gap-2 font-body"
+            className="flex items-center gap-2 text-sm text-slate-700 font-body"
           >
             <input
               type="radio"
