@@ -33,7 +33,7 @@ const SignupPage = () => {
     if (formData.role === "doctor") {
       navigate("/signup/doctor-info");
     } else {
-      alert("Patient registered");
+      navigate("/signup/success");
     }
 
     console.log(formData);

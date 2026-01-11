@@ -13,9 +13,9 @@ const Input = ({ label, type, name, placeholder, value, onChange }) => {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-3 border rounded-md shadow-lg font-body ,
-        placeholder:text-xs ,
-         focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-3 border rounded-md shadow-lg font-body
+placeholder:text-xs
+focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
   );
