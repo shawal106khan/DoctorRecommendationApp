@@ -4,12 +4,11 @@ import LoginPage from "../pages/Auth/LoginPage";
 import SignupPage from "../pages/Auth/SignupPage";
 import DoctorDetailsPage from "../pages/Auth/DoctorDetailsPage";
 // portals placeholder
-import PatientPortal from "../pages/patient/PatientPortal";
-import DoctorPortal from "../pages/doctor/DoctorPortal";
-import AdminPortal from "../pages/admin/AdminPortal";
+
 import DoctorVerification from "../pages/Auth/DoctorVerification";
 import PendingApproval from "../pages/Auth/PendingApproval";
 import SignupSuccess from "../pages/Auth/SignupSuccess";
+import PatientDashboard from "../pages/patient/PatientDashboard";
 
 function AppRoutes() {
   return (
@@ -28,13 +27,12 @@ function AppRoutes() {
           path="/signup/doctor-verification"
           element={<DoctorVerification />}
         ></Route>
+
         <Route path="/pending-approval" element={<PendingApproval />} />
         <Route path="/signup/success" element={<SignupSuccess />}></Route>
 
         {/* Portal placeholders< */}
-        <Route path="/patient" element={<PatientPortal />}></Route>
-        <Route path="/doctor" element={<DoctorPortal />}></Route>
-        <Route path="/admin" element={<AdminPortal />}></Route>
+        <Route path="/patient/dashboard" element={<PatientDashboard />}></Route>
       </Routes>
     </>
   );
