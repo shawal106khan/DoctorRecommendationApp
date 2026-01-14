@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Sidebar from "./sidebar/Sidebar";
+import { useAuth } from "../../context/useAuth";
 
 import Topbar from "./Topbar";
 import logo from "../../assets/logo.png";
-import profilePic from "../../assets/profile-pictur.png";
 
 const DashboardLayout = ({ children, role }) => {
+  const { user } = useAuth();
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -13,9 +15,9 @@ const DashboardLayout = ({ children, role }) => {
       <Topbar
         logoSrc={logo}
         title="Medical"
-        userName="Kiran"
-        userImage={profilePic}
-        role={role}
+        userName={user?.name}
+        userImage={user?.avatar}
+        role={user?.role}
         onMenuClick={() => setSidebarOpen(!sidebarOpen)}
       />
 

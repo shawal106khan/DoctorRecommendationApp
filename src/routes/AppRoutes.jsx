@@ -9,6 +9,7 @@ import DoctorVerification from "../pages/Auth/DoctorVerification";
 import PendingApproval from "../pages/Auth/PendingApproval";
 import SignupSuccess from "../pages/Auth/SignupSuccess";
 import PatientDashboard from "../pages/patient/PatientDashboard";
+import Profile from "../pages/patient/Profile";
 
 function AppRoutes() {
   return (
@@ -33,6 +34,7 @@ function AppRoutes() {
 
         {/* Portal placeholders< */}
         <Route path="/patient/dashboard" element={<PatientDashboard />}></Route>
+        <Route path="/patient/profile" element={<Profile />} />
       </Routes>
     </>
   );

@@ -1,14 +1,29 @@
-import Button from "../common/components/Button";
+const DoctorCard = ({ doctor }) => {
+  const { name, specialization, hospital, rating, avatar } = doctor;
 
-const DoctorCard = ({ doctor, onBook }) => {
   return (
-    <div className="bg-white p-5 rounded shadow">
-      <h3 className="font-semibold">{doctor.name}</h3>
-      <p className="text-sm text-gray-500">{doctor.specialization}</p>
-      <p className="text-sm">{doctor.hospital}</p>
+    <div
+      className="bg-white rounded-lg shadow-lg p-5 
+    transition-all duration-300
+      hover:shadow-xl hover:-translate-y-1"
+    >
+      {/* Profile Image */}
+      <img
+        src={avatar}
+        alt={name}
+        className="w-10 h-10  rounded-full object-cover mb-3"
+      />
 
-      <div className="mt-4">
-        <Button text="Book Appointment" onClick={() => onBook(doctor)} />
+      <h4 className="font-semibold text-gray-900">{name}</h4>
+      <p className="text-sm text-gray-600">{specialization}</p>
+      <p className="text-xs text-gray-500">{hospital}</p>
+
+      <div className="flex justify-between items-center mt-4">
+        <span className="text-sm font-medium">⭐ {rating}</span>
+
+        <button className="text-sm text-blue-600 font-medium hover:underline">
+          View Profile
+        </button>
       </div>
     </div>
   );

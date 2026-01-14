@@ -1,16 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Bars3Icon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
-const Topbar = ({
-  logoSrc,
-  title,
-  userName,
-  userImage,
-  onMenuClick,
-  role = "user",
-}) => {
+const Topbar = ({ logoSrc, title, userName, userImage, onMenuClick, role }) => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   // close dropdown when clicking outside
   useEffect(() => {
@@ -49,7 +44,7 @@ const Topbar = ({
           </span>
 
           <img
-            src={userImage}
+            src={userImage || "/src/assets/profile-pictur.png"}
             alt="User"
             className="w-9 h-9 rounded-full object-cover"
           />
@@ -76,7 +71,10 @@ const Topbar = ({
             </button>
           )}
 
-          <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
+          <button
+            onClick={() => navigate("/patient/profile")}
+            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+          >
             Profile
           </button>
 
