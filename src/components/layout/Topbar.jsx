@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Bars3Icon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../../context/useAuth";
 const Topbar = ({ logoSrc, title, userName, userImage, onMenuClick, role }) => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-
+  const { logout } = useAuth();
   // close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -72,13 +72,19 @@ const Topbar = ({ logoSrc, title, userName, userImage, onMenuClick, role }) => {
           )}
 
           <button
-            onClick={() => navigate("/patient/profile")}
+            onClick={() => navigate(`/${role}/profile`)}
             className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
           >
             Profile
           </button>
 
-          <button className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100">
+          <button
+            onClick={() => {
+              logout();
+              navigate("/login", { replace: true });
+            }}
+            className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
+          >
             Logout
           </button>
         </div>

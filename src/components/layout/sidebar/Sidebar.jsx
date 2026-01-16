@@ -1,11 +1,13 @@
 import { X, LogOut } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { sidebarMenu } from "../../../config/sidebarMenu";
-
+import { useAuth } from "../../../context/useAuth";
+import { useNavigate } from "react-router-dom";
 const Sidebar = ({ role, isOpen, onClose }) => {
   const location = useLocation();
   const menus = sidebarMenu[role] || [];
-
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   return (
     <>
       {/* Overlay */}
@@ -58,6 +60,10 @@ const Sidebar = ({ role, isOpen, onClose }) => {
         {/* Logout */}
         <div className="px-4 py-4 border-t border-blue-600">
           <button
+            onClick={() => {
+              logout();
+              navigate("/login", { replace: true });
+            }}
             className="w-full flex items-center gap-3 px-4 py-2
             text-sm text-red-500 hover:bg-red-50 rounded-md transition"
           >

@@ -14,7 +14,7 @@ const AuthLayout = ({ image, children }) => {
       />
 
       {/* Right Content */}
-      <div className="w-full lg:w-3/5 flex items-center justify-center bg-white">
+      <div className="w-full lg:w-5/6 flex items-center justify-center bg-white">
         {children}
       </div>
     </div>

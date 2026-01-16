@@ -1,23 +1,36 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import DoctorCard from "../../components/cards/DoctorCard";
-import { homeDoctors } from "../../data/homeDoctors";
 import DashboardHome from "./DashboardHome";
 import { doctors } from "../../data/mockDoctors";
 import recommendDoctorImg from "../../assets/Recommend_doctor.png";
-import { Star, ThumbsUp } from "lucide-react";
+import { Star } from "lucide-react";
+import { useSearchHighlight } from "../../hooks/useSearchHighlight";
+
 const PatientDashboard = () => {
   const [selectedDisease, setSelectedDisease] = useState("");
+  const { ref: searchRef, highlight } = useSearchHighlight();
 
-  const filteredDoctors = selectedDisease
-    ? homeDoctors.filter((doctor) => doctor.disease === selectedDisease)
-    : doctors;
+  const filteredDoctors = useMemo(() => {
+    if (!selectedDisease) return doctors;
+    return doctors.filter((doctor) => doctor.disease === selectedDisease);
+  }, [selectedDisease]);
 
   return (
     <DashboardLayout role="patient">
-      <DashboardHome onSearch={setSelectedDisease} />
+      {/* Search Section */}
+      <div ref={searchRef}>
+        <div
+          className={`transition-all duration-700 rounded-xl ${
+            highlight ? "ring-4 ring-gray-300 animate-pulse" : ""
+          }`}
+        >
+          <DashboardHome onSearch={setSelectedDisease} />
+        </div>
+      </div>
 
-      <div className=" p-10 bg-blue-50   mb-6 shadow-lg">
+      {/* Doctors Section */}
+      <div className="p-10 bg-blue-50 shadow-lg">
         <h2 className="mb-6 flex items-center gap-3 lg:text-2xl font-semibold text-gray-900">
           {selectedDisease ? (
             <>
@@ -31,7 +44,6 @@ const PatientDashboard = () => {
           ) : (
             <>
               <Star className="text-yellow-500" size={22} fill="currentColor" />
-
               <span className="tracking-wide">
                 Top Rated <span className="text-blue-400">Recommended</span>{" "}
                 Doctors

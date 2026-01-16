@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/common/components/Button";
 import Input from "../../components/common/components/Input";
@@ -9,38 +9,40 @@ import { useAuth } from "../../context/useAuth";
 import illustration from "../../assets/LoginPage-img.png";
 import AuthLayout from "../../components/common/components/AuthLayout";
 import profilePic from "../../assets/profile-pictur.png";
-const LoginPage = () => {
-  const { setUser } = useAuth();
 
+const LoginPage = () => {
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     role: "patient",
   });
 
+  // ✅ Single source of redirect truth
+  useEffect(() => {
+    if (user) {
+      navigate(`/${user.role}/dashboard`);
+    }
+  }, [user, navigate]);
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // TEMP (later backend response)
+    // TEMP: mock login (replace with API later)
     setUser({
       name: "Kiran",
       role: formData.role,
       avatar: profilePic,
     });
-
-    if (formData.role === "patient") {
-      navigate("/patient/dashboard");
-    } else if (formData.role === "doctor") {
-      navigate("/doctor/pending-approval");
-    }
   };
 
   return (
