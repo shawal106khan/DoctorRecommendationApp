@@ -5,7 +5,7 @@ import { useAuth } from "../../context/useAuth";
 import Topbar from "./Topbar";
 import logo from "../../assets/logo.png";
 
-const DashboardLayout = ({ children, role }) => {
+const DashboardLayout = ({ children, role, onSearchDoctorClick }) => {
   const { user } = useAuth();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,6 +26,7 @@ const DashboardLayout = ({ children, role }) => {
           role={role}
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
+          onSearchDoctorClick={onSearchDoctorClick}
         />
 
         <div className="flex-1">

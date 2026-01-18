@@ -1,13 +1,13 @@
 import { X, LogOut } from "lucide-react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { sidebarMenu } from "../../../config/sidebarMenu";
 import { useAuth } from "../../../context/useAuth";
-import { useNavigate } from "react-router-dom";
-const Sidebar = ({ role, isOpen, onClose }) => {
-  const location = useLocation();
+
+const Sidebar = ({ role, isOpen, onClose, onSearchDoctorClick }) => {
   const menus = sidebarMenu[role] || [];
   const { logout } = useAuth();
   const navigate = useNavigate();
+
   return (
     <>
       {/* Overlay */}
@@ -36,19 +36,38 @@ const Sidebar = ({ role, isOpen, onClose }) => {
         <nav className="flex-1 px-4 py-6 space-y-1">
           {menus.map((item) => {
             const Icon = item.icon;
-            const isActive = location.pathname === item.path;
+            const isSearchDoctor = item.label === "Search Doctors";
+
+            if (isSearchDoctor) {
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => {
+                    onClose();
+                    onSearchDoctorClick?.();
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm
+                   text-white hover:bg-blue-600/70 transition"
+                >
+                  <Icon size={18} />
+                  {item.label}
+                </button>
+              );
+            }
 
             return (
               <NavLink
                 key={item.label}
                 to={item.path}
                 onClick={onClose}
-                className={`w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm transition
-                  ${
-                    isActive
-                      ? "bg-blue-100 text-blue-600 font-medium"
-                      : "text-white hover:bg-blue-600/70"
-                  }`}
+                className={({ isActive }) =>
+                  `w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm transition
+        ${
+          isActive
+            ? "bg-blue-100 text-blue-600 font-medium"
+            : "text-white hover:bg-blue-600/70"
+        }`
+                }
               >
                 <Icon size={18} />
                 {item.label}

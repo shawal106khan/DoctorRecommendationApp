@@ -2,14 +2,14 @@
 
 export const doctors = [
   {
-    id: 1,
+    id: "1",
     name: "Dr. Ahmed Khan",
     specialization: "Cardiology",
-    disease: "heart_disease",
-    experience: 10,
     hospital: "Saidu Hospital",
     rating: 4.8,
+    experience: 10,
     avatar: "/doctorAvatar/image_doctor.png",
+    about: "Experienced cardiologist with focus on heart health...",
   },
   {
     id: 2,
@@ -20,6 +20,7 @@ export const doctors = [
     hospital: "PIMS Hospital",
     rating: 4.9,
     avatar: "/doctorAvatar/image_doctor.png",
+    about: "Experienced cardiologist with focus on heart health...",
   },
   {
     id: 3,
@@ -30,6 +31,7 @@ export const doctors = [
     hospital: "City Clinic",
     rating: 4.6,
     avatar: "/doctorAvatar/profile-picture.png",
+    about: "Experienced cardiologist with focus on heart health...",
   },
   {
     id: 4,
@@ -40,6 +42,7 @@ export const doctors = [
     hospital: "PIMS",
     rating: 4.9,
     avatar: "/doctorAvatar/image_doctor.png",
+    about: "Experienced cardiologist with focus on heart health...",
   },
   {
     id: 5,
@@ -49,6 +52,7 @@ export const doctors = [
     hospital: "PIMS Hospital",
     rating: 4.8,
     avatar: "/doctorAvatar/image_doctor.png",
+    about: "Experienced cardiologist with focus on heart health...",
   },
   {
     id: 6,
@@ -59,5 +63,6 @@ export const doctors = [
     hospital: "PIMS Hospital",
     rating: 4.8,
     avatar: "/doctorAvatar/image_doctor.png",
+    about: "Experienced cardiologist with focus on heart health...",
   },
 ];

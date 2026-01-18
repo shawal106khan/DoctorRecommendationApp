@@ -9,7 +9,7 @@ export const sidebarMenu = {
     },
     {
       label: "Search Doctors",
-      path: "/patient/dashboard?search=true",
+
       icon: Search,
     },
     {

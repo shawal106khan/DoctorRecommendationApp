@@ -1,26 +1,20 @@
-// src/hooks/useSearchHighlight.js
-import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useRef, useState } from "react";
 
-export const useSearchHighlight = () => {
-  const [highlight, setHighlight] = useState(false);
-  const [searchParams] = useSearchParams();
-  const openSearch = searchParams.get("search") === "true";
+export const useSearchHighlight = (duration = 1200) => {
   const ref = useRef(null);
+  const [highlight, setHighlight] = useState(false);
 
-  useEffect(() => {
-    if (!openSearch || !ref.current) return;
+  const trigger = () => {
+    if (!ref.current) return;
 
-    ref.current.scrollIntoView({ behavior: "smooth" });
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
 
-    const highlightTimer = setTimeout(() => setHighlight(true), 0);
-    const resetTimer = setTimeout(() => setHighlight(false), 1200);
+    setHighlight(true);
+    setTimeout(() => setHighlight(false), duration);
+  };
 
-    return () => {
-      clearTimeout(highlightTimer);
-      clearTimeout(resetTimer);
-    };
-  }, [openSearch]);
-
-  return { ref, highlight };
+  return { ref, highlight, trigger };
 };

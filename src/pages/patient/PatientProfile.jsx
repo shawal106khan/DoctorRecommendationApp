@@ -3,7 +3,7 @@ import { Camera, LogOut, ArrowLeft, Save, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 
-const Profile = () => {
+const PatientProfile = () => {
   const { user, setUser } = useAuth();
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -130,4 +130,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default PatientProfile;
