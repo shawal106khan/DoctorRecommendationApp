@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/common/components/Button";
 import Input from "../../components/common/components/Input";
@@ -11,7 +11,7 @@ import AuthLayout from "../../components/common/components/AuthLayout";
 import profilePic from "../../assets/profile-pictur.png";
 
 const LoginPage = () => {
-  const { user, setUser } = useAuth();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -21,11 +21,6 @@ const LoginPage = () => {
   });
 
   // ✅ Single source of redirect truth
-  useEffect(() => {
-    if (user) {
-      navigate(`/${user.role}/dashboard`);
-    }
-  }, [user, navigate]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -37,12 +32,24 @@ const LoginPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // TEMP: mock login (replace with API later)
     setUser({
       name: "Kiran",
       role: formData.role,
       avatar: profilePic,
+
+      // 🔹 FRONTEND SIMULATION ONLY
+      isApproved: true, // simulate admin approval
+      approvalNotified: false, // required for approved page
+      profileCompleted: false,
     });
+
+    if (formData.role === "patient") {
+      navigate("/patient/dashboard");
+    }
+
+    if (formData.role === "doctor") {
+      navigate("/doctor/redirect");
+    }
   };
 
   return (

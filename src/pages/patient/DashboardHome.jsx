@@ -2,9 +2,9 @@ import AuthSideImage from "../../components/common/components/AuthSideImage";
 import illustration from "../../assets/DasnboardIllustration.png";
 import { Stethoscope } from "lucide-react";
 
-import DiseaseSelect from "../../components/features/doctor-search/DiseaseSelect";
-import SearchButton from "../../components/features/doctor-search/SearchButton";
-import { useDoctorSearch } from "../../components/features/doctor-search/useDoctorSearch";
+import DiseaseSelect from "../../components/features/patient/pages/doctor-search/DiseaseSelect";
+import SearchButton from "../../components/features/patient/pages/doctor-search/SearchButton";
+import { useDoctorSearch } from "../../components/features/patient/pages/doctor-search/useDoctorSearch";
 
 const DashboardHome = ({ onSearch, loading }) => {
   const { disease, setDisease, handleSearch } = useDoctorSearch(onSearch);

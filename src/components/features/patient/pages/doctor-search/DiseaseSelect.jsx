@@ -1,5 +1,5 @@
-import Select from "../../common/components/Select";
-import { diseaseOptions } from "../../../config/diseaseOptions";
+import Select from "../../../../common/components/Select";
+import { diseaseOptions } from "../../../../../config/diseaseOptions";
 
 const DiseaseSelect = ({ value, onChange }) => {
   return (
