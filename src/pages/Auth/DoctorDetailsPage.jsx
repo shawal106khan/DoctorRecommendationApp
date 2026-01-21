@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/useAuth";
 
 import Input from "../../components/common/components/Input";
 import Button from "../../components/common/components/Button";
@@ -7,17 +8,30 @@ import Title from "../../components/common/components/Title";
 import Select from "../../components/common/components/Select";
 import AuthLayout from "../../components/common/components/AuthLayout";
 import illustration from "../../assets/signup_img.png";
+
+import { useRequiredValidation } from "../../hooks/useRequiredValidation";
+
 const DoctorDetailsPage = () => {
-  const navigate = useNavigate(); // ✅ FIX 1
+  const navigate = useNavigate();
+  const { user, setUser } = useAuth(); // ✅ ADD THIS
 
   const [formData, setFormData] = useState({
     phone: "",
     specialization: "",
-    otherSpecialization: "", // ✅ FIX 2
+    otherSpecialization: "",
     license: "",
     experience: "",
     hospital: "",
     qualification: "",
+  });
+
+  const { errors, validate, setErrors } = useRequiredValidation({
+    phone: "Phone number is required",
+    specialization: "Specialization is required",
+    license: "License number is required",
+    experience: "Experience is required",
+    hospital: "Hospital name is required",
+    qualification: "Qualification is required",
   });
 
   const handleChange = (e) => {
@@ -25,14 +39,34 @@ const DoctorDetailsPage = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    if (errors[e.target.name]) {
+      setErrors((prev) => ({ ...prev, [e.target.name]: null }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validate(formData)) return; // Validate required fields
+    // ✅ NORMALIZE DATA (backend-ready)
+    const specialization =
+      formData.specialization === "other"
+        ? formData.otherSpecialization
+        : formData.specialization;
 
-    console.log(formData);
+    // ✅ SAVE INTO AUTH USER
+    setUser({
+      ...user,
+      phone: formData.phone,
+      specialization,
+      experienceYears: Number(formData.experience) || 0,
+      hospitalName: formData.hospital,
+      qualification: formData.qualification,
+      licenseNumber: formData.license,
+      role: "doctor",
+      isApproved: false,
+      profileCompleted: false,
+    });
 
-    // ✅ FIX 3 — direct navigation (doctor flow)
     navigate("/signup/doctor-verification");
   };
 
@@ -49,8 +83,9 @@ const DoctorDetailsPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               label="Phone Number"
-              placeholder="03xxxxxxxxx"
+              error={errors.phone}
               name="phone"
+              placeholder="Enter your phone number"
               value={formData.phone}
               onChange={handleChange}
             />
@@ -60,47 +95,43 @@ const DoctorDetailsPage = () => {
               name="specialization"
               value={formData.specialization}
               onChange={handleChange}
-              placeholder="Select specialization"
               options={[
-                { label: "Cardiology", value: "cardiology" },
-                { label: "Dermatology", value: "dermatology" },
-                { label: "Neurology", value: "neurology" },
-                { label: "Orthopedics", value: "orthopedics" },
-                { label: "Pediatrics", value: "pediatrics" },
-                { label: "Gynecology", value: "gynecology" },
-                { label: "Psychiatry", value: "psychiatry" },
-                { label: "ENT", value: "ent" },
-                { label: "General Physician", value: "general_physician" },
+                { label: "Cardiology", value: "Cardiology" },
+                { label: "Dermatology", value: "Dermatology" },
+                { label: "Neurology", value: "Neurology" },
+                { label: "Orthopedics", value: "Orthopedics" },
+                { label: "General Physician", value: "General Physician" },
                 { label: "Other", value: "other" },
               ]}
             />
           </div>
 
-          {/* Conditional Field */}
           {formData.specialization === "other" && (
             <Input
               label="Other Specialization"
-              placeholder="Enter specialization"
+              error={errors.otherSpecialization}
               name="otherSpecialization"
+              placeholder="Please specify"
               value={formData.otherSpecialization}
               onChange={handleChange}
             />
           )}
 
-          {/* Row 2 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               label="License Number"
-              placeholder="PMDC / Council ID"
+              error={errors.license}
               name="license"
+              placeholder="Enter your license number"
               value={formData.license}
               onChange={handleChange}
             />
 
             <Input
               label="Experience (Years)"
-              placeholder="5"
+              error={errors.experience}
               name="experience"
+              placeholder="e.g., 5"
               value={formData.experience}
               onChange={handleChange}
             />
@@ -108,32 +139,23 @@ const DoctorDetailsPage = () => {
 
           <Input
             label="Hospital Name"
-            placeholder="Saidu Teaching Hospital, Swat"
+            error={errors.hospital}
             name="hospital"
+            placeholder="Enter your hospital name"
             value={formData.hospital}
             onChange={handleChange}
           />
 
           <Input
             label="Qualification"
-            placeholder="MBBS, FCPS"
+            error={errors.qualification}
             name="qualification"
+            placeholder="Enter your qualification"
             value={formData.qualification}
             onChange={handleChange}
           />
 
-          <p className="text-xs text-gray-500 mb-4">
-            Doctor accounts require admin approval before activation.
-          </p>
-
           <Button text="Next" type="submit" />
-
-          {/* Progress */}
-          <div className="flex justify-center gap-2 mt-8">
-            <span className="w-6 h-1 bg-blue-600 rounded"></span>
-            <span className="w-6 h-1 bg-gray-300 rounded"></span>
-            <span className="w-6 h-1 bg-gray-300 rounded"></span>
-          </div>
         </form>
       </div>
     </AuthLayout>

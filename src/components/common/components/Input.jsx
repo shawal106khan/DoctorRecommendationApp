@@ -1,12 +1,12 @@
-const Input = ({ label, type, name, placeholder, value, onChange }) => {
+const Input = ({ label, type, name, placeholder, value, onChange, error }) => {
   return (
-    <div className="mb-5">
+    <div className="mb-4">
       {label && (
         <label className="block text-xs  text-gray-600 mb-1 font-heading">
           {label}
         </label>
       )}
-
+      {error && <span className="text-red-500 text-xs mb-2">{error}</span>}
       <input
         type={type}
         name={name}

@@ -8,9 +8,13 @@ import Title from "../../components/common/components/Title";
 
 import illustration from "../../assets/signup_img.png";
 import AuthLayout from "../../components/common/components/AuthLayout";
+import { useAuth } from "../../context/useAuth";
+
+import { useRequiredValidation } from "../../hooks/useRequiredValidation";
 
 const SignupPage = () => {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -19,15 +23,38 @@ const SignupPage = () => {
     role: "patient",
   });
 
+  const { errors, validate, setErrors } = useRequiredValidation({
+    fullName: "Full name is required",
+    email: "Email is required",
+    password: "Password is required",
+    confirmPassword: "Confirm your password",
+  });
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    if (errors[e.target.name]) {
+      setErrors((prev) => ({ ...prev, [e.target.name]: null }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validate(formData)) return; // Validate required fields
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    // ✅ SAVE BASIC USER INFO
+    setUser((prev) => ({
+      ...prev,
+      name: formData.fullName, // 🔥 FIX
+      email: formData.email, // 🔥 FIX
+      role: formData.role,
+    }));
 
     if (formData.role === "doctor") {
       navigate("/signup/doctor-info");
@@ -49,6 +76,7 @@ const SignupPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               label="Full Name"
+              error={errors.fullName}
               placeholder="Khan"
               value={formData.fullName}
               onChange={handleChange}
@@ -58,6 +86,7 @@ const SignupPage = () => {
 
             <Input
               label="Email Address"
+              error={errors.email}
               placeholder="khan@example.com"
               value={formData.email}
               onChange={handleChange}
@@ -70,6 +99,7 @@ const SignupPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               label="Password"
+              error={errors.password}
               placeholder="Enter password"
               value={formData.password}
               onChange={handleChange}
@@ -79,6 +109,7 @@ const SignupPage = () => {
 
             <Input
               label="Confirm Password"
+              error={errors.confirmPassword}
               placeholder="Confirm password"
               value={formData.confirmPassword}
               onChange={handleChange}

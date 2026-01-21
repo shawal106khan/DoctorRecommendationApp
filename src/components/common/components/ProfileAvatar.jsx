@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Camera, LogOut, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/useAuth";
+import { useAuth } from "../../../context/useAuth";
 
 const Profile = () => {
   const { user, setUser } = useAuth();

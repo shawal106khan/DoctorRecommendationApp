@@ -10,9 +10,16 @@ import illustration from "../../assets/LoginPage-img.png";
 import AuthLayout from "../../components/common/components/AuthLayout";
 import profilePic from "../../assets/profile-pictur.png";
 
+import { useRequiredValidation } from "../../hooks/useRequiredValidation";
+
 const LoginPage = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
+
+  const { errors, validate, setErrors } = useRequiredValidation({
+    email: "Email is required",
+    password: "Password is required",
+  });
 
   const [formData, setFormData] = useState({
     email: "",
@@ -27,13 +34,19 @@ const LoginPage = () => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    if (errors[e.target.name]) {
+      setErrors((prev) => ({ ...prev, [e.target.name]: null }));
+    }
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
+    if (!validate(formData)) return; // Validate required fields
 
-    setUser({
-      name: "Kiran",
+    // ✅ SET AUTH CONTEXT
+    setUser((prev) => ({
+      ...prev,
+
       role: formData.role,
       avatar: profilePic,
 
@@ -41,7 +54,7 @@ const LoginPage = () => {
       isApproved: true, // simulate admin approval
       approvalNotified: false, // required for approved page
       profileCompleted: false,
-    });
+    }));
 
     if (formData.role === "patient") {
       navigate("/patient/dashboard");
@@ -64,6 +77,7 @@ const LoginPage = () => {
           <div className="mb-5">
             <Input
               label="Email address"
+              error={errors.email}
               type="email"
               name="email"
               placeholder="Enter your email"
@@ -75,6 +89,7 @@ const LoginPage = () => {
           <div className="mb-6">
             <Input
               label="Password"
+              error={errors.password}
               type="password"
               name="password"
               placeholder="Enter your password"

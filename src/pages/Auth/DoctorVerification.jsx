@@ -7,9 +7,15 @@ import Title from "../../components/common/components/Title";
 import illustration from "../../assets/signup_img.png"; // left illustration
 import AuthLayout from "../../components/common/components/AuthLayout";
 
+import { useRequiredValidation } from "../../hooks/useRequiredValidation";
+
 const DoctorVerification = () => {
   const navigate = useNavigate();
   const [licenseFile, setLicenseFile] = useState(null);
+
+  const { errors, validate } = useRequiredValidation({
+    licenseFile: "Medical license is required",
+  });
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -18,6 +24,7 @@ const DoctorVerification = () => {
   };
 
   const handleNext = () => {
+    if (!validate({ licenseFile })) return;
     if (!licenseFile) {
       alert("Please upload your medical license");
       return;
@@ -76,6 +83,9 @@ const DoctorVerification = () => {
             onChange={handleFileChange}
           />
         </label>
+        {errors.licenseFile && (
+          <span className="text-red-500 text-xs">{errors.licenseFile}</span>
+        )}
 
         {/* Action */}
         <div className="mt-10">
