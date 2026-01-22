@@ -11,6 +11,7 @@ import AuthLayout from "../../components/common/components/AuthLayout";
 import profilePic from "../../assets/profile-pictur.png";
 
 import { useRequiredValidation } from "../../hooks/useRequiredValidation";
+import ForgotPasswordLink from "../../components/common/components/ForgotPasswordLink";
 
 const LoginPage = () => {
   const { setUser } = useAuth();
@@ -96,6 +97,7 @@ const LoginPage = () => {
               value={formData.password}
               onChange={handleChange}
             />
+            <ForgotPasswordLink />
           </div>
 
           <div className="mb-8">

@@ -4,7 +4,9 @@ import DoctorDetailsPage from "../pages/Auth/DoctorDetailsPage";
 import DoctorVerification from "../pages/Auth/DoctorVerification";
 import PendingApproval from "../pages/Auth/PendingApproval";
 import SignupSuccess from "../pages/Auth/SignupSuccess";
-
+import ForgotPassword from "../pages/Auth/ForgotPassword/ForgotPassword";
+import EmailSent from "../pages/Auth/ForgotPassword/EmailSent";
+import ResetPassword from "../pages/Auth/ForgotPassword/ResetPassword";
 export const authRoutes = [
   { path: "/", element: <LoginPage /> },
   { path: "/login", element: <LoginPage /> },
@@ -13,5 +15,8 @@ export const authRoutes = [
   { path: "/signup/doctor-verification", element: <DoctorVerification /> },
   { path: "/pending-approval", element: <PendingApproval /> },
   { path: "/signup/success", element: <SignupSuccess /> },
+  { path: "/forgot-password", element: <ForgotPassword /> },
+  { path: "/email-sent", element: <EmailSent /> },
+  { path: "/reset-password/:token", element: <ResetPassword /> },
 ];
 export default authRoutes;
