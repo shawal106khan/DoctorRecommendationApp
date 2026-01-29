@@ -1,11 +1,27 @@
 import { Camera } from "lucide-react";
 
 const AvatarUpload = ({ image, onChange }) => {
+  const getImageSrc = () => {
+    if (!image) return "/src/assets/profile-pictur.png";
+
+    // File upload (before backend)
+    if (image instanceof File) {
+      return URL.createObjectURL(image);
+    }
+
+    // String URL (preview or backend)
+    if (typeof image === "string") {
+      return image;
+    }
+
+    return "/src/assets/profile-pictur.png";
+  };
+
   return (
     <div className="flex justify-center mb-6">
       <div className="relative w-32 h-32">
         <img
-          src={image ? URL.createObjectURL(image) : "/avatar-placeholder.png"}
+          src={getImageSrc()}
           alt="Profile"
           className="w-full h-full rounded-full object-cover border"
         />

@@ -15,7 +15,7 @@ const initialProfile = {
   // Public profile
   bio: "",
   languages: [],
-  profileImage: null,
+  avatar: null,
 
   // Consultation
   consultationFee: "",
@@ -53,8 +53,16 @@ const CompleteProfile = () => {
 
   const finishProfile = () => {
     setUser((prev) => ({
-      ...prev, // 🔥 KEEP signup data
+      ...prev,
       profileCompleted: true,
+
+      // ✅ SINGLE SOURCE OF TRUTH
+      avatar: profile.avatar ?? prev.avatar,
+
+      profile: {
+        ...profile,
+        avatar: profile.avatar ?? prev.avatar, // keep profile in sync
+      },
     }));
 
     navigate("/doctor/dashboard", { replace: true });

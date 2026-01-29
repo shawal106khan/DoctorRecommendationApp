@@ -26,8 +26,16 @@ const BasicInfoStep = ({ profile, setProfile, onNext }) => {
 
       {/* PROFILE PHOTO */}
       <AvatarUpload
-        image={profile.profileImage}
-        onChange={(file) => setProfile({ ...profile, profileImage: file })}
+        image={profile.avatar || null}
+        onChange={(file) => {
+          const preview = URL.createObjectURL(file);
+
+          setProfile({
+            ...profile,
+            avatar: preview, // ✅ STRING, NOT FILE
+            avatarFile: file, // (optional for backend later)
+          });
+        }}
       />
 
       <div className="mt-7 ">

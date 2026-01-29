@@ -18,8 +18,8 @@ const Select = ({
         name={name}
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-3 border rounded-md shadow-lg font-body
-                   text-xs text-gray-700
+        className="w-full px-4 py-3 border rounded-md shadow-lg shadow-gray-300
+                   text-sm text-gray-700 font-serif
                    focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         <option value="" disabled>

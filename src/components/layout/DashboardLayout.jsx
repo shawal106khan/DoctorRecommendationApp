@@ -10,18 +10,22 @@ const DashboardLayout = ({ children, role, onSearchDoctorClick }) => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const getUserImage = () => {
+    return user?.avatar || "/src/assets/profile-pictur.png";
+  };
+
   return (
     <>
       <Topbar
         logoSrc={logo}
         title="Medical"
         userName={user?.name}
-        userImage={user?.avatar}
+        userImage={getUserImage()}
         role={user?.role}
         onMenuClick={() => setSidebarOpen(!sidebarOpen)}
       />
 
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen font-body">
         <Sidebar
           role={role}
           isOpen={sidebarOpen}

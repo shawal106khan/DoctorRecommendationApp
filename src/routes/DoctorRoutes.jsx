@@ -1,8 +1,9 @@
-import DoctorDashboard from "../pages/doctor/DoctorDashboard";
 import ApprovedSuccess from "../pages/doctor/pages/ApprovedSuccess";
 import DoctorRedirect from "../pages/doctor/pages/DoctorRedirect";
 import PendingApproval from "../pages/Auth/PendingApproval";
 import CompleteProfile from "../pages/doctor/pages/CompleteProfile/CompleteProfile";
+import DoctorDashboard from "../pages/doctor/pages/Dashboard/DoctorDashboard";
+import DoctorProfile from "../pages/doctor/pages/profile/DoctorProfilePage";
 export const doctorRoutes = [
   {
     path: "/doctor/redirect",
@@ -23,5 +24,9 @@ export const doctorRoutes = [
   {
     path: "/doctor/complete-profile",
     element: <CompleteProfile />,
+  },
+  {
+    path: "/doctor/profile",
+    element: <DoctorProfile />,
   },
 ];

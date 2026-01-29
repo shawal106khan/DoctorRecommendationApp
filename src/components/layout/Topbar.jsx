@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Bars3Icon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
@@ -19,7 +19,7 @@ const Topbar = ({ logoSrc, title, userName, userImage, onMenuClick, role }) => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 h-16 w-full bg-white border-b border-gray-200 flex items-center justify-between px-4">
+    <header className="sticky top-0 z-50 h-16 w-full bg-white border-b border-gray-200 flex items-center justify-between px-4 font-serif">
       {/* Left */}
       <div className="flex items-center gap-3">
         <button
@@ -44,7 +44,10 @@ const Topbar = ({ logoSrc, title, userName, userImage, onMenuClick, role }) => {
           </span>
 
           <img
-            src={userImage || "/src/assets/profile-pictur.png"}
+            src={userImage}
+            onError={(e) =>
+              (e.currentTarget.src = "/src/assets/profile-pictur.png")
+            }
             alt="User"
             className="w-9 h-9 rounded-full object-cover"
           />

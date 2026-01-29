@@ -1,7 +1,7 @@
 import ProtectedRoute from "./ProtectedRoute";
 import PatientDashboard from "../pages/patient/PatientDashboard";
-import Profile from "../pages/patient/PatientProfile";
 import DoctorProfile from "../pages/shared/doctor/DoctorProfile";
+import PatientProfile from "../pages/patient/profile/PatientProfile";
 
 export const patientRoutes = [
   {
@@ -16,7 +16,7 @@ export const patientRoutes = [
     path: "/patient/profile",
     element: (
       <ProtectedRoute role="patient">
-        <Profile />
+        <PatientProfile />
       </ProtectedRoute>
     ),
   },

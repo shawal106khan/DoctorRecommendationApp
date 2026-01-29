@@ -2,9 +2,9 @@ import AuthSideImage from "../../components/common/components/AuthSideImage";
 import illustration from "../../assets/DasnboardIllustration.png";
 import { Stethoscope } from "lucide-react";
 
-import DiseaseSelect from "../../components/features/patient/pages/doctor-search/DiseaseSelect";
-import SearchButton from "../../components/features/patient/pages/doctor-search/SearchButton";
-import { useDoctorSearch } from "../../components/features/patient/pages/doctor-search/useDoctorSearch";
+import DiseaseSelect from "./features/doctor-search/DiseaseSelect";
+import SearchButton from "./features/doctor-search/SearchButton";
+import { useDoctorSearch } from "./features/doctor-search/useDoctorSearch";
 
 const DashboardHome = ({ onSearch, loading }) => {
   const { disease, setDisease, handleSearch } = useDoctorSearch(onSearch);
@@ -13,20 +13,24 @@ const DashboardHome = ({ onSearch, loading }) => {
     <div className="bg-white pb-9">
       {/* Header */}
       <div className="p-5 flex flex-col">
-        <h1 className="font-semibold text-gray-500">Dashboard</h1>
+        <h1 className="font-semibold text-gray-500 font-body text-sm">
+          Dashboard
+        </h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center pt-5 pe-7 ps-12 pb-12">
         {/* Left Content */}
         <div>
           <div className="flex gap-3">
-            <h2 className="flex items-center gap-3 text-2xl font-semibold text-gray-800">
-              <Stethoscope className="text-gray-700" size={22} />
-              <span>Find Your Perfect Doctor, Instantly</span>
+            <h2 className="flex items-center gap-3 text-2xl font-semibold ">
+              <Stethoscope className="text-blue-700" size={24} />
+              <span className="font-heading text-blue-700 ">
+                Find Your Perfect Doctor Instantly
+              </span>
             </h2>
           </div>
 
-          <p className="text-sm text-gray-500 mt-2 max-w-md">
+          <p className="text-sm  text-gray-500 mt-2 max-w-md font-serif ">
             Search for diseases to get personalized doctor recommendations. Your
             health journey starts here.
           </p>
