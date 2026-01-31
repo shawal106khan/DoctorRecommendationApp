@@ -21,6 +21,7 @@ const DoctorProfileEdit = ({ onCancel }) => {
     clinicName: profile.clinicName || "",
     address: profile.address || "",
     city: profile.city || "",
+    mapLink: profile.mapLink || "", // ✅ ADD
     availableDays: profile.availableDays || [],
     startTime: profile.startTime || "",
     endTime: profile.endTime || "",
@@ -69,6 +70,7 @@ const DoctorProfileEdit = ({ onCancel }) => {
         clinicName: form.clinicName,
         address: form.address,
         city: form.city,
+        mapLink: form.mapLink,
         availableDays: form.availableDays,
         startTime: form.startTime,
         endTime: form.endTime,
@@ -115,6 +117,13 @@ const DoctorProfileEdit = ({ onCancel }) => {
             label="Address"
             value={form.address}
             onChange={(e) => update("address", e.target.value)}
+          />
+
+          <Input
+            label="Google Maps Link"
+            placeholder="https://maps.google.com/..."
+            value={form.mapLink}
+            onChange={(e) => update("mapLink", e.target.value)}
           />
 
           <div className="col-span-full">

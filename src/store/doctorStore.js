@@ -6,14 +6,18 @@ export const getDoctors = () => {
   return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 };
 
+// ✅ ADD THIS (DO NOT CHANGE ANYTHING ELSE)
+export const getDoctorById = (doctorId) => {
+  const doctors = getDoctors();
+  return doctors.find((doctor) => doctor.id === doctorId);
+};
+
 export const saveDoctor = (doctor) => {
   const doctors = getDoctors();
 
-  // 🔴 FORCE A STABLE ID
   const doctorWithId = {
     ...doctor,
-    id: doctor.id || doctor.email,
-
+    id: doctor.id || doctor.email, // ✅ stable id
     specialization: doctor.specialization?.trim() || "",
   };
 

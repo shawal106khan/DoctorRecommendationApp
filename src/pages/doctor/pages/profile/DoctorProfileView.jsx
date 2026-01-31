@@ -59,6 +59,16 @@ const DoctorProfileView = ({ onEdit }) => {
         <p className="text-base text-gray-700">{profile.clinicName}</p>
         <p className="text-sm text-gray-500 ">{profile.address}</p>
         <p className="text-sm text-gray-500 ">{profile.city}</p>
+        {profile.mapLink && (
+          <a
+            href={profile.mapLink}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-block mt-2 text-sm text-blue-600 underline"
+          >
+            View on Google Maps
+          </a>
+        )}
       </ProfileSection>
     </div>
   );

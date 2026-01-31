@@ -8,6 +8,7 @@ const Input = ({ label, type, name, placeholder, value, onChange, error }) => {
       )}
       {error && <span className="text-red-500 text-xs mb-2">{error}</span>}
       <input
+        label={label}
         type={type}
         name={name}
         placeholder={placeholder}

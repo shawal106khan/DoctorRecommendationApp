@@ -3,7 +3,7 @@ import PatientDashboard from "../pages/patient/PatientDashboard";
 
 import PatientProfile from "../pages/patient/profile/PatientProfile";
 import DoctorProfilePublic from "../pages/patient/doctors/DoctorProfilePublic";
-
+import BookAppointmentPage from "../pages/patient/appointments/BookAppointmentPage";
 export const patientRoutes = [
   {
     path: "/patient/dashboard",
@@ -26,6 +26,14 @@ export const patientRoutes = [
     element: (
       <ProtectedRoute role="patient">
         <DoctorProfilePublic />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/patient/appointments/book/:doctorId",
+    element: (
+      <ProtectedRoute role="patient">
+        <BookAppointmentPage />
       </ProtectedRoute>
     ),
   },
