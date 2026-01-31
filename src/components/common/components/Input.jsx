@@ -13,7 +13,7 @@ const Input = ({ label, type, name, placeholder, value, onChange, error }) => {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-3 border rounded-md shadow-lg font-body
+        className="w-full px-4 py-3 border rounded-md shadow-lg font-serif
                text-sm text-gray-800
               placeholder:text-xs
               focus:outline-none focus:ring-2 focus:ring-blue-500"

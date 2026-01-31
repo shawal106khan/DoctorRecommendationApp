@@ -96,10 +96,10 @@ const DoctorDetailsPage = () => {
               value={formData.specialization}
               onChange={handleChange}
               options={[
-                { label: "Cardiology", value: "Cardiology" },
-                { label: "Dermatology", value: "Dermatology" },
-                { label: "Neurology", value: "Neurology" },
-                { label: "Orthopedics", value: "Orthopedics" },
+                { label: "Cardiologist", value: "Cardiologist" },
+                { label: "Dermatologist", value: "Dermatologist" },
+                { label: "Neurologist", value: "Neurologist" },
+                { label: "Orthopedic Surgeon", value: "Orthopedic Surgeon" },
                 { label: "General Physician", value: "General Physician" },
                 { label: "Other", value: "other" },
               ]}

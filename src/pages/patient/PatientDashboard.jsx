@@ -1,17 +1,27 @@
 import { useState, useMemo } from "react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
-import DoctorCard from "../../components/entities/doctor/cards/DoctorCard";
+import DoctorCard from "./components/DoctorCard";
 import DashboardHome from "./DashboardHome";
-import { doctors } from "../../data/mockDoctors";
+import { getDoctors } from "../../store/doctorStore";
+
 import recommendDoctorImg from "../../assets/Recommend_doctor.png";
 import { Star } from "lucide-react";
 import { useSearchHighlight } from "../../hooks/useSearchHighlight";
+
+const DISEASE_TO_SPECIALIZATION = {
+  "Heart Disease": "Cardiologist",
+  "Bone Pain": "Orthopedic Surgeon",
+  "Joint Pain": "Orthopedic Surgeon",
+  "Skin Allergy": "Dermatologist",
+};
 
 const PatientDashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [selectedDisease, setSelectedDisease] = useState("");
   const [searchKey, setSearchKey] = useState(0);
+  const doctors = useMemo(() => getDoctors(), [searchKey]);
+
   const {
     ref: searchRef,
     highlight,
@@ -26,8 +36,19 @@ const PatientDashboard = () => {
 
   const filteredDoctors = useMemo(() => {
     if (!selectedDisease) return doctors;
-    return doctors.filter((doctor) => doctor.disease === selectedDisease);
-  }, [selectedDisease]);
+
+    const specialization = DISEASE_TO_SPECIALIZATION[selectedDisease];
+    if (!specialization) return [];
+
+    return doctors.filter((doctor) => {
+      if (!doctor.specialization) return false;
+
+      return (
+        doctor.specialization.toLowerCase().trim() ===
+        specialization.toLowerCase().trim()
+      );
+    });
+  }, [doctors, selectedDisease]); // ✅ doctors MUST be dependency
 
   const handleSearch = (disease) => {
     setIsLoading(true); // 🔹 start loading
@@ -59,7 +80,6 @@ const PatientDashboard = () => {
         </div>
       </div>
 
-      {/* Doctors Section */}
       {/* Doctors Section */}
       <div
         ref={recommendationRef}

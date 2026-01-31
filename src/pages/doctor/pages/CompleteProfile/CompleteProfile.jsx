@@ -9,7 +9,7 @@ import AvailabilityStep from "./steps/AvailabilityStep";
 import LocationStep from "./steps/LocationStep";
 import VerificationStep from "./steps/VerificationStep";
 import ReviewStep from "./steps/ReviewStep";
-
+import { saveDoctor } from "../../../../store/doctorStore";
 // ✅ INITIAL STATE (VERY IMPORTANT)
 const initialProfile = {
   // Public profile
@@ -52,18 +52,22 @@ const CompleteProfile = () => {
   const back = () => setCurrentStep((s) => s - 1);
 
   const finishProfile = () => {
-    setUser((prev) => ({
-      ...prev,
-      profileCompleted: true,
+    setUser((prev) => {
+      const updatedDoctor = {
+        ...prev,
+        profileCompleted: true,
+        avatar: profile.avatar ?? prev.avatar,
+        profile: {
+          ...profile,
+          avatar: profile.avatar ?? prev.avatar,
+        },
+      };
 
-      // ✅ SINGLE SOURCE OF TRUTH
-      avatar: profile.avatar ?? prev.avatar,
+      // ✅ THIS WAS MISSING (CORE FIX)
+      saveDoctor(updatedDoctor);
 
-      profile: {
-        ...profile,
-        avatar: profile.avatar ?? prev.avatar, // keep profile in sync
-      },
-    }));
+      return updatedDoctor;
+    });
 
     navigate("/doctor/dashboard", { replace: true });
   };

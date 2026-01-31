@@ -1,4 +1,4 @@
-const ProfileHeader = ({ user, onEdit }) => {
+const ProfileHeader = ({ user, onEdit, hideEdit = false }) => {
   const avatar = user?.avatar;
 
   const getAvatarSrc = () => {
@@ -26,13 +26,16 @@ const ProfileHeader = ({ user, onEdit }) => {
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={onEdit}
-        className="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition"
-      >
-        Edit Profile
-      </button>
+      {/* ✅ ROLE SAFE */}
+      {!hideEdit && onEdit && (
+        <button
+          type="button"
+          onClick={onEdit}
+          className="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition"
+        >
+          Edit Profile
+        </button>
+      )}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { useAuth } from "../../../../context/useAuth";
 import ProfileSection from "./components/ProfileSection";
 import AvatarUpload from "../../../../components/common/components/AvatarUpload";
 import Input from "../../../../components/common/components/Input";
+import { saveDoctor } from "../../../../store/doctorStore";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -53,6 +54,31 @@ const DoctorProfileEdit = ({ onCancel }) => {
       },
     }));
 
+    const updatedDoctor = {
+      id: user.id,
+      name: user.name,
+      specialization: user.specialization,
+      experienceYears: user.experienceYears,
+      qualification: user.qualification,
+      hospitalName: user.hospitalName,
+      phone: user.phone,
+      avatar: form.avatar ?? user.avatar,
+
+      profile: {
+        bio: form.bio,
+        clinicName: form.clinicName,
+        address: form.address,
+        city: form.city,
+        availableDays: form.availableDays,
+        startTime: form.startTime,
+        endTime: form.endTime,
+        slotDuration: form.slotDuration,
+      },
+
+      verified: true, // admin will control later
+    };
+
+    saveDoctor(updatedDoctor);
     onCancel();
   };
 
