@@ -1,71 +1,122 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../../../components/common/components/Button";
 import Input from "../../../../components/common/components/Input";
+import { saveAppointment } from "../../../../store/appointmentStore";
+import { useAuth } from "../../../../context/useAuth";
+
 const AppointmentForm = ({ doctor }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [note, setNote] = useState("");
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [location, setLocation] = useState("");
+  const [success, setSuccess] = useState(false);
+
   const handleSubmit = () => {
+    if (!date || !time || !name) {
+      alert("Fill required fields");
+      return;
+    }
+
     const appointment = {
       id: Date.now(),
-      doctorId: doctor.id,
+      doctorId: doctor.email,
+      patientName: name,
+      patientEmail: user.email,
+      age,
+      location,
       date,
       time,
       note,
+
       status: "pending",
+
+      timeline: [
+        {
+          state: "requested",
+          at: new Date().toISOString(),
+        },
+      ],
+
+      createdAt: new Date().toISOString(),
     };
 
-    console.log("APPOINTMENT CREATED:", appointment);
+    saveAppointment(appointment);
 
-    alert("Appointment request sent!");
+    // ✅ Clear form
+    setDate("");
+    setTime("");
+    setNote("");
+    setName("");
+    setAge("");
+    setLocation("");
+
+    // ✅ Show success CTA
+    setSuccess(true);
   };
+
+  if (success) {
+    return (
+      <div className="bg-white p-6 rounded-xl shadow text-center space-y-4">
+        <h3 className="text-lg font-semibold text-green-600">
+          Appointment Requested 🎉
+        </h3>
+        <p className="text-sm text-gray-600">
+          Your appointment is pending confirmation.
+        </p>
+
+        <Button
+          text="View My Appointments"
+          className="w-full"
+          onClick={() => navigate("/patient/appointments")}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white p-6 rounded-xl shadow space-y-4">
       <h3 className="text-lg font-semibold text-blue-700">
         Appointment Details
       </h3>
-      <Input
-        label="Patient Name"
-        placeholder="Enter your name"
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="w-full border rounded-lg px-4 py-2"
-      />
 
       <Input
+        label="Patient Name"
+        placeholder="Full Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <Input
         label="Patient Age"
-        placeholder="Enter your age"
         type="number"
+        placeholder="Age"
         value={age}
         onChange={(e) => setAge(e.target.value)}
       />
-
       <Input
-        label="location"
-        placeholder="Enter your location"
-        type="text"
+        label="Location"
+        placeholder="City or Address"
         value={location}
         onChange={(e) => setLocation(e.target.value)}
       />
       <Input
         label="Select Date"
         type="date"
+        placeholder={"Select Date"}
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        className="w-full border rounded-lg px-4 py-2"
       />
-
       <Input
         label="Select Time"
         type="time"
+        placeholder={"Select Time"}
         value={time}
         onChange={(e) => setTime(e.target.value)}
-        className="w-full border rounded-lg px-4 py-2"
       />
 
       <textarea
@@ -77,9 +128,9 @@ const AppointmentForm = ({ doctor }) => {
       />
 
       <Button
-        onClick={handleSubmit}
-        className="w-full mt-4"
         text="Confirm Appointment"
+        className="w-full mt-4"
+        onClick={handleSubmit}
       />
     </div>
   );

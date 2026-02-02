@@ -1,15 +1,7 @@
-// TEMP FRONTEND STORE (replace with backend later)
-
 const STORAGE_KEY = "verified_doctors";
 
 export const getDoctors = () => {
   return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-};
-
-// ✅ ADD THIS (DO NOT CHANGE ANYTHING ELSE)
-export const getDoctorById = (doctorId) => {
-  const doctors = getDoctors();
-  return doctors.find((doctor) => doctor.id === doctorId);
 };
 
 export const saveDoctor = (doctor) => {
@@ -17,7 +9,7 @@ export const saveDoctor = (doctor) => {
 
   const doctorWithId = {
     ...doctor,
-    id: doctor.id || doctor.email, // ✅ stable id
+    id: doctor.id || doctor.email, // stable id
     specialization: doctor.specialization?.trim() || "",
   };
 
@@ -30,4 +22,8 @@ export const saveDoctor = (doctor) => {
   }
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(doctors));
+};
+
+export const getDoctorById = (doctorId) => {
+  return getDoctors().find((doctor) => String(doctor.id) === String(doctorId));
 };

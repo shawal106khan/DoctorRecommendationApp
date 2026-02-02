@@ -21,7 +21,7 @@ const Sidebar = ({ role, isOpen, onClose, onSearchDoctorClick }) => {
       {/* Sidebar */}
       <aside
         className={`fixed md:static z-50 md:z-auto md:w-60
-        bg-blue-700 min-h-screen flex flex-col
+        bg-gradient-to-r from-blue-700 to-blue-900 min-h-screen flex flex-col
         transform transition-transform duration-300
         ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >

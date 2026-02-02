@@ -1,25 +1,38 @@
+import { useState } from "react";
 import { useAuth } from "../../../../context/useAuth";
 import StatCard from "./components/StatCard";
 import AppointmentCard from "./components/AppointmentCard";
+import { getAppointmentsByDoctor } from "../../../../store/appointmentStore";
 
 const DoctorHome = () => {
   const { user } = useAuth();
+  const [appointments, setAppointments] = useState(() => {
+    if (!user?.email) return [];
+    return getAppointmentsByDoctor(user.email);
+  });
 
-  // 🔹 TEMP FRONTEND DATA (BACKEND READY)
+  const handleStatusChange = (id, status) => {
+    setAppointments((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, status } : a)),
+    );
+  };
+
+  const totalAppointments = appointments.length;
+  const pending = appointments.filter((a) => a.status === "pending").length;
+  const accepted = appointments.filter((a) => a.status === "accepted").length;
+
   const stats = [
-    { label: "Today Appointments", value: 5 },
-    { label: "Total Patients", value: 124 },
-    { label: "Rating", value: "4.8 ★" },
+    { label: "Total Appointments", value: totalAppointments },
+    { label: "Pending Requests", value: pending },
+    { label: "Accepted", value: accepted },
   ];
-
-  const appointments = []; // empty state for now
 
   return (
     <div className="p-6 space-y-8 font-serif">
       {/* HEADER */}
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">
-          Welcome back, Dr. {user?.name}
+        <h1 className="text-2xl font-semibold text-blue-900 font-mono">
+          Welcome back Dr. {user?.name}
         </h1>
         <p className="text-sm text-gray-500">
           Here’s an overview of your activity today
@@ -34,19 +47,23 @@ const DoctorHome = () => {
       </div>
 
       {/* APPOINTMENTS */}
-      <div>
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+      <div className="bg-white   ">
+        <h2 className="text-xl font-semibold text-blue-700 mb-4">
           Today’s Appointments
         </h2>
 
         {appointments.length === 0 ? (
           <div className="bg-white p-6 rounded-xl shadow text-center text-gray-500">
-            No appointments scheduled for today.
+            No appointments scheduled.
           </div>
         ) : (
           <div className="space-y-4">
             {appointments.map((appt) => (
-              <AppointmentCard key={appt.id} appointment={appt} />
+              <AppointmentCard
+                key={appt.id}
+                appointment={appt}
+                onStatusChange={handleStatusChange}
+              />
             ))}
           </div>
         )}

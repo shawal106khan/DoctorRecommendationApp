@@ -4,6 +4,7 @@ import PendingApproval from "../pages/Auth/PendingApproval";
 import CompleteProfile from "../pages/doctor/pages/CompleteProfile/CompleteProfile";
 import DoctorDashboard from "../pages/doctor/pages/Dashboard/DoctorDashboard";
 import DoctorProfile from "../pages/doctor/pages/profile/DoctorProfilePage";
+import DoctorAppointments from "../pages/doctor/pages/appointments/DoctorAppointments";
 export const doctorRoutes = [
   {
     path: "/doctor/redirect",
@@ -28,5 +29,9 @@ export const doctorRoutes = [
   {
     path: "/doctor/profile",
     element: <DoctorProfile />,
+  },
+  {
+    path: "/doctor/appointments",
+    element: <DoctorAppointments />,
   },
 ];

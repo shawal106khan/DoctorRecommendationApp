@@ -115,7 +115,7 @@ const PatientDashboard = () => {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredDoctors.map((doctor) => (
-              <DoctorCard key={doctor.id} doctor={doctor} />
+              <DoctorCard key={doctor.id || doctor.email} doctor={doctor} />
             ))}
           </div>
         )}

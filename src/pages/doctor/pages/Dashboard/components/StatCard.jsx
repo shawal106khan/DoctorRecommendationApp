@@ -1,8 +1,8 @@
 const StatCard = ({ label, value }) => {
   return (
-    <div className="bg-white rounded-xl shadow p-5">
-      <p className="text-sm text-gray-500">{label}</p>
-      <p className="text-2xl font-semibold text-gray-900 mt-1">{value}</p>
+    <div className="bg-gradient-to-r from-slate-300 to-blue-200 rounded-xl shadow px-4 py-6 text-center">
+      <p className="text-lg text-black">{label}</p>
+      <p className="text-3xl font-semibold text-black mt-1">{value}</p>
     </div>
   );
 };

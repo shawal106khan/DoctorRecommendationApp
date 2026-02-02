@@ -3,7 +3,7 @@ const Button = ({ text, type = "button", onClick }) => {
     <button
       type={type}
       onClick={onClick}
-      className="w-full bg-blue-600 text-white py-3 rounded-lg 
+      className="w-full bg-gradient-to-r from-blue-500 to-blue-800 text-white py-3 rounded-lg 
                  font-semibold font-body hover:bg-blue-700 transition"
     >
       {text}
