@@ -1,3 +1,16 @@
+export const ICONS = {
+  "Total Appointments": "📅",
+  "Pending Requests": "⏳",
+  Accepted: "✔️",
+  Completed: "✅",
+};
+export const STATUS_COLORS = {
+  pending: "#f59e0b", // yellow
+  accepted: "#16a34a", // green
+  completed: "#22c55e", // green bright
+  rejected: "#dc2626", // red
+  default: "#6b7280", // gray
+};
 export const statusColor = (status) => {
   switch (status) {
     case "accepted":

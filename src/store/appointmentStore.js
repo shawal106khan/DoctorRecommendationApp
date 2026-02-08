@@ -39,3 +39,18 @@ export const updateAppointmentStatus = (id, status) => {
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
 };
+export const addAppointmentReview = (appointmentId, review) => {
+  const appointments = getAppointments().map((a) =>
+    a.id === appointmentId
+      ? {
+          ...a,
+          review: {
+            ...review,
+            createdAt: new Date().toISOString(),
+          },
+        }
+      : a,
+  );
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
+};

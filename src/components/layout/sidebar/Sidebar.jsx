@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { sidebarMenu } from "../../../config/sidebarMenu";
 import { useAuth } from "../../../context/useAuth";
 
-const Sidebar = ({ role, isOpen, onClose, onSearchDoctorClick }) => {
+const Sidebar = ({ role, isOpen, onClose }) => {
   const menus = sidebarMenu[role] || [];
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const Sidebar = ({ role, isOpen, onClose, onSearchDoctorClick }) => {
                   key={item.label}
                   onClick={() => {
                     onClose();
-                    onSearchDoctorClick?.();
+                    navigate("/patient/dashboard?section=search");
                   }}
                   className="w-full flex items-center gap-3 px-4 py-2 rounded-md text-sm
                    text-white hover:bg-blue-600/70 transition"

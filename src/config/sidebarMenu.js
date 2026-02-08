@@ -1,4 +1,10 @@
-import { LayoutDashboard, Search, CalendarCheck, User } from "lucide-react";
+import {
+  LayoutDashboard,
+  Search,
+  CalendarCheck,
+  User,
+  Star,
+} from "lucide-react";
 
 export const sidebarMenu = {
   patient: [
@@ -39,6 +45,11 @@ export const sidebarMenu = {
       label: "Profile",
       path: "/doctor/profile",
       icon: User,
+    },
+    {
+      label: "Reviews",
+      path: "/doctor/reviews",
+      icon: Star,
     },
   ],
 

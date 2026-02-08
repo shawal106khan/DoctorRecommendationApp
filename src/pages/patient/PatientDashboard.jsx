@@ -1,13 +1,13 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import DoctorCard from "./components/DoctorCard";
 import DashboardHome from "./DashboardHome";
 import { getDoctors } from "../../store/doctorStore";
-
+import { useNavigate } from "react-router-dom";
 import recommendDoctorImg from "../../assets/Recommend_doctor.png";
 import { Star } from "lucide-react";
 import { useSearchHighlight } from "../../hooks/useSearchHighlight";
-
+import { useSearchParams } from "react-router-dom";
 const DISEASE_TO_SPECIALIZATION = {
   "Heart Disease": "Cardiologist",
   "Bone Pain": "Orthopedic Surgeon",
@@ -17,10 +17,11 @@ const DISEASE_TO_SPECIALIZATION = {
 
 const PatientDashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const [searchParams] = useSearchParams();
   const [selectedDisease, setSelectedDisease] = useState("");
   const [searchKey, setSearchKey] = useState(0);
   const doctors = useMemo(() => getDoctors(), [searchKey]);
+  const navigate = useNavigate();
 
   const {
     ref: searchRef,
@@ -33,6 +34,18 @@ const PatientDashboard = () => {
     highlight: recommendationHighlight,
     trigger: triggerRecommendation,
   } = useSearchHighlight();
+
+  useEffect(() => {
+    const section = searchParams.get("section");
+
+    if (section === "search") {
+      setTimeout(() => {
+        triggerSearchSection();
+
+        navigate("/patient/dashboard", { replace: true });
+      });
+    }
+  }, [searchParams, triggerSearchSection, navigate]);
 
   const filteredDoctors = useMemo(() => {
     if (!selectedDisease) return doctors;

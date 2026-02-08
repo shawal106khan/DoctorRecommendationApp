@@ -5,6 +5,8 @@ import CompleteProfile from "../pages/doctor/pages/CompleteProfile/CompleteProfi
 import DoctorDashboard from "../pages/doctor/pages/Dashboard/DoctorDashboard";
 import DoctorProfile from "../pages/doctor/pages/profile/DoctorProfilePage";
 import DoctorAppointments from "../pages/doctor/pages/appointments/DoctorAppointments";
+
+import DoctorReviewsPage from "../pages/doctor/pages/reviews/DoctorReviewsPage";
 export const doctorRoutes = [
   {
     path: "/doctor/redirect",
@@ -33,5 +35,9 @@ export const doctorRoutes = [
   {
     path: "/doctor/appointments",
     element: <DoctorAppointments />,
+  },
+  {
+    path: "/doctor/reviews",
+    element: <DoctorReviewsPage />,
   },
 ];

@@ -1,13 +1,16 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import DashboardLayout from "../../../components/layout/DashboardLayout";
 import { useAuth } from "../../../context/useAuth";
 import { getAppointmentsByPatient } from "../../../store/appointmentStore";
 import { getDoctorById } from "../../../store/doctorStore";
 import AppointmentTimeline from "../../../components/common/appointments/AppointmentTimeline";
 import { statusColor } from "../../../utils/statusColors";
+import ReviewForm from "../../../components/common/ratings/ReviewForm";
+import Modal from "../../../components/common/components/Modal";
 const PatientAppointments = () => {
   const { user } = useAuth();
   const email = user?.email;
+  const [reviewAppointment, setReviewAppointment] = useState(null);
 
   const appointments = useMemo(() => {
     if (!email) return [];
@@ -52,12 +55,38 @@ const PatientAppointments = () => {
 
                   {/* TimeLine */}
                   <AppointmentTimeline timeline={a.timeline} />
+                  {a.status === "completed" && !a.review && (
+                    <button
+                      onClick={() => setReviewAppointment(a)}
+                      className="mt-2 px-3 py-1 text-xs rounded bg-yellow-500 text-white hover:bg-yellow-600"
+                    >
+                      Write Review
+                    </button>
+                  )}
+
+                  {a.review && (
+                    <p className="mt-2 text-xs text-green-600">
+                      ⭐ {a.review.rating} — Review submitted
+                    </p>
+                  )}
                 </span>
               </div>
             );
           })
         )}
       </div>
+      <Modal
+        isOpen={!!reviewAppointment}
+        onClose={() => setReviewAppointment(null)}
+        title="Leave a Review"
+      >
+        {reviewAppointment && (
+          <ReviewForm
+            appointment={reviewAppointment}
+            onDone={() => setReviewAppointment(null)}
+          />
+        )}
+      </Modal>
     </DashboardLayout>
   );
 };

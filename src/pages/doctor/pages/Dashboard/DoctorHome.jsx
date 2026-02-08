@@ -3,6 +3,7 @@ import { useAuth } from "../../../../context/useAuth";
 import StatCard from "./components/StatCard";
 import AppointmentCard from "./components/AppointmentCard";
 import { getAppointmentsByDoctor } from "../../../../store/appointmentStore";
+import AppointmentCircle from "./components/AppointmentCircle";
 
 const DoctorHome = () => {
   const { user } = useAuth();
@@ -19,12 +20,15 @@ const DoctorHome = () => {
 
   const totalAppointments = appointments.length;
   const pending = appointments.filter((a) => a.status === "pending").length;
-  const accepted = appointments.filter((a) => a.status === "accepted").length;
-
+  const accepted = appointments.filter(
+    (a) => a.status === "accepted" || a.status === "completed",
+  ).length;
+  const completed = appointments.filter((a) => a.status === "completed").length;
   const stats = [
     { label: "Total Appointments", value: totalAppointments },
     { label: "Pending Requests", value: pending },
     { label: "Accepted", value: accepted },
+    { label: "Completed", value: completed },
   ];
 
   return (
@@ -40,10 +44,15 @@ const DoctorHome = () => {
       </div>
 
       {/* STATS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {stats.map((stat) => (
-          <StatCard key={stat.label} {...stat} />
-        ))}
+      <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {stats.map((stat) => (
+            <StatCard key={stat.label} {...stat} />
+          ))}
+        </div>
+        <div>
+          <AppointmentCircle data={stats} total={totalAppointments} />
+        </div>
       </div>
 
       {/* APPOINTMENTS */}
