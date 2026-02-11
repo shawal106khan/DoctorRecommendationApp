@@ -9,7 +9,7 @@ import { useAuth } from "../../context/useAuth";
 import illustration from "../../assets/LoginPage-img.png";
 import AuthLayout from "../../components/common/components/AuthLayout";
 import profilePic from "../../assets/profile-pictur.png";
-
+import { getDoctorById } from "../../store/doctorStore";
 import { useRequiredValidation } from "../../hooks/useRequiredValidation";
 import ForgotPasswordLink from "../../components/common/components/ForgotPasswordLink";
 
@@ -42,28 +42,33 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (!validate(formData)) return; // Validate required fields
+    if (!validate(formData)) return;
 
-    // ✅ SET AUTH CONTEXT
-    setUser((prev) => ({
-      ...prev,
-
+    let userData = {
+      email: formData.email,
       role: formData.role,
       avatar: profilePic,
-
-      // 🔹 FRONTEND SIMULATION ONLY
-      isApproved: true, // simulate admin approval
-      approvalNotified: false, // required for approved page
-      profileCompleted: false,
-    }));
-
-    if (formData.role === "patient") {
-      navigate("/patient/dashboard");
-    }
+    };
 
     if (formData.role === "doctor") {
-      navigate("/doctor/redirect");
+      const doctor = getDoctorById(formData.email); // fetch saved doctor
+      if (doctor) {
+        userData = {
+          ...doctor,
+          role: "doctor",
+          approvalNotified: doctor.approvalNotified ?? false,
+        };
+      } else {
+        alert("Doctor not found. Please signup first.");
+        return;
+      }
     }
+
+    setUser(userData);
+
+    if (formData.role === "patient") navigate("/patient/dashboard");
+    if (formData.role === "doctor") navigate("/doctor/redirect");
+    if (formData.role === "admin") navigate("/admin/dashboard");
   };
 
   return (

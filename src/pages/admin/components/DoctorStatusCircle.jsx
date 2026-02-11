@@ -1,0 +1,45 @@
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { STATUS_COLORS } from "../../../utils/statusColors";
+
+const DoctorStatusCircle = ({ data = [], total = 0 }) => {
+  if (!data.length) return null; // 🛡 prevents crash everywhere
+
+  return (
+    <div className="bg-blue-100 rounded-sm shadow-md p-6 flex items-center justify-center pb-20 mb-2 font-serif">
+      <div className="w-48 h-48 relative">
+        <ResponsiveContainer>
+          <PieChart>
+            <Pie
+              data={data}
+              innerRadius={70}
+              outerRadius={90}
+              paddingAngle={3}
+              dataKey="value"
+            >
+              {data.map((entry, i) => (
+                <Cell
+                  key={i}
+                  fill={
+                    entry.label === "Accepted"
+                      ? STATUS_COLORS.accepted
+                      : entry.label === "Pending Requests"
+                        ? STATUS_COLORS.pending
+                        : STATUS_COLORS.rejected
+                  }
+                />
+              ))}
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
+
+        {/* center text */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <p className="text-2xl font-bold text-blue-800">{total}</p>
+          <p className="text-xs text-blue-500">Total Doctors</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DoctorStatusCircle;

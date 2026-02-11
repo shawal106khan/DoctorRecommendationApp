@@ -10,24 +10,18 @@ import LocationStep from "./steps/LocationStep";
 import VerificationStep from "./steps/VerificationStep";
 import ReviewStep from "./steps/ReviewStep";
 import { saveDoctor } from "../../../../store/doctorStore";
-// ✅ INITIAL STATE (VERY IMPORTANT)
+
+// ✅ Initial profile state
 const initialProfile = {
-  // Public profile
   bio: "",
   languages: [],
   avatar: null,
-
-  // Consultation
   consultationFee: "",
-  consultationType: "online", // online | clinic | both
-
-  // Availability
+  consultationType: "online",
   availableDays: [],
   startTime: "",
   endTime: "",
   slotDuration: 30,
-
-  // Location
   address: "",
   city: "",
 };
@@ -44,7 +38,6 @@ const steps = [
 const CompleteProfile = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
-
   const [profile, setProfile] = useState(initialProfile);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -57,15 +50,10 @@ const CompleteProfile = () => {
         ...prev,
         profileCompleted: true,
         avatar: profile.avatar ?? prev.avatar,
-        profile: {
-          ...profile,
-          avatar: profile.avatar ?? prev.avatar,
-        },
+        role: "doctor", // 🔹 Always include role
       };
 
-      // ✅ THIS WAS MISSING (CORE FIX)
       saveDoctor(updatedDoctor);
-
       return updatedDoctor;
     });
 

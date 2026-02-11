@@ -8,6 +8,8 @@ import illustration from "../../assets/signup_img.png"; // left illustration
 import AuthLayout from "../../components/common/components/AuthLayout";
 
 import { useRequiredValidation } from "../../hooks/useRequiredValidation";
+import { useAuth } from "../../context/useAuth";
+import { saveDoctor } from "../../store/doctorStore";
 
 const DoctorVerification = () => {
   const navigate = useNavigate();
@@ -23,15 +25,34 @@ const DoctorVerification = () => {
     console.log("Selected file:", file);
   };
 
+  const { user } = useAuth();
+
   const handleNext = () => {
     if (!validate({ licenseFile })) return;
-    if (!licenseFile) {
-      alert("Please upload your medical license");
-      return;
-    }
 
-    alert("Submitted for verification");
-    navigate("/pending-approval");
+    const reader = new FileReader();
+    reader.onload = () => {
+      const licenseFileBase64 = reader.result; // This is base64
+
+      saveDoctor({
+        id: user.email,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        specialization: user.specialization,
+        experienceYears: user.experienceYears,
+        hospitalName: user.hospitalName,
+        qualification: user.qualification,
+        licenseNumber: user.licenseNumber,
+        licenseFileName: licenseFile.name,
+        licenseFileURL: licenseFileBase64, // store base64
+        isApproved: false,
+      });
+
+      navigate("/pending-approval");
+    };
+
+    reader.readAsDataURL(licenseFile); // converts file to base64
   };
 
   return (

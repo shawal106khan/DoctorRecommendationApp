@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/useAuth";
+import { getDoctorById, saveDoctor } from "../../../store/doctorStore";
 
 const DoctorRedirect = () => {
   const { user, setUser } = useAuth();
@@ -12,32 +13,43 @@ const DoctorRedirect = () => {
       return;
     }
 
-    // 🔴 Not approved
-    if (!user.isApproved) {
+    // 🔹 Fetch latest doctor info
+    const doctor = getDoctorById(user.email);
+
+    if (!doctor) {
+      alert("Doctor not found.");
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    // 🔹 Ensure doctor has role
+    const doctorWithRole = { ...doctor, role: "doctor" };
+    setUser(doctorWithRole);
+
+    // 🔴 Not approved → Pending page
+    if (!doctorWithRole.isApproved) {
       navigate("/doctor/pending-approval", { replace: true });
       return;
     }
 
     // 🟢 Approved – show once
-    if (user.isApproved && !user.approvalNotified) {
-      setUser((prev) => ({
-        ...prev,
-        approvalNotified: true,
-      }));
-
+    if (doctorWithRole.isApproved && !doctorWithRole.approvalNotified) {
+      const updated = { ...doctorWithRole, approvalNotified: true };
+      saveDoctor(updated);
+      setUser(updated);
       navigate("/doctor/approved", { replace: true });
       return;
     }
 
     // 🟡 Profile incomplete
-    if (!user.profileCompleted) {
+    if (!doctorWithRole.profileCompleted) {
       navigate("/doctor/complete-profile", { replace: true });
       return;
     }
 
     // 🟢 All done
     navigate("/doctor/dashboard", { replace: true });
-  }, [user, navigate, setUser]);
+  }, [navigate, setUser, user]);
 
   return null;
 };

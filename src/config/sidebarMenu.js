@@ -4,6 +4,11 @@ import {
   CalendarCheck,
   User,
   Star,
+  UserCheck,
+  Settings,
+  Users,
+  Calendar,
+  LogOut,
 } from "lucide-react";
 
 export const sidebarMenu = {
@@ -53,16 +58,12 @@ export const sidebarMenu = {
     },
   ],
 
+  // ⭐ NEW ADMIN ROLE
   admin: [
-    {
-      label: "Dashboard",
-      path: "/admin/dashboard",
-      icon: LayoutDashboard,
-    },
-    {
-      label: "Verify Doctors",
-      path: "/admin/verify-doctors",
-      icon: User,
-    },
+    { label: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
+    { label: "Doctors", path: "/admin/doctors", icon: UserCheck },
+    { label: "Patients", path: "/admin/patients", icon: Users },
+    { label: "Appointments", path: "/admin/appointments", icon: Calendar },
+    { label: "Settings", path: "/admin/settings", icon: Settings },
   ],
 };
