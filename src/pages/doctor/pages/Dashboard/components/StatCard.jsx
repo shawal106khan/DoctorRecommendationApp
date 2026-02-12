@@ -1,22 +1,23 @@
-import { ICONS } from "../../../../../utils/statusColors";
+import { STAT_CONFIG } from "../../../../../utils/statusColors";
+
 const StatCard = ({ label, value }) => {
+  const config = STAT_CONFIG[label];
+  const Icon = config?.icon;
+
   return (
-    <div className="bg-gradient-to-r from-slate-200 to-blue-100 rounded-xl shadow px-4 py-6 text-center ">
-      <div className="flex justify-center">
-        <div className={`w-12 h-12 `}>{ICONS[label] || "📊"}</div>
-        <div>
-          <p
-            className={`text-base  text-black ${label === "Pending Requests" ? "text-yellow-500" : label === "Accepted" ? "text-green-500" : label === "Completed" ? "text-green-800" : "text-blue-500"}`}
-          >
-            {label}
-          </p>
-        </div>
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-5 py-6 flex items-center justify-between hover:shadow-md transition">
+      {/* LEFT */}
+      <div>
+        <p className="text-sm text-gray-500">{label}</p>
+        <p className="text-2xl font-semibold text-gray-900">{value}</p>
       </div>
-      <p
-        className={`text-3xl font-semibold text-black mt-1 ${label === "Pending Requests" ? "text-yellow-500" : label === "Accepted" ? "text-green-500" : label === "Completed" ? "text-green-800" : "text-blue-500"}`}
-      >
-        {value}
-      </p>
+
+      {/* RIGHT ICON */}
+      {Icon && (
+        <div className={`p-3 rounded-xl ${config.bgColor} transition`}>
+          <Icon className={`w-6 h-6 ${config.iconColor}`} />
+        </div>
+      )}
     </div>
   );
 };

@@ -25,7 +25,9 @@ const AppointmentCard = ({ appointment, onStatusChange }) => {
   return (
     <div className="bg-blue-50 rounded-lg shadow p-4 flex justify-between items-center transition hover:shadow-md">
       <div>
-        <h4 className="font-medium text-blue-700">{appointment.patientName}</h4>
+        <p className="text-xs uppercase tracking-wide text-blue-800">
+          {appointment.patientName}
+        </p>
         <p className="text-sm text-gray-500">
           {appointment.date} · {formatTime(appointment.time)}
         </p>

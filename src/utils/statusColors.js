@@ -1,8 +1,42 @@
-export const ICONS = {
-  "Total Appointments": "📅",
-  "Pending Requests": "⏳",
-  Accepted: "✔️",
-  Completed: "✅",
+import {
+  CalendarCheck,
+  Clock,
+  CheckCircle2,
+  ClipboardCheck,
+  XCircle,
+} from "lucide-react";
+
+export const STAT_CONFIG = {
+  "Total Appointments": {
+    icon: CalendarCheck,
+    iconColor: "text-blue-600",
+    bgColor: "bg-blue-50",
+  },
+  "Total Doctors": {
+    icon: CalendarCheck,
+    iconColor: "text-blue-600",
+    bgColor: "bg-blue-50",
+  },
+  "Pending Requests": {
+    icon: Clock,
+    iconColor: "text-yellow-500",
+    bgColor: "bg-yellow-50",
+  },
+  Accepted: {
+    icon: CheckCircle2,
+    iconColor: "text-green-600",
+    bgColor: "bg-green-50",
+  },
+  Rejected: {
+    icon: XCircle,
+    iconColor: "text-red-600",
+    bgColor: "bg-red-50",
+  },
+  Completed: {
+    icon: ClipboardCheck,
+    iconColor: "text-green-700",
+    bgColor: "bg-green-100",
+  },
 };
 export const STATUS_COLORS = {
   pending: "#f59e0b", // yellow

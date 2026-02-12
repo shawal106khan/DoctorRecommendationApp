@@ -4,6 +4,15 @@ import StatCard from "./components/StatCard";
 import AppointmentCard from "./components/AppointmentCard";
 import { getAppointmentsByDoctor } from "../../../../store/appointmentStore";
 import AppointmentCircle from "./components/AppointmentCircle";
+import { Stethoscope } from "lucide-react";
+
+const getGreeting = () => {
+  const hour = new Date().getHours();
+
+  if (hour < 12) return "Good Morning";
+  if (hour < 17) return "Good Afternoon";
+  return "Good Evening";
+};
 
 const DoctorHome = () => {
   const { user } = useAuth();
@@ -32,32 +41,36 @@ const DoctorHome = () => {
   ];
 
   return (
-    <div className="p-6 space-y-8 font-serif">
+    <div className="p-8 space-y-10 font-serif bg-slate-100 min-h-screen">
       {/* HEADER */}
-      <div>
-        <h1 className="text-2xl font-semibold text-blue-900 font-mono">
-          Welcome back Dr. {user?.name}
-        </h1>
-        <p className="text-sm text-gray-500">
-          Here’s an overview of your activity today
-        </p>
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-400 rounded-sm p-8 text-white shadow shadow-blue-600 flex items-center justify-between">
+        {/* LEFT */}
+        <div>
+          <h1 className="text-2xl font-semibold flex items-center gap-2">
+            {getGreeting()}, Dr. {user?.name}
+            <Stethoscope size={30} className="text-white" />
+          </h1>
+          <p className="text-sm text-blue-100 mt-1">
+            Here’s an overview of your activity today
+          </p>
+        </div>
       </div>
 
       {/* STATS */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-6">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-2 gap-6 xl:col-span-2">
           {stats.map((stat) => (
             <StatCard key={stat.label} {...stat} />
           ))}
         </div>
-        <div>
+        <div className="bg-white border border-gray-100 rounded-xl p-4 flex justify-between items-center hover:shadow-sm transition">
           <AppointmentCircle data={stats} total={totalAppointments} />
         </div>
       </div>
 
       {/* APPOINTMENTS */}
-      <div className="bg-white   ">
-        <h2 className="text-xl font-semibold text-blue-700 mb-4">
+      <div className="bg-white rounded-2xl shadow-sm p-6">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">
           Today’s Appointments
         </h2>
 

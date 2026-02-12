@@ -3,7 +3,7 @@ import { STATUS_COLORS } from "../../../../../utils/statusColors";
 
 const AppointmentCircle = ({ data, total }) => {
   return (
-    <div className="bg-blue-50 rounded-xl shadow  py-12 flex justify-center items-center ">
+    <div className="bg-white rounded-2xl shadow-sm p-8 flex justify-center items-center">
       <div className="w-40 h-40 relative">
         <ResponsiveContainer>
           <PieChart>
@@ -28,8 +28,8 @@ const AppointmentCircle = ({ data, total }) => {
 
         {/* Center text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <p className="text-xl font-semibold text-blue-600">{total}</p>
-          <p className="text-xs  text-blue-600">Appointments</p>
+          <p className="text-3xl font-bold text-gray-900">{total}</p>
+          <p className="text-xs text-gray-500 tracking-wide">Appointments</p>
         </div>
       </div>
     </div>
