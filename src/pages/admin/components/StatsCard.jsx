@@ -5,7 +5,7 @@ const StatCard = ({ label, value }) => {
   const Icon = config?.icon;
 
   return (
-    <div className="bg-blue-100 rounded-xl shadow-sm border border-gray-100 px-5 py-6 flex items-center justify-between hover:shadow-md transition">
+    <div className="bg-white rounded-xl shadow-md shadow-gray-200 border border-gray-100 px-5 py-6 flex items-center justify-between hover:shadow-md transition">
       {/* LEFT */}
       <div>
         <p className="text-sm text-gray-500">{label}</p>

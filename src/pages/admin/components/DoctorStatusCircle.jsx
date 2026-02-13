@@ -5,7 +5,7 @@ const DoctorStatusCircle = ({ data = [], total = 0 }) => {
   if (!data.length) return null; // 🛡 prevents crash everywhere
 
   return (
-    <div className="bg-blue-100 rounded-sm shadow-md p-6 flex items-center justify-center pb-20 mb-2 font-serif">
+    <div className="bg-white rounded-sm shadow-md shadow-gray-200 p-6 flex items-center justify-center pb-20 mb-2 font-serif">
       <div className="w-48 h-48 relative">
         <ResponsiveContainer>
           <PieChart>

@@ -4,6 +4,7 @@ import {
   CheckCircle2,
   ClipboardCheck,
   XCircle,
+  StethoscopeIcon,
 } from "lucide-react";
 
 export const STAT_CONFIG = {
@@ -13,7 +14,7 @@ export const STAT_CONFIG = {
     bgColor: "bg-blue-50",
   },
   "Total Doctors": {
-    icon: CalendarCheck,
+    icon: StethoscopeIcon,
     iconColor: "text-blue-600",
     bgColor: "bg-blue-50",
   },

@@ -30,7 +30,12 @@ const DoctorAppointments = () => {
   return (
     <DashboardLayout role="doctor">
       <div className="p-6 space-y-4 font-serif">
-        <h1 className="text-xl font-semibold">Appointments</h1>
+        <div
+          className="bg-gradient-to-r from-blue-600 to-indigo-400 rounded-sm
+         p-5 text-white shadow shadow-blue-600 mb-6"
+        >
+          <h1 className="text-xl font-semibold">Appointments</h1>
+        </div>
 
         {appointments.length === 0 ? (
           <p className="text-gray-500">No appointments yet.</p>
@@ -38,16 +43,16 @@ const DoctorAppointments = () => {
           appointments.map((a) => (
             <div
               key={a.id}
-              className="bg-white p-4 rounded-lg shadow flex justify-between items-center"
+              className="bg-white p-7 rounded-sm shadow flex justify-between items-center "
             >
-              <div>
+              <div className="pl-8">
                 <p className="font-medium">{a.patientName}</p>
                 <p className="text-sm text-gray-500">
                   {a.date} · {a.time}
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-5 pr-8">
                 <span
                   className={`capitalize font-medium ${statusColor(a.status)}`}
                 >
@@ -56,7 +61,7 @@ const DoctorAppointments = () => {
 
                 <button
                   onClick={() => setSelectedAppointment(a)}
-                  className="text-sm px-5 py-2 rounded border bg-blue-500 text-white
+                  className="text-sm px-7 py-2 rounded border bg-blue-600 text-white
                     hover:bg-blue-700 active:scale-95 transition"
                 >
                   View

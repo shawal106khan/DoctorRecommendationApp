@@ -21,9 +21,12 @@ const DoctorReviewsPage = () => {
   return (
     <DashboardLayout role="doctor">
       <div className="p-6 space-y-6 font-serif">
-        <h1 className="text-2xl font-semibold text-blue-700">
-          My Patient Reviews
-        </h1>
+        <div
+          className="bg-gradient-to-r from-blue-600 to-indigo-400 rounded-sm
+         p-5 text-white shadow shadow-blue-600 mb-6"
+        >
+          <h1 className="text-2xl font-semibol">My Patient Reviews</h1>
+        </div>
 
         {/* ⭐ Top Analytics Card */}
         <div className="bg-white rounded-2xl shadow-sm p-6 grid md:grid-cols-3 gap-6">
