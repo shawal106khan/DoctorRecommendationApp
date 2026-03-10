@@ -2,11 +2,15 @@ import { useState, useRef, useEffect } from "react";
 import { Bars3Icon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
-const Topbar = ({ logoSrc, title, userName, userImage, onMenuClick, role }) => {
+const Topbar = ({ logoSrc, onMenuClick }) => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
+  const role = user?.role;
+  const userName = user?.name;
+  const userImage = user?.avatar;
+
   // close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -29,8 +33,8 @@ const Topbar = ({ logoSrc, title, userName, userImage, onMenuClick, role }) => {
           <Bars3Icon className="w-7 h-7" />
         </button>
 
-        <img src={logoSrc} alt="Logo" className="w-16 h-16 object-contain" />
-        <span className="text-lg font-semibold text-gray-900">{title}</span>
+        <img src={logoSrc} alt="Logo" className="w-20 h-20 object-contain" />
+        {/* <span className="text-lg font-semibold text-gray-900">{title}</span> */}
       </div>
 
       {/* Right */}
@@ -44,7 +48,7 @@ const Topbar = ({ logoSrc, title, userName, userImage, onMenuClick, role }) => {
           </span>
 
           <img
-            src={userImage}
+            src={userImage || "/src/assets/profile-pictur.png"}
             onError={(e) =>
               (e.currentTarget.src = "/src/assets/profile-pictur.png")
             }
@@ -68,14 +72,12 @@ const Topbar = ({ logoSrc, title, userName, userImage, onMenuClick, role }) => {
             Role: <span className="font-medium capitalize">{role}</span>
           </div>
 
-          {role === "admin" && (
-            <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
-              Admin Panel
-            </button>
-          )}
-
           <button
-            onClick={() => navigate(`/${role}/profile`)}
+            onClick={() => {
+              if (role) {
+                navigate(`/${role}/profile`);
+              }
+            }}
             className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
           >
             Profile

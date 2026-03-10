@@ -18,7 +18,6 @@ const DashboardLayout = ({ children, role, onSearchDoctorClick }) => {
     <>
       <Topbar
         logoSrc={logo}
-        title="Medical"
         userName={user?.name}
         userImage={getUserImage()}
         role={user?.role}

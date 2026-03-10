@@ -13,6 +13,7 @@ export const saveDoctor = (doctor) => {
     role: "doctor", // 🔹 add this line
     specialization: doctor.specialization?.trim() || "",
     isApproved: doctor.isApproved ?? false,
+    profileCompleted: doctor.profileCompleted ?? false, // ⭐ important
     licenseFileName: doctor.licenseFileName ?? "",
     licenseFileURL: doctor.licenseFileURL ?? "",
   };

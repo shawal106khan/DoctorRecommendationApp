@@ -5,6 +5,7 @@ import {
   ClipboardCheck,
   XCircle,
   StethoscopeIcon,
+  Users,
 } from "lucide-react";
 
 export const STAT_CONFIG = {
@@ -37,6 +38,16 @@ export const STAT_CONFIG = {
     icon: ClipboardCheck,
     iconColor: "text-green-700",
     bgColor: "bg-green-100",
+  },
+  "Appointment Completed": {
+    icon: ClipboardCheck,
+    iconColor: "text-green-700",
+    bgColor: "bg-green-100",
+  },
+  "Total Patients": {
+    icon: Users,
+    iconColor: "text-blue-600",
+    bgColor: "bg-blue-50",
   },
 };
 export const STATUS_COLORS = {

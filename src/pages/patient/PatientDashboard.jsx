@@ -20,9 +20,15 @@ const PatientDashboard = () => {
   const [searchParams] = useSearchParams();
   const [selectedDisease, setSelectedDisease] = useState("");
   const [searchKey, setSearchKey] = useState(0);
-  const doctors = useMemo(() => getDoctors(), [searchKey]);
   const navigate = useNavigate();
+  const doctors = useMemo(() => {
+    const allDoctors = getDoctors();
 
+    return allDoctors.filter(
+      (doctor) =>
+        doctor.status === "approved" && doctor.profileCompleted === true,
+    );
+  }, []);
   const {
     ref: searchRef,
     highlight,
@@ -48,20 +54,27 @@ const PatientDashboard = () => {
   }, [searchParams, triggerSearchSection, navigate]);
 
   const filteredDoctors = useMemo(() => {
-    if (!selectedDisease) return doctors;
+    let availableDoctors = doctors;
 
-    const specialization = DISEASE_TO_SPECIALIZATION[selectedDisease];
-    if (!specialization) return [];
+    if (selectedDisease) {
+      const specialization = DISEASE_TO_SPECIALIZATION[selectedDisease];
+      if (!specialization) return [];
 
-    return doctors.filter((doctor) => {
-      if (!doctor.specialization) return false;
-
-      return (
-        doctor.specialization.toLowerCase().trim() ===
-        specialization.toLowerCase().trim()
+      availableDoctors = doctors.filter(
+        (doctor) =>
+          doctor.specialization?.toLowerCase().trim() ===
+          specialization.toLowerCase().trim(),
       );
-    });
-  }, [doctors, selectedDisease]); // ✅ doctors MUST be dependency
+    } else {
+      // ⭐ Only top rated doctors
+      availableDoctors = doctors
+        .filter((doctor) => doctor.rating >= 4)
+        .sort((a, b) => b.rating - a.rating)
+        .slice(0, 6);
+    }
+
+    return availableDoctors;
+  }, [doctors, selectedDisease]);
 
   const handleSearch = (disease) => {
     setIsLoading(true); // 🔹 start loading

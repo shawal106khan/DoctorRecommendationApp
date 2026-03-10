@@ -1,3 +1,4 @@
+import { getDoctors } from "./doctorStore";
 const STORAGE_KEY = "appointments";
 
 export const getAppointments = () => {
@@ -6,7 +7,25 @@ export const getAppointments = () => {
 
 export const saveAppointment = (appointment) => {
   const appointments = getAppointments();
-  appointments.push(appointment);
+
+  // 🔎 find doctor from doctorId
+  const doctor = getDoctors().find(
+    (d) => String(d.email) === String(appointment.doctorId),
+  );
+
+  const newAppointment = {
+    id: appointment.id || Date.now(),
+    status: appointment.status || "pending",
+    createdAt: appointment.createdAt || new Date().toISOString(),
+
+    ...appointment,
+
+    // ✅ AUTO-SET doctor name (REAL FIX)
+    doctorName: doctor?.name || "Unknown Doctor",
+    patientName: appointment.patientName || "",
+  };
+
+  appointments.push(newAppointment);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
 };
 

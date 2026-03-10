@@ -7,8 +7,9 @@ import SignupSuccess from "../pages/Auth/SignupSuccess";
 import ForgotPassword from "../pages/Auth/ForgotPassword/ForgotPassword";
 import EmailSent from "../pages/Auth/ForgotPassword/EmailSent";
 import ResetPassword from "../pages/Auth/ForgotPassword/ResetPassword";
+import Home from "../pages/home/Home";
 export const authRoutes = [
-  { path: "/", element: <LoginPage /> },
+  { path: "/", element: <Home /> },
   { path: "/login", element: <LoginPage /> },
   { path: "/signup", element: <SignupPage /> },
   { path: "/signup/doctor-info", element: <DoctorDetailsPage /> },

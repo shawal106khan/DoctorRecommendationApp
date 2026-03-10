@@ -11,6 +11,7 @@ import AuthLayout from "../../components/common/components/AuthLayout";
 import { useAuth } from "../../context/useAuth";
 
 import { useRequiredValidation } from "../../hooks/useRequiredValidation";
+import { savePatient } from "../../store/patientStore";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -56,6 +57,15 @@ const SignupPage = () => {
       role: formData.role,
     }));
 
+    // ✅ IMPORTANT: Save patient in localStorage for admin stats
+    if (formData.role === "patient") {
+      savePatient({
+        name: formData.fullName,
+        email: formData.email,
+        role: "patient",
+      });
+    }
+    // ✅ Navigation
     if (formData.role === "doctor") {
       navigate("/signup/doctor-info");
     } else {

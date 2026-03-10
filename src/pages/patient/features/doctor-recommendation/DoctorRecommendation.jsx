@@ -1,4 +1,4 @@
-import DoctorCard from "../../../../components/entities/doctor/cards/DoctorCard";
+import DoctorCard from "../../components/DoctorCard";
 import recommendDoctorImg from "../../../assets/Recommend_doctor.png";
 import { Star } from "lucide-react";
 

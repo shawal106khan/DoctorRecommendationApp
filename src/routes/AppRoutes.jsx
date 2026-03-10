@@ -3,6 +3,8 @@ import { authRoutes } from "./AuthRoutes";
 import { patientRoutes } from "./PatientRoutes";
 import { doctorRoutes } from "./DoctorRoutes";
 import AdminRoutes from "./AdminRoutes";
+import HomeRoutes from "./HomeRoutes";
+import PrivacyRoutes from "./PrivacyRoutes";
 function AppRoutes() {
   return (
     <Routes>
@@ -17,6 +19,12 @@ function AppRoutes() {
         <Route key={index} path={route.path} element={route.element} />
       ))}
       {AdminRoutes().map((route, index) => (
+        <Route key={index} path={route.path} element={route.element} />
+      ))}
+      {HomeRoutes().map((route, index) => (
+        <Route key={index} path={route.path} element={route.element} />
+      ))}
+      {PrivacyRoutes().map((route, index) => (
         <Route key={index} path={route.path} element={route.element} />
       ))}
     </Routes>

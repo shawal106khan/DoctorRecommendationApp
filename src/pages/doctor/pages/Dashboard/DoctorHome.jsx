@@ -41,7 +41,7 @@ const DoctorHome = () => {
   ];
 
   return (
-    <div className="p-8 space-y-10 font-serif bg-slate-100 min-h-screen">
+    <div className="p-8 space-y-10  min-h-screen">
       {/* HEADER */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-400 rounded-sm p-8 text-white shadow shadow-blue-600 flex items-center justify-between">
         {/* LEFT */}
@@ -63,7 +63,7 @@ const DoctorHome = () => {
             <StatCard key={stat.label} {...stat} />
           ))}
         </div>
-        <div className="bg-white border border-gray-100 rounded-xl p-4 flex justify-between items-center hover:shadow-sm transition">
+        <div className="bg-white rounded-2xl shadow-md p-8 flex items-center justify-center hover:shadow-lg transition-all duration-300">
           <AppointmentCircle data={stats} total={totalAppointments} />
         </div>
       </div>

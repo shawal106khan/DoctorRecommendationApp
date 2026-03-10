@@ -5,7 +5,6 @@ import Input from "../../components/common/components/Input";
 import RadioGroup from "../../components/common/components/RadioGroup";
 import Title from "../../components/common/components/Title";
 import { useAuth } from "../../context/useAuth";
-
 import illustration from "../../assets/LoginPage-img.png";
 import AuthLayout from "../../components/common/components/AuthLayout";
 import profilePic from "../../assets/profile-pictur.png";

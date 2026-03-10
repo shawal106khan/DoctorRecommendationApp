@@ -2,6 +2,7 @@ import { useState } from "react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { getDoctors, updateDoctorApproval } from "../../store/doctorStore";
 import LicenseViewerModal from "./components/LicenseViewerModal";
+import { notifyAdmin } from "../../utils/adminNotification";
 const AdminDoctors = () => {
   const [doctors, setDoctors] = useState(() => getDoctors());
   const [selectedLicense, setSelectedLicense] = useState(null);
@@ -11,11 +12,15 @@ const AdminDoctors = () => {
   const handleApprove = (doctorId) => {
     updateDoctorApproval(doctorId, "approved");
     loadDoctors();
+
+    notifyAdmin("Doctor approved successfully");
   };
 
   const handleReject = (doctorId) => {
     updateDoctorApproval(doctorId, "rejected");
     loadDoctors();
+
+    notifyAdmin("Doctor rejected");
   };
 
   return (
@@ -32,14 +37,15 @@ const AdminDoctors = () => {
         {doctors.length === 0 ? (
           <p className="text-gray-500">No doctors found.</p>
         ) : (
-          <div className="space-y-4 w-full max-w-4xl m-auto">
+          <div className="space-y-4 w-full flex-1 grid sm:grid-cols-2 lg:grid-cols-2  m-auto">
             {doctors.map((doc) => (
               <div
                 key={doc.id}
-                className="bg-gray-50 p-5 rounded-sm shadow-md flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-serif mx-2"
+                className="bg-gray-50 p-5 rounded-sm shadow-md flex flex-col md:flex-row md:items-center
+                 md:justify-between gap-2 font-serif mx-2"
               >
                 {/* Doctor Info */}
-                <div className="pl-6 m-2">
+                <div className=" m-2">
                   <h2 className="text-lg font-semibold font-mono py-1">
                     {doc.name}
                   </h2>
@@ -73,7 +79,7 @@ const AdminDoctors = () => {
                 </div>
 
                 {/* Actions */}
-                <div className="flex flex-col md:flex-row items-center gap-4 mr-4">
+                <div className="flex flex-col md:flex-row items-center gap-2  relative lg:top-12">
                   {doc.status === "approved" ? (
                     <span className="px-4 py-2 text-xs rounded-full bg-green-200 text-green-700">
                       Approved

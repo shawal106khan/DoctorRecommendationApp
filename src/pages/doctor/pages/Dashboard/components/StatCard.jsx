@@ -5,11 +5,13 @@ const StatCard = ({ label, value }) => {
   const Icon = config?.icon;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-5 py-6 flex items-center justify-between hover:shadow-md transition">
+    <div className="bg-white rounded-2xl shadow-md border border-gray-100 px-6 py-6 flex items-center justify-between hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       {/* LEFT */}
       <div>
-        <p className="text-sm text-gray-500">{label}</p>
-        <p className="text-2xl font-semibold text-gray-900">{value}</p>
+        <p className="text-sm text-gray-400 font-medium tracking-wide">
+          {label}
+        </p>
+        <p className="text-3xl font-bold text-gray-900 mt-1">{value}</p>
       </div>
 
       {/* RIGHT ICON */}
