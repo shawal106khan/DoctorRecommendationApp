@@ -1,20 +1,20 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import DashboardLayout from "../../../components/layout/DashboardLayout";
+import GeneralPanel from "./components/GeneralPanel";
 import ProfilePanel from "./components/ProfilePanel";
-
 import SecurityPanel from "./components/SecurityPanel";
 const AdminSettingsPage = () => {
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState("general");
 
   const tabs = [
-    { id: "profile", label: "General" },
-
+    { id: "general", label: "General" },
+    { id: "profile", label: "Profile" },
     { id: "security", label: "Login & Security" },
   ];
 
   const renderPanel = () => {
+    if (activeTab === "general") return <GeneralPanel />;
     if (activeTab === "profile") return <ProfilePanel />;
-
     if (activeTab === "security") return <SecurityPanel />;
   };
 

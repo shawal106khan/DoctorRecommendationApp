@@ -27,6 +27,12 @@ const DoctorRedirect = () => {
   const doctorWithRole = { ...doctor, role: "doctor" };
   setUser(doctorWithRole);
 
+  // 🔴 Rejected doctor → show rejected page immediately
+  if (doctorWithRole.rejected) {
+    navigate("/doctor/rejected", { replace: true });
+    return;
+  }
+
   // 🔴 Not approved → Pending page
   if (!doctorWithRole.isApproved) {
     navigate("/doctor/pending-approval", { replace: true });

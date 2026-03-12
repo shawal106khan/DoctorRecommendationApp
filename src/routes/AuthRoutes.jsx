@@ -1,4 +1,5 @@
 import LoginPage from "../pages/Auth/LoginPage";
+import AdminLoginPage from "../pages/Auth/AdminLoginPage";
 import SignupPage from "../pages/Auth/SignupPage";
 import DoctorDetailsPage from "../pages/Auth/DoctorDetailsPage";
 import DoctorVerification from "../pages/Auth/DoctorVerification";
@@ -11,6 +12,7 @@ import Home from "../pages/home/Home";
 export const authRoutes = [
   { path: "/", element: <Home /> },
   { path: "/login", element: <LoginPage /> },
+  { path: "/admin/login", element: <AdminLoginPage /> },
   { path: "/signup", element: <SignupPage /> },
   { path: "/signup/doctor-info", element: <DoctorDetailsPage /> },
   { path: "/signup/doctor-verification", element: <DoctorVerification /> },

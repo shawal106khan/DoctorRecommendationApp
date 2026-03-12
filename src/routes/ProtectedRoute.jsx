@@ -1,11 +1,13 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 
-const ProtectedRoute = ({ children, role }) => {
+const ProtectedRoute = ({ children, role, loginPath }) => {
   const { user } = useAuth();
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    const fallback =
+      loginPath || (role === "admin" ? "/admin/login" : "/login");
+    return <Navigate to={fallback} replace />;
   }
 
   // Logged in but wrong role → send to own dashboard

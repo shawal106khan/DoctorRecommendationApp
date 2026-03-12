@@ -12,11 +12,15 @@ const ApprovedSuccess = () => {
         </h2>
 
         <p className="text-gray-600 mb-6">
-          Your doctor account has been verified. You can now complete your
-          profile and become visible to patients.
+          Your doctor account has been verified. Please complete your profile to
+          become visible to patients.
         </p>
 
-        <Button text="Continue" onClick={() => navigate("/doctor/redirect")} />
+        {/* Directly go to Complete Profile instead of redirect */}
+        <Button
+          text="Continue"
+          onClick={() => navigate("/doctor/complete-profile")}
+        />
       </div>
     </div>
   );

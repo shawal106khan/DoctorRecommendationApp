@@ -4,28 +4,56 @@ import AdminAppointments from "../pages/admin/appointments/AdminAppointments";
 import AdminPatients from "../pages/admin/patient/AdminPatients";
 import AdminProfilePage from "../pages/admin/profile/AdminProfilePage";
 import AdminSettingsPage from "../pages/admin/setting/AdminSettingsPage";
+import ProtectedRoute from "./ProtectedRoute";
 function AdminRoutes() {
   return [
     {
       path: "/admin/dashboard",
-      element: <AdminDashboard />,
+      element: (
+        <ProtectedRoute role="admin" loginPath="/admin/login">
+          <AdminDashboard />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/admin/doctors",
-      element: <AdminDoctors />,
+      element: (
+        <ProtectedRoute role="admin" loginPath="/admin/login">
+          <AdminDoctors />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/admin/patients",
-      element: <AdminPatients />,
+      element: (
+        <ProtectedRoute role="admin" loginPath="/admin/login">
+          <AdminPatients />
+        </ProtectedRoute>
+      ),
     },
-    { path: "/admin/appointments", element: <AdminAppointments /> },
+    {
+      path: "/admin/appointments",
+      element: (
+        <ProtectedRoute role="admin" loginPath="/admin/login">
+          <AdminAppointments />
+        </ProtectedRoute>
+      ),
+    },
     {
       path: "/admin/settings",
-      element: <AdminSettingsPage />,
+      element: (
+        <ProtectedRoute role="admin" loginPath="/admin/login">
+          <AdminSettingsPage />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/admin/profile",
-      element: <AdminProfilePage />,
+      element: (
+        <ProtectedRoute role="admin" loginPath="/admin/login">
+          <AdminProfilePage />
+        </ProtectedRoute>
+      ),
     },
   ];
 }

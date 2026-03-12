@@ -34,17 +34,13 @@ const PatientAppointments = () => {
                 className="bg-white p-4 rounded-lg shadow flex justify-between items-center"
               >
                 <div>
-                  <p className=" font-medium text-blue-700">Date & Time</p>
-                  <p className="font-medium">
-                    {a.date} · {a.time}
-                  </p>
+                  <p className=" ">Dr. {doctor?.name || "Unknown Doctor"}</p>
 
-                  <p className="text-sm text-gray-700">
-                    Dr. {doctor?.name || "Unknown Doctor"}
-                  </p>
+                  <p className=" text-gray-500">{doctor?.specialization}</p>
 
-                  <p className="text-xs text-gray-500">
-                    {doctor?.specialization}
+                  <p className=" text-gray-500">
+                    {" "}
+                    {doctor.profile?.clinicName}
                   </p>
                 </div>
 
@@ -55,6 +51,16 @@ const PatientAppointments = () => {
 
                   {/* TimeLine */}
                   <AppointmentTimeline timeline={a.timeline} />
+                  {a.status === "accepted" && (
+                    <div className="mt-2 text-sm text-gray-700">
+                      <p>
+                        Queue Number: <strong>{a.queueNumber}</strong>
+                      </p>
+                      <p>
+                        Please arrive at: <strong>{a.arrivalTime}</strong>
+                      </p>
+                    </div>
+                  )}
                   {a.status === "completed" && !a.review && (
                     <button
                       onClick={() => setReviewAppointment(a)}

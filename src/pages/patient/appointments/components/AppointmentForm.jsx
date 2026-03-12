@@ -9,8 +9,6 @@ const AppointmentForm = ({ doctor }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
   const [note, setNote] = useState("");
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -18,7 +16,7 @@ const AppointmentForm = ({ doctor }) => {
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = () => {
-    if (!date || !time || !name) {
+    if (!name) {
       alert("Fill required fields");
       return;
     }
@@ -30,12 +28,12 @@ const AppointmentForm = ({ doctor }) => {
       patientEmail: user.email,
       age,
       location,
-      date,
-      time,
       note,
 
       status: "pending",
 
+      queueNumber: 0,
+      arrivalTime: null,
       timeline: [
         {
           state: "requested",
@@ -49,8 +47,7 @@ const AppointmentForm = ({ doctor }) => {
     saveAppointment(appointment);
 
     // ✅ Clear form
-    setDate("");
-    setTime("");
+
     setNote("");
     setName("");
     setAge("");
@@ -103,20 +100,6 @@ const AppointmentForm = ({ doctor }) => {
         placeholder="City or Address"
         value={location}
         onChange={(e) => setLocation(e.target.value)}
-      />
-      <Input
-        label="Select Date"
-        type="date"
-        placeholder={"Select Date"}
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-      />
-      <Input
-        label="Select Time"
-        type="time"
-        placeholder={"Select Time"}
-        value={time}
-        onChange={(e) => setTime(e.target.value)}
       />
 
       <textarea

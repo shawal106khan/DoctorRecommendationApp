@@ -1,14 +1,11 @@
-const PROFILE_KEY = "admin_profile";
+﻿const PROFILE_KEY = "admin_profile";
 const PREFS_KEY = "admin_prefs";
+const SETTINGS_KEY = "admin_settings";
 
 /* ================= PROFILE ================= */
 
 export const getAdminProfile = async () => {
-  // 🔥 Backend ready structure
-  // Later replace with:
-  // const res = await axios.get("/api/admin/profile")
-  // return res.data;
-
+  // Backend-ready structure (replace with Supabase later)
   const stored = localStorage.getItem(PROFILE_KEY);
 
   return stored
@@ -24,11 +21,33 @@ export const getAdminProfile = async () => {
 };
 
 export const updateAdminProfile = async (data) => {
-  // 🔥 Later:
-  // await axios.put("/api/admin/profile", data);
-
   localStorage.setItem(PROFILE_KEY, JSON.stringify(data));
   return { success: true, data };
+};
+
+/* ================= SETTINGS ================= */
+
+export const getAdminSettings = async () => {
+  const stored = localStorage.getItem(SETTINGS_KEY);
+
+  return stored
+    ? JSON.parse(stored)
+    : {
+        id: "",
+        support_email: "",
+        support_phone: "",
+        updated_at: "",
+      };
+};
+
+export const updateAdminSettings = async (data) => {
+  const payload = {
+    ...data,
+    updated_at: new Date().toISOString(),
+  };
+
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(payload));
+  return { success: true, data: payload };
 };
 
 /* ================= PREFERENCES ================= */

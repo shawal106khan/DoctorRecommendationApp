@@ -7,6 +7,7 @@ import DoctorProfile from "../pages/doctor/pages/profile/DoctorProfilePage";
 import DoctorAppointments from "../pages/doctor/pages/appointments/DoctorAppointments";
 
 import DoctorReviewsPage from "../pages/doctor/pages/reviews/DoctorReviewsPage";
+import RejectedPage from "../pages/doctor/pages/DoctorRejected";
 export const doctorRoutes = [
   {
     path: "/doctor/redirect",
@@ -19,6 +20,10 @@ export const doctorRoutes = [
   {
     path: "/doctor/approved",
     element: <ApprovedSuccess />,
+  },
+  {
+    path: "/doctor/rejected",
+    element: <RejectedPage />,
   },
   {
     path: "/doctor/dashboard",

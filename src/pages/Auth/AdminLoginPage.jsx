@@ -1,18 +1,16 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+﻿import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/components/Button";
 import Input from "../../components/common/components/Input";
-import RadioGroup from "../../components/common/components/RadioGroup";
 import Title from "../../components/common/components/Title";
 import { useAuth } from "../../context/useAuth";
 import illustration from "../../assets/LoginPage-img.png";
 import AuthLayout from "../../components/common/components/AuthLayout";
 import profilePic from "../../assets/profile-pictur.png";
-import { getDoctorById } from "../../store/doctorStore";
 import { useRequiredValidation } from "../../hooks/useRequiredValidation";
 import ForgotPasswordLink from "../../components/common/components/ForgotPasswordLink";
 
-const LoginPage = () => {
+const AdminLoginPage = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
@@ -24,10 +22,7 @@ const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    role: "patient",
   });
-
-  // ✅ Single source of redirect truth
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -43,39 +38,23 @@ const LoginPage = () => {
     e.preventDefault();
     if (!validate(formData)) return;
 
-    let userData = {
+    const userData = {
       email: formData.email,
-      role: formData.role,
+      role: "admin",
       avatar: profilePic,
     };
 
-    if (formData.role === "doctor") {
-      const doctor = getDoctorById(formData.email); // fetch saved doctor
-      if (doctor) {
-        userData = {
-          ...doctor,
-          role: "doctor",
-          approvalNotified: doctor.approvalNotified ?? false,
-        };
-      } else {
-        alert("Doctor not found. Please signup first.");
-        return;
-      }
-    }
-
     setUser(userData);
-
-    if (formData.role === "patient") navigate("/patient/dashboard");
-    if (formData.role === "doctor") navigate("/doctor/redirect");
+    navigate("/admin/dashboard");
   };
 
   return (
     <AuthLayout image={illustration}>
       <form onSubmit={handleLogin}>
-        <div className="w-full max-w-md px-8 py-6 shadow-lg rounded-md bg-white">
+        <div className="w-full max-w-md px-20 pb-16 shadow-lg rounded-md bg-white ">
           <Title
-            heading="Doctor Recommendation & Appointment System"
-            subheading="Find the right doctor and manage appointments easily"
+            heading="Admin Login"
+            subheading="Restricted access for administrators"
           />
 
           <div className="mb-5">
@@ -103,34 +82,11 @@ const LoginPage = () => {
             <ForgotPasswordLink />
           </div>
 
-          <div className="mb-8">
-            <RadioGroup
-              label="Select Role"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              options={[
-                { label: "Patient", value: "patient" },
-                { label: "Doctor", value: "doctor" },
-              ]}
-            />
-          </div>
-
           <Button text="Login" type="submit" />
-
-          <p className="text-center text-sm text-gray-500 mt-6">
-            Don&apos;t have an account?
-            <Link
-              to="/signup"
-              className="text-blue-600 font-medium ml-1 hover:underline"
-            >
-              Sign up
-            </Link>
-          </p>
         </div>
       </form>
     </AuthLayout>
   );
 };
 
-export default LoginPage;
+export default AdminLoginPage;

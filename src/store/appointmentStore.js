@@ -40,12 +40,42 @@ export const getAppointmentsByPatient = (patientEmail) => {
 };
 
 export const updateAppointmentStatus = (id, status) => {
-  const appointments = getAppointments().map((a) => {
+  const appointments = getAppointments();
+
+  const updatedAppointments = appointments.map((a) => {
     if (a.id !== id) return a;
+
+    let queueNumber = a.queueNumber;
+    let arrivalTime = a.arrivalTime;
+
+    // 🔹 Only calculate when doctor ACCEPTS
+    if (status === "accepted") {
+      const sameDayAppointments = appointments.filter(
+        (ap) =>
+          ap.doctorId === a.doctorId &&
+          ap.date === a.date &&
+          ap.status === "accepted",
+      );
+
+      queueNumber = sameDayAppointments.length + 1;
+
+      // Doctor start time (example)
+      const startTime = new Date(`1970-01-01T14:00:00`);
+      const slotMinutes = 10;
+
+      const time = new Date(
+        startTime.getTime() + (queueNumber - 1) * slotMinutes * 60000,
+      );
+
+      arrivalTime = time.toTimeString().slice(0, 5);
+    }
 
     return {
       ...a,
-      status, // 🔴 KEEP STATUS AS IS
+      status,
+      queueNumber,
+      arrivalTime,
+
       timeline: [
         ...(a.timeline || []),
         {
@@ -56,8 +86,9 @@ export const updateAppointmentStatus = (id, status) => {
     };
   });
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedAppointments));
 };
+
 export const addAppointmentReview = (appointmentId, review) => {
   const appointments = getAppointments().map((a) =>
     a.id === appointmentId
