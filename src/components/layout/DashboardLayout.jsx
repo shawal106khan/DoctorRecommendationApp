@@ -11,7 +11,7 @@ const DashboardLayout = ({ children, role, onSearchDoctorClick }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const getUserImage = () => {
-    return user?.avatar || "/src/assets/profile-pictur.png";
+    return user?.avatar || "";
   };
 
   return (

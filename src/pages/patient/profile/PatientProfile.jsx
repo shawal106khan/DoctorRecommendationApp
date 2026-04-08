@@ -3,8 +3,6 @@ import { Camera, LogOut, ArrowLeft, Save, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/useAuth";
 
-const DEFAULT_AVATAR = "/src/assets/profile-pictur.png";
-
 const fileToBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -19,7 +17,7 @@ const PatientProfile = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(user?.name || "");
-  const [avatar, setAvatar] = useState(user?.avatar || DEFAULT_AVATAR);
+  const [avatar, setAvatar] = useState(user?.avatar);
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -76,12 +74,17 @@ const PatientProfile = () => {
       {/* Avatar */}
       <div className="flex flex-col items-center gap-4">
         <div className="relative">
-          <img
-            src={avatar}
-            alt="Profile"
-            className="w-32 h-32 rounded-full object-cover border shadow"
-          />
-
+          <div className="w-20 h-20 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+            {avatar ? (
+              <img
+                src={avatar}
+                alt="User"
+                className="w-16 h-16 rounded-full object-cover"
+              />
+            ) : (
+              <span>{user?.name?.[0]?.toUpperCase() || "U"}</span>
+            )}
+          </div>
           {isEditing && (
             <label className="absolute bottom-1 right-1 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700">
               <Camera size={16} className="text-white" />

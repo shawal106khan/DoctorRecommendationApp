@@ -47,14 +47,17 @@ const Topbar = ({ logoSrc, onMenuClick }) => {
             {userName}
           </span>
 
-          <img
-            src={userImage || "/src/assets/profile-pictur.png"}
-            onError={(e) =>
-              (e.currentTarget.src = "/src/assets/profile-pictur.png")
-            }
-            alt="User"
-            className="w-9 h-9 rounded-full object-cover"
-          />
+          <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+            {userImage ? (
+              <img
+                src={userImage}
+                alt="User"
+                className="w-9 h-9 rounded-full object-cover"
+              />
+            ) : (
+              <span>{user?.name?.[0]?.toUpperCase() || "U"}</span>
+            )}
+          </div>
 
           <ChevronDownIcon className="w-4 h-4 text-gray-600 hidden sm:block" />
         </button>
