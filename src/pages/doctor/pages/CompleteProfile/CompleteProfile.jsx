@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useAuth } from "../../../../context/useAuth";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../../context/useAuth";
 
 import ProfileStepper from "./ProfileStepper";
 import BasicInfoStep from "./steps/BasicInfoStep";
@@ -9,13 +9,22 @@ import AvailabilityStep from "./steps/AvailabilityStep";
 import LocationStep from "./steps/LocationStep";
 import VerificationStep from "./steps/VerificationStep";
 import ReviewStep from "./steps/ReviewStep";
-import { saveDoctor } from "../../../../store/doctorStore";
+import {
+  getCurrentUserId,
+  getDoctorIdByUser,
+  markProfileCompleted,
+  uploadDoctorProfileImage,
+  upsertDoctorAvailability,
+  upsertDoctorLocation,
+  upsertDoctorProfile,
+} from "../../../../services/doctorService";
 
-// ✅ Initial profile state
+// ? Initial profile state
 const initialProfile = {
   bio: "",
   languages: [],
   avatar: null,
+  gender: "",
   consultationFee: "",
   consultationType: "online",
   availableDays: [],
@@ -24,6 +33,9 @@ const initialProfile = {
   slotDuration: 30,
   address: "",
   city: "",
+  hospitalName: "",
+  landmark: "",
+  mapLink: "",
 };
 
 const steps = [
@@ -36,29 +48,56 @@ const steps = [
 ];
 
 const CompleteProfile = () => {
-  const { setUser } = useAuth();
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   const [profile, setProfile] = useState(initialProfile);
   const [currentStep, setCurrentStep] = useState(0);
 
   const next = () => setCurrentStep((s) => s + 1);
   const back = () => setCurrentStep((s) => s - 1);
 
-  const finishProfile = () => {
-    setUser((prev) => {
-      const updatedDoctor = {
+  useEffect(() => {
+    if (!profile.avatar) return;
+    // Show preview in Topbar while completing profile
+    setUser((prev) => ({ ...prev, avatar: profile.avatar }));
+  }, [profile.avatar, setUser]);
+
+  const finishProfile = async () => {
+    try {
+      const userId = await getCurrentUserId();
+      const doctorsId = await getDoctorIdByUser(userId);
+
+      let profilePicUrl = null;
+      if (profile.avatarFile) {
+        profilePicUrl = await uploadDoctorProfileImage(
+          userId,
+          profile.avatarFile,
+        );
+      }
+      const language = profile.languages.join(", ");
+
+      await upsertDoctorProfile(doctorsId, {
+        profile_pic_url: profilePicUrl,
+        bio: profile.bio,
+        gender: profile.gender,
+        language,
+      });
+      await upsertDoctorAvailability(doctorsId, profile);
+      await upsertDoctorLocation(doctorsId, profile);
+
+      await markProfileCompleted(doctorsId);
+
+      setUser((prev) => ({
         ...prev,
-        profileCompleted: true,
-        avatar: profile.avatar ?? prev.avatar,
-        role: "doctor", // 🔹 Always include role
-      };
+        avatar: profilePicUrl || profile.avatar || prev?.avatar || null,
+      }));
 
-      saveDoctor(updatedDoctor);
-      return updatedDoctor;
-    });
-
-    navigate("/doctor/dashboard", { replace: true });
+      navigate("/doctor/dashboard", { replace: true });
+    } catch (err) {
+      alert(err.message || "Something went Wrong");
+    }
   };
+  console.log(profile);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">

@@ -3,19 +3,35 @@ import { useAuth } from "../../../../context/useAuth";
 import ProfileSection from "./components/ProfileSection";
 import AvatarUpload from "../../../../components/common/components/AvatarUpload";
 import Input from "../../../../components/common/components/Input";
-import { saveDoctor } from "../../../../store/doctorStore";
+import { dayToNumber, numberToDay } from "../../../../utils/dayMap";
+import {
+  getCurrentUserId,
+  getDoctorIdByUser,
+  updateDoctorProfileFromEdit,
+} from "../../../../services/doctorService";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const DoctorProfileEdit = ({ onCancel }) => {
-  const { user, setUser } = useAuth();
+  const { user, setUser, doctorProfile, setDoctorProfile } = useAuth();
+  const initial = doctorProfile || {};
   const profile = {
-    ...user.profile,
-    avatar: user.avatar, // ✅ ALWAYS USE GLOBAL AVATAR
+    avatar: user?.avatar,
+    bio: initial.basic?.doctor_bio || "",
+    clinicName: initial.location?.hospital_name || "",
+    address: initial.location?.address || "",
+    city: initial.location?.city || "",
+    mapLink: initial.location?.google_maps_link || "",
+    availableDays:
+      initial.availability?.map((a) => numberToDay[a.day_of_week]) || [],
+    startTime: initial.availability?.[0]?.start_time || "",
+    endTime: initial.availability?.[0]?.end_time || "",
+    slotDuration: initial.availability?.[0]?.slot_duration_minutes || 15,
   };
 
   const [form, setForm] = useState({
     avatar: profile.avatar || null,
+    avatarFile: null,
 
     bio: profile.bio || "",
     clinicName: profile.clinicName || "",
@@ -39,48 +55,61 @@ const DoctorProfileEdit = ({ onCancel }) => {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const userId = await getCurrentUserId();
+    const doctorsId = await getDoctorIdByUser(userId);
+    const result = await updateDoctorProfileFromEdit(doctorsId, userId, form);
+
+    setDoctorProfile({
+      basic: { doctor_bio: form.bio, language: "" },
+      professional: doctorProfile?.professional || null,
+      availability: form.availableDays.map((d) => ({
+        day_of_week: dayToNumber[d],
+        start_time: form.startTime,
+        end_time: form.endTime,
+        slot_duration_minutes: form.slotDuration,
+      })),
+      location: {
+        hospital_name: form.clinicName,
+        address: form.address,
+        city: form.city,
+        google_maps_link: form.mapLink,
+      },
+    });
 
     setUser((prev) => ({
       ...prev,
-
-      // ✅ GLOBAL AVATAR (dashboard, topbar, everywhere)
-      avatar: form.avatar ?? prev.avatar,
-
-      profile: {
-        ...prev.profile,
-        ...form,
-        avatar: form.avatar ?? prev.avatar, // keep synced
-      },
+      avatar: result.profilePicUrl || prev?.avatar || null,
     }));
 
-    const updatedDoctor = {
-      id: user.id,
-      name: user.name,
-      specialization: user.specialization,
-      experienceYears: user.experienceYears,
-      qualification: user.qualification,
-      hospitalName: user.hospitalName,
-      phone: user.phone,
-      avatar: form.avatar ?? user.avatar,
+    // const updatedDoctor = {
+    //   id: user.id,
+    //   name: user.name,
+    //   specialization: user.specialization,
+    //   experienceYears: user.experienceYears,
+    //   qualification: user.qualification,
+    //   hospitalName: user.hospitalName,
+    //   phone: user.phone,
+    //   avatar: form.avatar ?? user.avatar,
 
-      profile: {
-        bio: form.bio,
-        clinicName: form.clinicName,
-        address: form.address,
-        city: form.city,
-        mapLink: form.mapLink,
-        availableDays: form.availableDays,
-        startTime: form.startTime,
-        endTime: form.endTime,
-        slotDuration: form.slotDuration,
-      },
+    //   profile: {
+    //     bio: form.bio,
+    //     clinicName: form.clinicName,
+    //     address: form.address,
+    //     city: form.city,
+    //     mapLink: form.mapLink,
+    //     availableDays: form.availableDays,
+    //     startTime: form.startTime,
+    //     endTime: form.endTime,
+    //     slotDuration: form.slotDuration,
+    //   },
 
-      verified: true, // admin will control later
-    };
+    //   verified: true, // admin will control later
+    // };
 
-    saveDoctor(updatedDoctor);
+    // saveDoctor(updatedDoctor);
     onCancel();
   };
 
@@ -91,7 +120,8 @@ const DoctorProfileEdit = ({ onCancel }) => {
           image={form.avatar}
           onChange={(file) => {
             const preview = URL.createObjectURL(file);
-            update("avatar", preview); // ✅ STRING ONLY
+            update("avatar", preview); // STRING ONLY
+            update("avatarFile", file);
           }}
         />
       </ProfileSection>

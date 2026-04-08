@@ -1,9 +1,32 @@
+import { useEffect, useState } from "react";
 import Button from "../../../../../components/common/components/Button";
-import { useAuth } from "../../../../../context/useAuth";
+// import { useAuth } from "../../../../../context/useAuth";
 import Title from "../../../../../components/common/components/Title";
+import { getCurrentUser } from "../../../../../services/authService";
+import { fetchDoctorProfessionalInfo } from "../../../../../services/doctorService";
+// import LoadingText from "../../../../../components/common/components/LoadingText";
+import LoadingSpinner from "../../../../../components/common/components/LoadingSpinner";
 const ProfessionalStep = ({ onNext, onBack }) => {
-  const { user } = useAuth();
-  console.log("USER IN PRO STEP:", user);
+  // const { user } = useAuth();
+  // console.log("USER IN PRO STEP:", user);
+  const [info, setInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const userId = await getCurrentUser();
+        const data = await fetchDoctorProfessionalInfo(userId);
+        setInfo(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
+
   return (
     <div className="max-w-md  mx-auto p-6">
       <Title
@@ -11,17 +34,23 @@ const ProfessionalStep = ({ onNext, onBack }) => {
         subheading="These details were provided during signup and verified by admin."
       />
 
-      <div className="grid grid-cols-2 gap-6 bg-gray-50 p-10 rounded-lg shadow-lg shadow-gray-200 ">
-        <Info label="Specialization" value={user.specialization} />
-        <Info
-          label="Experience"
-          value={user?.experienceYears ? `${user.experienceYears} years` : null}
-        />
-        <Info label="Qualification" value={user.qualification} />
-        <Info label="Hospital" value={user.hospitalName} />
-        <Info label="License Number" value={user.licenseNumber} />
-        <Info label="Phone" value={user.phone} />
-      </div>
+      {loading ? (
+        // <LoadingText text="Loading professional info..." />
+        <LoadingSpinner text="Loading doctors..." />
+      ) : (
+        <div className="grid grid-cols-2 gap-6 bg-gray-50 p-10 rounded-lg shadow-lg shadow-gray-200 ">
+          <Info label="Specialization" value={info?.specializationName} />
+          <Info
+            label="Experience"
+            value={
+              info?.experience_years ? `${info.experience_years} years` : null
+            }
+          />
+          <Info label="Qualification" value={info?.qualifications} />
+          <Info label="License Number" value={info?.license_number} />
+          <Info label="Phone" value={info?.phone_number} />
+        </div>
+      )}
 
       <div className="mt-8 flex justify-between text-sm">
         <span

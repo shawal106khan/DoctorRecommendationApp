@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Button from "../../../../../components/common/components/Button";
 import Input from "../../../../../components/common/components/Input";
 import Title from "../../../../../components/common/components/Title";
@@ -5,15 +6,21 @@ import { useRequiredValidation } from "../../../../../hooks/useRequiredValidatio
 
 const LocationStep = ({ profile, setProfile, onNext, onBack }) => {
   const { errors, validate, setErrors } = useRequiredValidation({
-    clinicName: "Clinic name is required",
+    hospitalName: "Clinic name is required",
     address: "Address is required",
     city: "City is required",
     landmark: "Landmark is required",
   });
 
+  useEffect(() => {
+    if (profile?.clinicName && !profile?.hospitalName) {
+      setProfile({ ...profile, hospitalName: profile.clinicName });
+    }
+  }, [profile, setProfile]);
+
   const handleNext = () => {
     const isValid = validate({
-      clinicName: profile.clinicName,
+      hospitalName: profile.hospitalName,
       address: profile.address,
       city: profile.city,
       landmark: profile.landmark,
@@ -30,14 +37,14 @@ const LocationStep = ({ profile, setProfile, onNext, onBack }) => {
         subheading="Help patients easily find your clinic"
       />
       <Input
-        label="Clinic Name"
-        error={errors.clinicName}
-        placeholder="e.g. City Health Clinic"
-        value={profile.clinicName || ""}
+        label="Hospital Name"
+        error={errors.hospitalName}
+        placeholder="e.g. City Health Hospital"
+        value={profile.hospitalName || ""}
         onChange={(e) => {
-          setProfile({ ...profile, clinicName: e.target.value });
-          if (errors.clinicName) {
-            setErrors((prev) => ({ ...prev, clinicName: null }));
+          setProfile({ ...profile, hospitalName: e.target.value });
+          if (errors.hospitalName) {
+            setErrors((prev) => ({ ...prev, hospitalName: null }));
           }
         }}
       />

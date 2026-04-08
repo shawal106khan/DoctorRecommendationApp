@@ -18,7 +18,7 @@ export const doctorRoutes = [
     element: <PendingApproval />,
   },
   {
-    path: "/doctor/approved",
+    path: "/doctor/approvedSuccess",
     element: <ApprovedSuccess />,
   },
   {

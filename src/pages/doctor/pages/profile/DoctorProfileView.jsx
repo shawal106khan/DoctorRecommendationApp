@@ -1,75 +1,150 @@
+import { useEffect, useState } from "react";
 import { useAuth } from "../../../../context/useAuth";
 import ProfileHeader from "./components/ProfileHeader";
 import ProfileSection from "./components/ProfileSection";
+import { getCurrentUser } from "../../../../services/authService";
+import { getDoctorByUserId } from "../../../../services/userService";
+import {
+  fetchDoctorAvailability,
+  fetchDoctorLocation,
+  fetchDoctorProfessionalInfo,
+  fetchDoctorProfileBasic,
+} from "../../../../services/doctorService";
+import LoadingSpinner from "../../../../components/common/components/LoadingSpinner";
+import { buildDoctorHeaderUser } from "../../../../services/doctorService";
+import { formatAvailability } from "../../../../utils/availabilityFormat";
 
 const DoctorProfileView = ({ onEdit }) => {
-  const { user } = useAuth();
-  const profile = user?.profile || {};
+  const { user, doctorProfile, setDoctorProfile } = useAuth();
 
-  const formatTime = (time) => {
-    if (!time) return "—";
-    const [h, m] = time.split(":");
-    const hour = Number(h);
-    const suffix = hour >= 12 ? "PM" : "AM";
-    const formatted = hour % 12 || 12;
-    return `${formatted}:${m} ${suffix}`;
-  };
+  const [basicInfo, setBasicInfo] = useState(null);
+  const [professionalInfo, setProfessionalInfo] = useState(null);
+  const [availabilityInfo, setAvailabilityInfo] = useState([]);
+  const [locationInfo, setLocationInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const { days, time, slot } = formatAvailability(availabilityInfo);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        if (doctorProfile) {
+          setBasicInfo(doctorProfile.basic);
+          setProfessionalInfo(doctorProfile.professional);
+          setAvailabilityInfo(doctorProfile.availability);
+          setLocationInfo(doctorProfile.location);
+          setLoading(false);
+          return;
+        }
+
+        const userId = await getCurrentUser();
+        const doctor = await getDoctorByUserId(userId);
+
+        const [basic, professional, availability, location] = await Promise.all(
+          [
+            fetchDoctorProfileBasic(doctor.doctors_id),
+            fetchDoctorProfessionalInfo(userId),
+            fetchDoctorAvailability(doctor.doctors_id),
+            fetchDoctorLocation(doctor.doctors_id),
+          ],
+        );
+
+        setBasicInfo(basic);
+        setProfessionalInfo(professional);
+        setAvailabilityInfo(availability);
+        setLocationInfo(location);
+
+        // ✅ cache for next time
+        setDoctorProfile({
+          basic,
+          professional,
+          availability,
+          location,
+        });
+      } catch (err) {
+        alert("Failed to load profile: " + err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    load();
+  }, [doctorProfile, setDoctorProfile]);
+
+  const headerUser = buildDoctorHeaderUser({
+    user,
+    professionalInfo,
+    avatarUrl: user?.avatar,
+  });
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 font-serif">
-      <ProfileHeader user={user} onEdit={onEdit} />
+      {loading ? (
+        <LoadingSpinner text="Loading profile..." />
+      ) : (
+        <div>
+          <ProfileHeader user={headerUser} onEdit={onEdit} />
 
-      {/* About */}
-      <ProfileSection title="About">
-        <p className="text-sm text-gray-600 leading-relaxed ">
-          {profile.bio || "No bio added yet."}
-        </p>
-      </ProfileSection>
+          {/* About */}
+          <ProfileSection title="About">
+            <p className="text-sm text-gray-600 leading-relaxed ">
+              {basicInfo?.doctor_bio || "No bio added yet."}
+            </p>
+          </ProfileSection>
 
-      {/* Professional Info */}
-      <ProfileSection title="Professional Details">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 ">
-          <Info label="Specialization" value={user?.specialization} />
-          <Info
-            label="Experience"
-            value={`${user?.experienceYears || 0} years`}
-          />
-          <Info label="Qualification" value={user?.qualification} />
-          <Info label="Hospital" value={user?.hospitalName} />
-          <Info label="License No" value={user?.licenseNumber} />
-          <Info label="Phone" value={user?.phone} />
+          {/* Professional Info */}
+          <ProfileSection title="Professional Details">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 ">
+              <Info
+                label="Specialization"
+                value={professionalInfo?.specializationName}
+              />
+              <Info
+                label="Experience"
+                value={`${professionalInfo?.experience_years || 0} years`}
+              />
+              <Info
+                label="Qualification"
+                value={professionalInfo?.qualifications}
+              />
+
+              <Info
+                label="License No"
+                value={professionalInfo?.license_number}
+              />
+              <Info label="Phone" value={professionalInfo?.phone_number} />
+            </div>
+          </ProfileSection>
+
+          {/* Availability */}
+          <ProfileSection title="Availability">
+            <div className="text-sm text-gray-500 mt-1">
+              <p>{days}</p>
+              <p>
+                {time} • {slot}
+              </p>
+            </div>
+          </ProfileSection>
+
+          {/* Location */}
+          <ProfileSection title="Hospital Location">
+            <p className="text-base text-gray-700">
+              {locationInfo?.hospital_name}, {locationInfo?.address},{" "}
+              {locationInfo?.city}, {locationInfo?.landmark}
+            </p>
+            {locationInfo?.google_maps_link && (
+              <a
+                href={locationInfo.google_maps_link}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block mt-2 text-sm text-blue-600 underline"
+              >
+                View on Google Maps
+              </a>
+            )}
+          </ProfileSection>
         </div>
-      </ProfileSection>
-
-      {/* Availability */}
-      <ProfileSection title="Availability">
-        <p className="text-base text-gray-700">
-          {profile.availableDays?.length
-            ? profile.availableDays.join(", ")
-            : "—"}
-        </p>
-        <p className="text-sm text-gray-500 mt-1">
-          {formatTime(profile.startTime)} – {formatTime(profile.endTime)} •{" "}
-          {profile.slotDuration || "—"} mins
-        </p>
-      </ProfileSection>
-
-      {/* Location */}
-      <ProfileSection title="Clinic Location">
-        <p className="text-base text-gray-700">{profile.clinicName}</p>
-        <p className="text-sm text-gray-500 ">{profile.address}</p>
-        <p className="text-sm text-gray-500 ">{profile.city}</p>
-        {profile.mapLink && (
-          <a
-            href={profile.mapLink}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-block mt-2 text-sm text-blue-600 underline"
-          >
-            View on Google Maps
-          </a>
-        )}
-      </ProfileSection>
+      )}
     </div>
   );
 };

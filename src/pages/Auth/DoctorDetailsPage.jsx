@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/useAuth";
+// import { useAuth } from "../../context/useAuth";
 
 import Input from "../../components/common/components/Input";
 import Button from "../../components/common/components/Button";
@@ -10,18 +10,21 @@ import AuthLayout from "../../components/common/components/AuthLayout";
 import illustration from "../../assets/signup_img.png";
 
 import { useRequiredValidation } from "../../hooks/useRequiredValidation";
-
+import {
+  fetchSpecializations,
+  insertDoctorDetails,
+} from "../../services/doctorService";
+import { getCurrentUserProfile } from "../../services/authService";
 const DoctorDetailsPage = () => {
   const navigate = useNavigate();
-  const { user, setUser } = useAuth(); // ✅ ADD THIS
-
+  // const { user } = useAuth(); // ✅ ADD THIS
+  const [specializations, setSpecializations] = useState([]);
   const [formData, setFormData] = useState({
     phone: "",
     specialization: "",
-    otherSpecialization: "",
     license: "",
     experience: "",
-    hospital: "",
+
     qualification: "",
   });
 
@@ -30,9 +33,21 @@ const DoctorDetailsPage = () => {
     specialization: "Specialization is required",
     license: "License number is required",
     experience: "Experience is required",
-    hospital: "Hospital name is required",
+
     qualification: "Qualification is required",
   });
+
+  useEffect(() => {
+    const loadSpecializations = async () => {
+      try {
+        const data = await fetchSpecializations();
+        setSpecializations(data);
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+    loadSpecializations();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -44,29 +59,41 @@ const DoctorDetailsPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate(formData)) return; // Validate required fields
     // ✅ NORMALIZE DATA (backend-ready)
-    const specialization =
-      formData.specialization === "other"
-        ? formData.otherSpecialization
-        : formData.specialization;
+    // const specialization =
+    //   formData.specialization === "other"
+    //     ? formData.otherSpecialization
+    //     : formData.specialization;
 
     // ✅ SAVE INTO AUTH USER
-    setUser({
-      ...user,
-      phone: formData.phone,
-      specialization,
-      experienceYears: Number(formData.experience) || 0,
-      hospitalName: formData.hospital,
-      qualification: formData.qualification,
-      licenseNumber: formData.license,
-      role: "doctor",
-      isApproved: false,
-      profileCompleted: false,
-    });
+    // setUser({
+    //   ...user,
+    //   phone: formData.phone,
+    //   specialization,
+    //   experienceYears: Number(formData.experience) || 0,
+    //   hospitalName: formData.hospital,
+    //   qualification: formData.qualification,
+    //   licenseNumber: formData.license,
+    //   role: "doctor",
+    //   isApproved: false,
+    //   profileCompleted: false,
+    // });
+    const user = await getCurrentUserProfile();
+    const userId = user.id;
+    const fullName = user.user_metadata?.full_name || "";
 
+    await insertDoctorDetails({
+      userId,
+      fullName,
+      phone: formData.phone,
+      specializationId: formData.specialization,
+      license: formData.license,
+      experience: formData.experience,
+      qualification: formData.qualification,
+    });
     navigate("/signup/doctor-verification");
   };
 
@@ -95,17 +122,13 @@ const DoctorDetailsPage = () => {
               name="specialization"
               value={formData.specialization}
               onChange={handleChange}
-              options={[
-                { label: "Cardiologist", value: "Cardiologist" },
-                { label: "Dermatologist", value: "Dermatologist" },
-                { label: "Neurologist", value: "Neurologist" },
-                { label: "Orthopedic Surgeon", value: "Orthopedic Surgeon" },
-                { label: "General Physician", value: "General Physician" },
-                { label: "Other", value: "other" },
-              ]}
+              options={specializations.map((s) => ({
+                label: s.name,
+                value: s.specialization_id,
+              }))}
             />
           </div>
-
+          {/* 
           {formData.specialization === "other" && (
             <Input
               label="Other Specialization"
@@ -115,7 +138,7 @@ const DoctorDetailsPage = () => {
               value={formData.otherSpecialization}
               onChange={handleChange}
             />
-          )}
+          )} */}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
@@ -136,15 +159,6 @@ const DoctorDetailsPage = () => {
               onChange={handleChange}
             />
           </div>
-
-          <Input
-            label="Hospital Name"
-            error={errors.hospital}
-            name="hospital"
-            placeholder="Enter your hospital name"
-            value={formData.hospital}
-            onChange={handleChange}
-          />
 
           <Input
             label="Qualification"

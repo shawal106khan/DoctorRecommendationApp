@@ -8,14 +8,19 @@ import Title from "../../components/common/components/Title";
 
 import illustration from "../../assets/signup_img.png";
 import AuthLayout from "../../components/common/components/AuthLayout";
-import { useAuth } from "../../context/useAuth";
-
+// import { useAuth } from "../../context/useAuth";
 import { useRequiredValidation } from "../../hooks/useRequiredValidation";
-import { savePatient } from "../../store/patientStore";
+// import { savePatient } from "../../store/patientStore";
+import { loginWithEmail, signupWithEmail } from "../../services/authService";
+import {
+  getDoctorByUserId,
+  getPatientByUserId,
+  insertPatient,
+} from "../../services/userService";
 
 const SignupPage = () => {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  // const { setUser } = useAuth();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -41,7 +46,7 @@ const SignupPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate(formData)) return; // Validate required fields
 
@@ -50,29 +55,66 @@ const SignupPage = () => {
       return;
     }
     // ✅ SAVE BASIC USER INFO
-    setUser((prev) => ({
-      ...prev,
-      name: formData.fullName, // 🔥 FIX
-      email: formData.email, // 🔥 FIX
-      role: formData.role,
-    }));
+    // setUser((prev) => ({
+    //   ...prev,
+    //   name: formData.fullName, // 🔥 FIX
+    //   email: formData.email, // 🔥 FIX
+    //   role: formData.role,
+    // }));
 
-    // ✅ IMPORTANT: Save patient in localStorage for admin stats
-    if (formData.role === "patient") {
-      savePatient({
-        name: formData.fullName,
-        email: formData.email,
-        role: "patient",
-      });
+    let user = null;
+    let isNewUser = false;
+
+    try {
+      const signup = await signupWithEmail(
+        formData.email,
+        formData.password,
+        formData.fullName,
+      );
+      user = signup.user;
+      isNewUser = true;
+    } catch (err) {
+      if (err?.message?.toLowerCase().includes("user already registered")) {
+        const login = await loginWithEmail(formData.email, formData.password);
+        user = login.user;
+      } else {
+        alert(err.message || "Signup failed. Please try again.");
+        return;
+      }
     }
-    // ✅ Navigation
-    if (formData.role === "doctor") {
-      navigate("/signup/doctor-info");
-    } else {
+
+    if (!user?.id) {
+      alert("Signup/login failed. Please try again.");
+      return;
+    }
+
+    if (formData.role === "patient") {
+      if (isNewUser) {
+        await insertPatient(user.id, formData.fullName);
+      } else {
+        const existingPatient = await getPatientByUserId(user.id);
+        if (existingPatient) {
+          alert("Patient account already exists.");
+          return;
+        }
+        await insertPatient(user.id, formData.fullName);
+      }
       navigate("/signup/success");
+      return;
+    }
+
+    if (formData.role === "doctor") {
+      if (!isNewUser) {
+        const existingDoctor = await getDoctorByUserId(user.id);
+        if (existingDoctor) {
+          alert("Doctor account already exists.");
+          return;
+        }
+      }
+      navigate("/signup/doctor-info");
     }
   };
-
+  console.log("loading......");
   return (
     <AuthLayout image={illustration}>
       <div className="w-full max-w-md p-9 shadow-lg rounded-md bg-white">
@@ -127,7 +169,10 @@ const SignupPage = () => {
               name="confirmPassword"
             />
           </div>
-
+          <p className="text-xs text-gray-500 mt-1 mb-3">
+            Note: If you already have an account with this email, use the same
+            password to add another role.
+          </p>
           {/* Role Selection */}
           <RadioGroup
             label="Select Role"

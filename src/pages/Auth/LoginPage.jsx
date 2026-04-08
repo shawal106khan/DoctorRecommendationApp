@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/common/components/Button";
 import Input from "../../components/common/components/Input";
@@ -7,10 +7,13 @@ import Title from "../../components/common/components/Title";
 import { useAuth } from "../../context/useAuth";
 import illustration from "../../assets/LoginPage-img.png";
 import AuthLayout from "../../components/common/components/AuthLayout";
-import profilePic from "../../assets/profile-pictur.png";
-import { getDoctorById } from "../../store/doctorStore";
 import { useRequiredValidation } from "../../hooks/useRequiredValidation";
 import ForgotPasswordLink from "../../components/common/components/ForgotPasswordLink";
+import { getCurrentUser, loginWithEmail } from "../../services/authService";
+import {
+  getDoctorByUserId,
+  getPatientByUserId,
+} from "../../services/userService";
 
 const LoginPage = () => {
   const { setUser } = useAuth();
@@ -39,34 +42,38 @@ const LoginPage = () => {
     }
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (!validate(formData)) return;
 
-    let userData = {
-      email: formData.email,
-      role: formData.role,
-      avatar: profilePic,
-    };
+    try {
+      await loginWithEmail(formData.email, formData.password);
+      const userId = await getCurrentUser();
 
-    if (formData.role === "doctor") {
-      const doctor = getDoctorById(formData.email); // fetch saved doctor
-      if (doctor) {
-        userData = {
-          ...doctor,
-          role: "doctor",
-          approvalNotified: doctor.approvalNotified ?? false,
-        };
-      } else {
-        alert("Doctor not found. Please signup first.");
+      if (formData.role === "patient") {
+        try {
+          const patient = await getPatientByUserId(userId);
+          setUser({ ...patient, role: "patient", avatar: null });
+          navigate("/patient/dashboard");
+        } catch (err) {
+          alert(err.message);
+        }
         return;
       }
+
+      if (formData.role === "doctor") {
+        try {
+          const doctor = await getDoctorByUserId(userId);
+          setUser({ ...doctor, role: "doctor", avatar: null });
+          navigate("/doctor/redirect");
+        } catch (err) {
+          alert(err.message);
+        }
+        return;
+      }
+    } catch (err) {
+      alert(err.message);
     }
-
-    setUser(userData);
-
-    if (formData.role === "patient") navigate("/patient/dashboard");
-    if (formData.role === "doctor") navigate("/doctor/redirect");
   };
 
   return (

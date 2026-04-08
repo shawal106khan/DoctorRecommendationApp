@@ -4,12 +4,17 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/components/Button";
 import Title from "../../components/common/components/Title";
 
-import illustration from "../../assets/signup_img.png"; // left illustration
+import illustration from "../../assets/signup_img.png";
 import AuthLayout from "../../components/common/components/AuthLayout";
 
 import { useRequiredValidation } from "../../hooks/useRequiredValidation";
-import { useAuth } from "../../context/useAuth";
-import { saveDoctor } from "../../store/doctorStore";
+// import { supabase } from "../../lib/supabase";
+import { getCurrentUser } from "../../services/authService";
+import { getDoctorByUserId } from "../../services/userService";
+import {
+  uploadDoctorLicense,
+  upsertDoctorLicense,
+} from "../../services/licenseService";
 
 const DoctorVerification = () => {
   const navigate = useNavigate();
@@ -20,39 +25,35 @@ const DoctorVerification = () => {
   });
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
+    if (!file) return;
+
     setLicenseFile(file);
+
     console.log("Selected file:", file);
+    console.log("Type:", file.type);
+    console.log("Size:", file.size);
   };
 
-  const { user } = useAuth();
-
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!validate({ licenseFile })) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const licenseFileBase64 = reader.result; // This is base64
+    try {
+      // 1️⃣ Get logged in user
+      const userId = await getCurrentUser();
+      const doctor = await getDoctorByUserId(userId);
+      const doctorsId = doctor.doctors_id;
 
-      saveDoctor({
-        id: user.email,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        specialization: user.specialization,
-        experienceYears: user.experienceYears,
-        hospitalName: user.hospitalName,
-        qualification: user.qualification,
-        licenseNumber: user.licenseNumber,
-        licenseFileName: licenseFile.name,
-        licenseFileURL: licenseFileBase64, // store base64
-        isApproved: false,
-      });
+      // 2️⃣ Generate secure file path
+      const filePath = await uploadDoctorLicense(userId, licenseFile);
+      await upsertDoctorLicense(doctorsId, filePath);
 
+      // 5 Navigate to pending approval page
       navigate("/pending-approval");
-    };
-
-    reader.readAsDataURL(licenseFile); // converts file to base64
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -63,7 +64,6 @@ const DoctorVerification = () => {
           subheading="Upload your medical license for admin approval"
         />
 
-        {/* Upload Card */}
         <label
           htmlFor="licenseUpload"
           className="mt-8 flex flex-col items-center justify-center
@@ -104,16 +104,15 @@ const DoctorVerification = () => {
             onChange={handleFileChange}
           />
         </label>
+
         {errors.licenseFile && (
           <span className="text-red-500 text-xs">{errors.licenseFile}</span>
         )}
 
-        {/* Action */}
         <div className="mt-10">
           <Button text="Next" type="button" onClick={handleNext} />
         </div>
 
-        {/* Progress */}
         <div className="flex justify-center gap-2 mt-8">
           <span className="w-6 h-1 bg-blue-600 rounded"></span>
           <span className="w-6 h-1 bg-blue-600 rounded"></span>

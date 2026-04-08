@@ -6,10 +6,11 @@ import Title from "../../components/common/components/Title";
 import { useAuth } from "../../context/useAuth";
 import illustration from "../../assets/LoginPage-img.png";
 import AuthLayout from "../../components/common/components/AuthLayout";
-import profilePic from "../../assets/profile-pictur.png";
+// import profilePic from "../../assets/profile-pictur.png";
 import { useRequiredValidation } from "../../hooks/useRequiredValidation";
 import ForgotPasswordLink from "../../components/common/components/ForgotPasswordLink";
-
+import { loginWithEmail } from "../../services/authService";
+import { getAdminByUserId } from "../../services/adminService";
 const AdminLoginPage = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
@@ -34,18 +35,24 @@ const AdminLoginPage = () => {
     }
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (!validate(formData)) return;
 
-    const userData = {
-      email: formData.email,
-      role: "admin",
-      avatar: profilePic,
-    };
+    const data = await loginWithEmail(formData.email, formData.password);
+    const userId = data.user.id;
+    const admin = await getAdminByUserId(userId);
 
-    setUser(userData);
+    setUser({ ...admin, role: "admin" });
     navigate("/admin/dashboard");
+    // const userData = {
+    //   email: formData.email,
+    //   role: "admin",
+    //   avatar: profilePic,
+    // };
+
+    // setUser(userData);
+    // navigate("/admin/dashboard");
   };
 
   return (

@@ -1,19 +1,20 @@
 const ProfileHeader = ({ user, onEdit, hideEdit = false }) => {
   const avatar = user?.avatar;
 
-  const getAvatarSrc = () => {
-    if (!avatar) return "/src/assets/profile-pictur.png";
-    return avatar;
-  };
-
   return (
     <div className="bg-blue-50 rounded-lg shadow shadow-slate-300 p-6 flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <img
-          src={getAvatarSrc()}
-          alt="Doctor"
-          className="w-20 h-20 rounded-full object-cover border"
-        />
+        {avatar ? (
+          <img
+            src={avatar}
+            alt="Doctor"
+            className="w-20 h-20 rounded-full object-cover border"
+          />
+        ) : (
+          <div className="w-20 h-20 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold border">
+            {user?.name?.[0]?.toUpperCase() || "U"}
+          </div>
+        )}
 
         <div>
           <h2 className="text-lg font-semibold text-gray-800">
@@ -22,7 +23,6 @@ const ProfileHeader = ({ user, onEdit, hideEdit = false }) => {
           <p className="text-sm text-gray-500">
             {user?.specialization || "Specialization"}
           </p>
-          <p className="text-xs text-gray-400">{user?.hospitalName}</p>
         </div>
       </div>
 
