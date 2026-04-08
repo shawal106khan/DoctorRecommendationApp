@@ -26,7 +26,8 @@ const PatientDashboard = () => {
 
     return allDoctors.filter(
       (doctor) =>
-        doctor.status === "approved" && doctor.profileCompleted === true,
+        doctor.status === "approved" &&
+        (doctor.profile_completed ?? doctor.profileCompleted) === true,
     );
   }, []);
   const {

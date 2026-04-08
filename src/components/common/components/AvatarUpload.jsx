@@ -2,7 +2,7 @@ import { Camera } from "lucide-react";
 
 const AvatarUpload = ({ image, onChange }) => {
   const getImageSrc = () => {
-    if (!image) return "/src/assets/profile-pictur.png";
+    if (!image) return null;
 
     // File upload (before backend)
     if (image instanceof File) {
@@ -14,17 +14,23 @@ const AvatarUpload = ({ image, onChange }) => {
       return image;
     }
 
-    return "/src/assets/profile-pictur.png";
+    return null;
   };
 
   return (
     <div className="flex justify-center mb-6">
       <div className="relative w-32 h-32">
-        <img
-          src={getImageSrc()}
-          alt="Profile"
-          className="w-full h-full rounded-full object-cover border"
-        />
+        {getImageSrc() ? (
+          <img
+            src={getImageSrc()}
+            alt="Profile"
+            className="w-full h-full rounded-full object-cover border"
+          />
+        ) : (
+          <div className="w-full h-full rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+            U
+          </div>
+        )}
 
         <label className="absolute bottom-2 right-2 bg-blue-600 p-2 rounded-full cursor-pointer shadow">
           <Camera size={16} className="text-white" />

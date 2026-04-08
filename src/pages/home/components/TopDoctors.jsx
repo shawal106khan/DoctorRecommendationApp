@@ -8,7 +8,9 @@ const TopDoctors = () => {
 
     return allDoctors
       .filter(
-        (doc) => doc.status === "approved" && doc.profileCompleted === true,
+        (doc) =>
+          doc.status === "approved" &&
+          (doc.profile_completed ?? doc.profileCompleted) === true,
       )
       .sort((a, b) => (b.rating || 0) - (a.rating || 0))
       .slice(0, 6);
