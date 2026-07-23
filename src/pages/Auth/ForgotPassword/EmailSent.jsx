@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
+
 import Button from "../../../components/common/components/Button";
+
 import Title from "../../../components/common/components/Title";
+
 import AuthLayout from "../../../components/common/components/AuthLayout";
 
 import illustration from "../../../assets/LoginPage-img.png";
@@ -21,7 +24,11 @@ const EmailSent = () => {
         </p>
 
         <div className="mt-8">
-          <Button text="Back to Login" onClick={() => navigate("/login")} />
+          <Button
+            type="button"
+            text="Back to Login"
+            onClick={() => navigate("/login")}
+          />
         </div>
       </div>
     </AuthLayout>

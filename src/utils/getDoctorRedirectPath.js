@@ -3,7 +3,7 @@ export const getDoctorRedirectPath = (user) => {
     return "/doctor/pending-approval";
   }
 
-  if (!user.profileCompleted) {
+  if (!(user.profile_completed ?? user.profileCompleted)) {
     return "/doctor/complete-profile";
   }
 

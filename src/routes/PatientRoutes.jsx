@@ -1,10 +1,11 @@
 import ProtectedRoute from "./ProtectedRoute";
 import PatientDashboard from "../pages/patient/PatientDashboard";
-
 import PatientProfile from "../pages/patient/profile/PatientProfile";
 import DoctorProfilePublic from "../pages/patient/doctors/DoctorProfilePublic";
 import BookAppointmentPage from "../pages/patient/appointments/BookAppointmentPage";
 import PatientAppointments from "../pages/patient/appointments/PatientAppointments";
+import QueueStatusPage from "../pages/patient/queue/QueueStatusPage";
+
 export const patientRoutes = [
   {
     path: "/patient/dashboard",
@@ -24,11 +25,7 @@ export const patientRoutes = [
   },
   {
     path: "/doctors/:doctorId",
-    element: (
-      <ProtectedRoute role="patient">
-        <DoctorProfilePublic />
-      </ProtectedRoute>
-    ),
+    element: <DoctorProfilePublic />, // ✅ public — no protection
   },
   {
     path: "/patient/appointments/book/:doctorId",
@@ -46,5 +43,14 @@ export const patientRoutes = [
       </ProtectedRoute>
     ),
   },
+  {
+    path: "/patient/queue",
+    element: (
+      <ProtectedRoute role="patient">
+        <QueueStatusPage />
+      </ProtectedRoute>
+    ),
+  },
 ];
+
 export default patientRoutes;

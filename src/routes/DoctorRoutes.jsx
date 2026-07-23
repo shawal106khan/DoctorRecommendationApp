@@ -8,6 +8,7 @@ import DoctorAppointments from "../pages/doctor/pages/appointments/DoctorAppoint
 
 import DoctorReviewsPage from "../pages/doctor/pages/reviews/DoctorReviewsPage";
 import RejectedPage from "../pages/doctor/pages/DoctorRejected";
+import MonthlyReportPage from "../pages/doctor/pages/report/MonthlyReportPage";
 export const doctorRoutes = [
   {
     path: "/doctor/redirect",
@@ -18,7 +19,7 @@ export const doctorRoutes = [
     element: <PendingApproval />,
   },
   {
-    path: "/doctor/approved",
+    path: "/doctor/approvedSuccess",
     element: <ApprovedSuccess />,
   },
   {
@@ -45,4 +46,5 @@ export const doctorRoutes = [
     path: "/doctor/reviews",
     element: <DoctorReviewsPage />,
   },
+  { path: "/doctor/report", element: <MonthlyReportPage /> },
 ];

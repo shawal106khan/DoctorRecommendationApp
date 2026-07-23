@@ -16,18 +16,19 @@ const DoctorStatusCircle = ({ data = [], total = 0 }) => {
               paddingAngle={3}
               dataKey="value"
             >
-              {data.map((entry, i) => (
-                <Cell
-                  key={i}
-                  fill={
-                    entry.label === "Accepted"
-                      ? STATUS_COLORS.accepted
-                      : entry.label === "Pending Requests"
-                        ? STATUS_COLORS.pending
-                        : STATUS_COLORS.rejected
-                  }
-                />
-              ))}
+              {data.map((entry, i) => {
+                let color = "#3B82F6";
+
+                if (entry.name === "Active") {
+                  color = "#22C55E"; // green
+                } else if (entry.name === "Suspended") {
+                  color = "#F59E0B"; // orange
+                } else if (entry.name === "Deleted") {
+                  color = "#EF4444"; // red
+                }
+
+                return <Cell key={i} fill={color} />;
+              })}
             </Pie>
           </PieChart>
         </ResponsiveContainer>

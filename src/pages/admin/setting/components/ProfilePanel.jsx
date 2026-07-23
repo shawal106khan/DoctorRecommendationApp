@@ -3,12 +3,18 @@ import AvatarUpload from "../../../../components/common/components/AvatarUpload"
 import {
   getAdminProfile,
   updateAdminProfile,
-} from "./../services/adminSettingsService";
+  uploadAdminAvatar,
+} from "../../../../services/adminSettingsService";
 import { useAuth } from "../../../../context/useAuth";
+import { getCurrentUser } from "../../../../services/authService";
+import LoadingSpinner from "../../../../components/common/components/LoadingSpinner";
+import { Save } from "lucide-react";
+
 const ProfilePanel = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const { setUser } = useAuth();
+
   useEffect(() => {
     const loadProfile = async () => {
       const data = await getAdminProfile();
@@ -21,37 +27,23 @@ const ProfilePanel = () => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
   };
 
-  const handleAvatarChange = (file) => {
+  const handleAvatarChange = async (file) => {
     if (!file) return;
-
-    // Convert to base64 (backend ready placeholder)
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setProfile((prev) => ({
-        ...prev,
-        avatar: reader.result,
-      }));
-    };
-    reader.readAsDataURL(file);
+    try {
+      const userId = await getCurrentUser();
+      const avatarUrl = await uploadAdminAvatar(userId, file);
+      setProfile((prev) => ({ ...prev, profile_picture: avatarUrl }));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleSave = async () => {
     try {
       setLoading(true);
-
-      const res = await updateAdminProfile(profile);
-
-      // 🔥 Update Auth context user (IMPORTANT)
-      setUser((prev) => ({
-        ...prev,
-        ...res.data,
-      }));
-      setProfile({
-        name: "",
-        contact: "",
-        email: "",
-        avatar: "",
-      });
+      const updatedProfile = await updateAdminProfile(profile);
+      setUser((prev) => ({ ...prev, ...updatedProfile }));
+      setProfile(updatedProfile);
     } catch (err) {
       console.error(err);
     } finally {
@@ -59,55 +51,78 @@ const ProfilePanel = () => {
     }
   };
 
-  if (!profile) return null;
+  if (!profile)
+    return (
+      <div className="flex justify-center py-16">
+        <LoadingSpinner />
+      </div>
+    );
+
+  const inputClass =
+    "mt-1.5 w-full h-11 px-4 rounded-xl text-sm text-[#0D2E4E] bg-[#F7FAFE] border-[1.5px] border-[#D6E6F2] outline-none transition focus:bg-white focus:border-[#1A6FA8] focus:ring-4 focus:ring-[#1A6FA8]/10";
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-8 space-y-6">
-      <h2 className="text-xl font-semibold text-gray-800">
-        Profile Information
-      </h2>
+    <div className="space-y-6">
+      <div>
+        <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-[2px] mb-1">
+          Profile
+        </p>
+        <h2 className="text-lg font-bold text-[#0D2E4E]">
+          Profile Information
+        </h2>
+      </div>
 
-      {/* Avatar Upload */}
-      <AvatarUpload image={profile.avatar} onChange={handleAvatarChange} />
+      <AvatarUpload
+        image={profile.profile_picture}
+        onChange={handleAvatarChange}
+      />
 
-      <div className="grid gap-5 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         <div>
-          <label className="text-sm text-gray-600">Full Name</label>
+          <label className="block text-[11.5px] font-semibold text-[#4A6680] uppercase tracking-wide">
+            Full Name
+          </label>
           <input
-            name="name"
-            value={profile.name}
+            name="full_name"
+            value={profile.full_name || ""}
             onChange={handleChange}
-            className="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+            className={inputClass}
+            placeholder="Admin Name"
           />
         </div>
-
         <div>
-          <label className="text-sm text-gray-600">Contact Number</label>
+          <label className="block text-[11.5px] font-semibold text-[#4A6680] uppercase tracking-wide">
+            Contact Number
+          </label>
           <input
-            name="contact"
-            value={profile.contact}
+            name="phone_number"
+            value={profile.phone_number || ""}
             onChange={handleChange}
-            className="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+            className={inputClass}
+            placeholder="+92 300 0000000"
           />
         </div>
-
         <div className="md:col-span-2">
-          <label className="text-sm text-gray-600">Email Address</label>
+          <label className="block text-[11.5px] font-semibold text-[#4A6680] uppercase tracking-wide">
+            Email Address
+          </label>
           <input
             name="email"
-            value={profile.email}
+            value={profile.email || ""}
             onChange={handleChange}
-            className="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+            className={inputClass}
+            placeholder="admin@medconnect.pk"
           />
         </div>
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end pt-2">
         <button
           onClick={handleSave}
           disabled={loading}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-bold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60"
         >
+          <Save size={14} />
           {loading ? "Saving..." : "Save Changes"}
         </button>
       </div>

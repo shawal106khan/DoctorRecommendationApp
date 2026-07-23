@@ -1,6 +1,8 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Input from "../../../../components/common/components/Input";
+import { updateAdminPassword } from "../../../../services/adminSettingsService";
+import { Shield, Save, CheckCircle2, XCircle } from "lucide-react";
 
 const SecurityPanel = () => {
   const [passwords, setPasswords] = useState({
@@ -11,7 +13,6 @@ const SecurityPanel = () => {
   const [showPasswords, setShowPasswords] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Password criteria
   const criteria = [
     { label: "At least 8 characters", test: (p) => p.length >= 8 },
     { label: "At least one uppercase letter", test: (p) => /[A-Z]/.test(p) },
@@ -25,109 +26,127 @@ const SecurityPanel = () => {
 
   const handleUpdate = async () => {
     const allPassed = criteria.every((c) => c.test(passwords.newPass));
-
     if (!passwords.current || !passwords.newPass || !passwords.confirmPass) {
       toast.error("Please fill all fields");
       return;
     }
-
     if (!allPassed) {
       toast.error("New password does not meet all requirements");
       return;
     }
-
     if (passwords.newPass !== passwords.confirmPass) {
       toast.error("Passwords do not match");
+      return;
+    }
+    if (passwords.current === passwords.newPass) {
+      toast.error("New password must be different");
       return;
     }
 
     setLoading(true);
     try {
-      // 🔹 Backend call placeholder
+      await updateAdminPassword(passwords.newPass);
       toast.success("Password updated successfully");
       setPasswords({ current: "", newPass: "", confirmPass: "" });
     } catch (err) {
-      toast.error(err.message || "Something went wrong");
+      console.error(err);
+      toast.error(err.message || "Failed to update password");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-6 space-y-4">
-      <h3 className="text-lg font-semibold text-gray-900">Security</h3>
+    <div className="space-y-6">
+      <div>
+        <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-[2px] mb-1">
+          Security
+        </p>
+        <h2 className="text-lg font-bold text-[#0D2E4E]">Login & Security</h2>
+      </div>
 
-      <Input
-        label="Current password"
-        type={showPasswords ? "text" : "password"}
-        name="current"
-        placeholder="Current Password"
-        value={passwords.current}
-        onChange={handleChange}
-        className="border rounded-lg px-3 py-2 w-full"
-      />
+      <div className="space-y-4">
+        <Input
+          label="Current Password"
+          type={showPasswords ? "text" : "password"}
+          name="current"
+          placeholder="Current Password"
+          value={passwords.current}
+          onChange={handleChange}
+        />
+        <Input
+          label="New Password"
+          type={showPasswords ? "text" : "password"}
+          name="newPass"
+          placeholder="New Password"
+          value={passwords.newPass}
+          onChange={handleChange}
+        />
+        <Input
+          label="Confirm Password"
+          type={showPasswords ? "text" : "password"}
+          name="confirmPass"
+          placeholder="Confirm New Password"
+          value={passwords.confirmPass}
+          onChange={handleChange}
+        />
+      </div>
 
-      <Input
-        label="New password"
-        type={showPasswords ? "text" : "password"}
-        name="newPass"
-        placeholder="New Password"
-        value={passwords.newPass}
-        onChange={handleChange}
-        className="border rounded-lg px-3 py-2 w-full mt-3"
-      />
-
-      <Input
-        label="Confirm Password"
-        type={showPasswords ? "text" : "password"}
-        name="confirmPass"
-        placeholder="Confirm New Password"
-        value={passwords.confirmPass}
-        onChange={handleChange}
-        className="border rounded-lg px-3 py-2 w-full mt-3"
-      />
-
-      {/* Show/Hide toggle below all fields */}
-      <label className="flex items-center gap-2 mt-2 text-sm">
+      {/* Show/hide toggle */}
+      <label className="flex items-center gap-2 cursor-pointer w-fit">
         <input
           type="checkbox"
           checked={showPasswords}
           onChange={() => setShowPasswords(!showPasswords)}
-          className="accent-blue-600"
+          className="accent-[#1A6FA8]"
         />
-        Show Passwords
+        <span className="text-xs font-semibold text-[#4A6680]">
+          Show Passwords
+        </span>
       </label>
 
-      {/* Live password criteria */}
-      <div className="mt-2 space-y-1 text-sm">
-        {criteria.map((c, idx) => {
-          const passed = c.test(passwords.newPass);
-          return (
-            <div
-              key={idx}
-              className={`flex items-center gap-2 ${
-                passed ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              <span className="font-bold">{passed ? "✔" : "✖"}</span>
-              <span>{c.label}</span>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Confirm password mismatch */}
-      {passwords.confirmPass && passwords.newPass !== passwords.confirmPass && (
-        <p className="text-red-600 text-sm mt-1">Passwords do not match</p>
+      {/* Password criteria */}
+      {passwords.newPass && (
+        <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl p-4 space-y-2">
+          <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-wide mb-2">
+            Password Requirements
+          </p>
+          {criteria.map((c, idx) => {
+            const passed = c.test(passwords.newPass);
+            return (
+              <div
+                key={idx}
+                className={`flex items-center gap-2 text-xs font-medium ${passed ? "text-green-600" : "text-red-500"}`}
+              >
+                {passed ? (
+                  <CheckCircle2 size={13} className="flex-shrink-0" />
+                ) : (
+                  <XCircle size={13} className="flex-shrink-0" />
+                )}
+                {c.label}
+              </div>
+            );
+          })}
+        </div>
       )}
 
-      <button
-        onClick={handleUpdate}
-        disabled={loading}
-        className="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 transition disabled:opacity-50 mt-3"
-      >
-        {loading ? "Updating..." : "Update Password"}
-      </button>
+      {/* Mismatch warning */}
+      {passwords.confirmPass && passwords.newPass !== passwords.confirmPass && (
+        <p className="text-red-500 text-xs font-semibold flex items-center gap-1.5">
+          <XCircle size={12} /> Passwords do not match
+        </p>
+      )}
+
+      <div className="flex justify-end pt-2">
+        <button
+          onClick={handleUpdate}
+          disabled={loading}
+          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white text-sm font-bold rounded-xl shadow-[0_4px_12px_rgba(239,68,68,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60"
+        >
+          <Shield size={14} />
+          {loading ? "Updating..." : "Update Password"}
+        </button>
+      </div>
     </div>
   );
 };
