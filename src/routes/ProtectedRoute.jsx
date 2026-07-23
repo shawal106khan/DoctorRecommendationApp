@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom"; // ✅ add useLocation
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/useAuth";
 import { getCurrentUserProfile } from "../services/authService";
@@ -7,6 +7,7 @@ import { getDoctorByUserId, getPatientByUserId } from "../services/userService";
 
 const ProtectedRoute = ({ children, role, loginPath }) => {
   const { user } = useAuth();
+  const location = useLocation(); // ✅
   const [checking, setChecking] = useState(!!role);
   const [authorized, setAuthorized] = useState(false);
 
@@ -32,8 +33,9 @@ const ProtectedRoute = ({ children, role, loginPath }) => {
         }
 
         if (active) setAuthorized(true);
-      } catch (_) {
+      } catch (err) {
         if (active) setAuthorized(false);
+        console.log("Authorization check failed:", err.message);
       } finally {
         if (active) setChecking(false);
       }
@@ -48,16 +50,19 @@ const ProtectedRoute = ({ children, role, loginPath }) => {
   if (!user) {
     const fallback =
       loginPath || (role === "admin" ? "/admin/login" : "/login");
-    return <Navigate to={fallback} replace />;
+    return (
+      <Navigate to={`${fallback}?redirect=${location.pathname}`} replace />
+    ); // ✅
   }
 
   if (checking) return null;
 
-  // Logged in but not authorized for this role → send to role login
   if (role && !authorized) {
     const fallback =
       loginPath || (role === "admin" ? "/admin/login" : "/login");
-    return <Navigate to={fallback} replace />;
+    return (
+      <Navigate to={`${fallback}?redirect=${location.pathname}`} replace />
+    ); // ✅
   }
 
   return children;

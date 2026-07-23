@@ -54,7 +54,7 @@ export async function uploadDoctorProfileImage(userId, file) {
   // const safeName = file.name.replace(/\s+/g, "_");
   // const filePath = `${userId}/${safeName}`;
   const fileExt = file.name.split(".").pop() || "jpg";
-  const filePath = `${userId}/profile.${fileExt}`;
+  const filePath = `${userId}/profile-${Date.now()}.${fileExt}`;
 
   const { error: uploadError } = await supabase.storage
     .from("doctor-profiles-public")
@@ -66,7 +66,7 @@ export async function uploadDoctorProfileImage(userId, file) {
     .from("doctor-profiles-public")
     .getPublicUrl(filePath);
 
-  return urlData?.publicUrl || null;
+  return `${urlData?.publicUrl}?t=${Date.now()}`;
 }
 
 export async function upsertDoctorProfile(doctorsId, payload) {
@@ -147,7 +147,7 @@ export async function fetchDoctorProfessionalInfo(userId) {
   const { data: doctor, error } = await supabase
     .from("doctors")
     .select(
-      "specialization_id, experience_years, license_number, qualifications,  phone_number",
+      "specialization_id, experience_years, license_number, qualifications,  phone_number, consultation_fee",
     )
     .eq("user_id", userId)
     .single();
@@ -170,8 +170,8 @@ export async function fetchDoctorProfessionalInfo(userId) {
     experience_years: doctor.experience_years,
     license_number: doctor.license_number,
     qualifications: doctor.qualifications,
-
     phone_number: doctor.phone_number,
+    consultation_fee: doctor.consultation_fee,
   };
 }
 
@@ -271,6 +271,16 @@ export async function updateDoctorProfileFromEdit(doctorsId, userId, form) {
     landmark: form.landmark ?? existingLocation?.landmark ?? "",
     mapLink: form.mapLink ?? existingLocation?.google_maps_link ?? null,
   });
+  const { error: doctorError } = await supabase
+    .from("doctors")
+    .update({
+      experience_years: Number(form.experienceYears) || 0,
+
+      qualifications: form.qualification || "",
+    })
+    .eq("doctors_id", doctorsId);
+
+  if (doctorError) throw doctorError;
 
   return {
     profilePicUrl,
@@ -283,4 +293,177 @@ export function buildDoctorHeaderUser({ user, professionalInfo, avatarUrl }) {
     avatar: avatarUrl || user?.avatar || null,
     specialization: professionalInfo?.specializationName || "Specialization",
   };
+}
+
+export async function fetchRecommendedDoctors(specializationId) {
+  const { data, error } = await supabase.rpc("get_recommended_doctors", {
+    p_specialization_id: specializationId,
+  });
+
+  if (error) throw error;
+  return data || [];
+}
+
+export async function fetchDoctorPublicProfile(doctorsId) {
+  const { data, error } = await supabase
+    .from("doctors")
+    .select(
+      `
+      doctors_id,
+      name,
+      phone_number,
+      experience_years,
+      specialization_id,
+      qualifications,
+       consultation_fee,
+      doctor_profile (profile_pic_url, doctor_bio, language, gender),
+      doctor_locations (hospital_name, address, city, landmark, google_maps_link),
+      doctor_availability (day_of_week, start_time, end_time, slot_duration_minutes),
+      specializations (name)
+    `,
+    )
+    .eq("doctors_id", doctorsId)
+    .eq("account_status", "active")
+    .maybeSingle();
+
+  if (error) throw error;
+  return data;
+}
+
+// export async function fetchTopRatedDoctors() {
+//   const { data, error } = await supabase
+//     .from("reviews")
+//     .select("doctors_id, rating")
+//     .then(({ data, error }) => {
+//       if (error) throw error;
+//       return { data, error };
+//     });
+
+//   if (error) throw error;
+
+//   // Calculate average rating per doctor
+//   const ratingMap = {};
+//   data.forEach((r) => {
+//     if (!ratingMap[r.doctors_id]) {
+//       ratingMap[r.doctors_id] = { total: 0, count: 0 };
+//     }
+//     ratingMap[r.doctors_id].total += r.rating;
+//     ratingMap[r.doctors_id].count += 1;
+//   });
+
+//   // Get top 6 doctor IDs sorted by average
+//   const topDoctorIds = Object.entries(ratingMap)
+//     .map(([id, val]) => ({ id, avg: val.total / val.count }))
+//     .sort((a, b) => b.avg - a.avg)
+//     .slice(0, 6)
+//     .map((d) => d.id);
+
+//   if (topDoctorIds.length === 0) return [];
+
+//   const { data: doctors, error: docError } = await supabase
+//     .from("doctors")
+//     .select(
+//       `
+//       doctors_id,
+//       name,
+//       experience_years,
+//       specializations (name),
+//       doctor_profile (profile_pic_url, doctor_bio)
+//     `,
+//     )
+//     .in("doctors_id", topDoctorIds);
+
+//   if (docError) throw docError;
+
+//   return doctors.map((doc) => ({
+//     doctors_id: doc.doctors_id,
+//     name: doc.name,
+//     experience_years: doc.experience_years,
+//     specialization_name: doc.specializations?.name || "",
+//     profile_pic_url: doc.doctor_profile?.profile_pic_url || null,
+//     doctor_bio: doc.doctor_profile?.doctor_bio || "",
+//     avg_rating:
+//       ratingMap[doc.doctors_id].total / ratingMap[doc.doctors_id].count,
+//   }));
+// }
+export async function fetchTopRatedDoctors() {
+  const { data: reviews, error: reviewError } = await supabase
+    .from("reviews")
+    .select("doctors_id, rating");
+
+  if (reviewError) throw reviewError;
+  if (!reviews || reviews.length === 0) return [];
+
+  // Calculate average rating per doctor
+  const ratingMap = {};
+  reviews.forEach((r) => {
+    if (!ratingMap[r.doctors_id]) {
+      ratingMap[r.doctors_id] = { total: 0, count: 0 };
+    }
+    ratingMap[r.doctors_id].total += r.rating;
+    ratingMap[r.doctors_id].count += 1;
+  });
+
+  const topDoctorIds = Object.entries(ratingMap)
+    .map(([id, val]) => ({ id, avg: val.total / val.count }))
+    .sort((a, b) => b.avg - a.avg)
+    .slice(0, 6)
+    .map((d) => d.id);
+
+  if (topDoctorIds.length === 0) return [];
+
+  const { data: doctors, error: docError } = await supabase
+    .from("doctors")
+    .select(
+      `
+  doctors_id,
+  name,
+  experience_years,
+  consultation_fee,
+    specializations (name),
+  doctor_profile (profile_pic_url, doctor_bio)
+`,
+    )
+    .eq("account_status", "active")
+    .in("doctors_id", topDoctorIds);
+
+  if (docError) throw docError;
+
+  return (doctors || []).map((doc) => ({
+    doctors_id: doc.doctors_id,
+    name: doc.name,
+    experience_years: doc.experience_years,
+    consultation_fee: doc.consultation_fee,
+    verification_status: "approved",
+
+    specialization_name: doc.specializations?.name || "",
+    profile_pic_url: doc.doctor_profile?.profile_pic_url || null,
+    doctor_bio: doc.doctor_profile?.doctor_bio || "",
+
+    avg_rating:
+      ratingMap[doc.doctors_id].total / ratingMap[doc.doctors_id].count,
+
+    review_count: ratingMap[doc.doctors_id].count,
+  }));
+}
+
+export async function saveDoctorFee(doctorsId, consultationFee) {
+  const { error } = await supabase
+    .from("doctors")
+    .update({
+      consultation_fee: Number(consultationFee) || 0,
+    })
+    .eq("doctors_id", doctorsId);
+
+  if (error) throw error;
+}
+
+export async function fetchRecommendedDoctorsAI(specializationId) {
+  const { data, error } = await supabase.rpc("get_recommended_doctors_ai", {
+    p_specialization_id: specializationId,
+  });
+
+  if (error) throw error;
+
+  return data || [];
 }

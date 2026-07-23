@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom"; // ✅ added useSearchParams
 import Button from "../../components/common/components/Button";
 import Input from "../../components/common/components/Input";
 import RadioGroup from "../../components/common/components/RadioGroup";
@@ -14,11 +14,16 @@ import {
   getDoctorByUserId,
   getPatientByUserId,
 } from "../../services/userService";
+import { supabase } from "../../lib/supabase";
+import { useLoading } from "../../hooks/useLoading";
+import ButtonLoader from "../../components/common/components/ButtonLoader";
 
 const LoginPage = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
-
+  const [searchParams] = useSearchParams(); // ✅
+  const redirectTo = searchParams.get("redirect"); // ✅
+  const { loading, startLoading, stopLoading } = useLoading(false);
   const { errors, validate, setErrors } = useRequiredValidation({
     email: "Email is required",
     password: "Password is required",
@@ -29,8 +34,6 @@ const LoginPage = () => {
     password: "",
     role: "patient",
   });
-
-  // ✅ Single source of redirect truth
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -45,7 +48,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!validate(formData)) return;
-
+    startLoading();
     try {
       await loginWithEmail(formData.email, formData.password);
       const userId = await getCurrentUser();
@@ -53,88 +56,156 @@ const LoginPage = () => {
       if (formData.role === "patient") {
         try {
           const patient = await getPatientByUserId(userId);
-          setUser({ ...patient, role: "patient", avatar: null });
-          navigate("/patient/dashboard");
+
+          // ✅ BLOCK SUSPENDED PATIENT
+          if (patient?.account_status === "suspended") {
+            await supabase.auth.signOut();
+
+            setUser(null);
+
+            navigate("/account-suspended", {
+              state: {
+                reason: patient?.suspension_reason,
+              },
+            });
+
+            return;
+          }
+
+          if (patient?.account_status === "deleted") {
+            await supabase.auth.signOut();
+
+            setUser(null);
+
+            navigate("/account-deleted");
+
+            return;
+          }
+          setUser({
+            ...patient,
+            role: "patient",
+            avatar: null,
+          });
+
+          navigate(redirectTo || "/patient/dashboard");
         } catch (err) {
           alert(err.message);
         }
+
         return;
       }
-
       if (formData.role === "doctor") {
         try {
           const doctor = await getDoctorByUserId(userId);
-          setUser({ ...doctor, role: "doctor", avatar: null });
+
+          // ✅ SUSPENDED DOCTOR
+          if (doctor?.account_status === "suspended") {
+            setUser({
+              ...doctor,
+              role: "doctor",
+              avatar: null,
+            });
+
+            navigate("/account-suspended", {
+              state: {
+                reason: doctor?.suspension_reason,
+              },
+            });
+
+            return;
+          }
+
+          // ✅ DELETED DOCTOR
+          if (doctor?.account_status === "deleted") {
+            setUser(null);
+
+            navigate("/account-deleted");
+
+            return;
+          }
+
+          // ✅ NORMAL LOGIN
+          setUser({
+            ...doctor,
+            role: "doctor",
+            avatar: null,
+          });
+
           navigate("/doctor/redirect");
         } catch (err) {
           alert(err.message);
         }
+
         return;
       }
     } catch (err) {
       alert(err.message);
+    } finally {
+      stopLoading();
     }
   };
 
   return (
     <AuthLayout image={illustration}>
       <form onSubmit={handleLogin}>
-        <div className="w-full max-w-md px-8 py-6 shadow-lg rounded-md bg-white">
-          <Title
-            heading="Doctor Recommendation & Appointment System"
-            subheading="Find the right doctor and manage appointments easily"
+        <Title
+          heading="Doctor Recommendation & Appointment System"
+          subheading="Find the right doctor and manage appointments easily"
+        />
+
+        <div className="mb-5">
+          <Input
+            label="Email address"
+            error={errors.email}
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={handleChange}
           />
-
-          <div className="mb-5">
-            <Input
-              label="Email address"
-              error={errors.email}
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="mb-6">
-            <Input
-              label="Password"
-              error={errors.password}
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-            <ForgotPasswordLink />
-          </div>
-
-          <div className="mb-8">
-            <RadioGroup
-              label="Select Role"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              options={[
-                { label: "Patient", value: "patient" },
-                { label: "Doctor", value: "doctor" },
-              ]}
-            />
-          </div>
-
-          <Button text="Login" type="submit" />
-
-          <p className="text-center text-sm text-gray-500 mt-6">
-            Don&apos;t have an account?
-            <Link
-              to="/signup"
-              className="text-blue-600 font-medium ml-1 hover:underline"
-            >
-              Sign up
-            </Link>
-          </p>
         </div>
+
+        <div className="mb-6">
+          <Input
+            label="Password"
+            error={errors.password}
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <ForgotPasswordLink />
+        </div>
+
+        <div className="mb-8">
+          <RadioGroup
+            label="Select Role"
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            options={[
+              { label: "Patient", value: "patient" },
+              { label: "Doctor", value: "doctor" },
+            ]}
+          />
+        </div>
+
+        <Button
+          type="submit"
+          disabled={loading}
+          text={loading ? <ButtonLoader text="Logging in..." /> : "Login"}
+        />
+
+        <p className="text-center text-sm text-gray-500 mt-6">
+          Don&apos;t have an account?
+          <Link
+            to={`/signup?redirect=${redirectTo || ""}`} // ✅
+            className="text-[#1A6FA8] font-medium ml-1 hover:underline"
+          >
+            Sign up
+          </Link>
+        </p>
       </form>
     </AuthLayout>
   );

@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
-import Button from "../../../../../components/common/components/Button";
-// import { useAuth } from "../../../../../context/useAuth";
-import Title from "../../../../../components/common/components/Title";
 import { getCurrentUser } from "../../../../../services/authService";
 import { fetchDoctorProfessionalInfo } from "../../../../../services/doctorService";
-// import LoadingText from "../../../../../components/common/components/LoadingText";
 import LoadingSpinner from "../../../../../components/common/components/LoadingSpinner";
+import { useLoading } from "../../../../../hooks/useLoading";
+import { StepHeader } from "../../../../../components/common/components/StepComponents";
+
+const Info = ({ label, value }) => (
+  <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-4 py-3">
+    <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-wide mb-0.5">
+      {label}
+    </p>
+    <p className="text-sm font-semibold text-[#0D2E4E]">
+      {value || (
+        <span className="text-[#AAC2D4] font-normal text-xs">Not provided</span>
+      )}
+    </p>
+  </div>
+);
+
 const ProfessionalStep = ({ onNext, onBack }) => {
-  // const { user } = useAuth();
-  // console.log("USER IN PRO STEP:", user);
   const [info, setInfo] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { loading, stopLoading } = useLoading(true);
 
   useEffect(() => {
     const load = async () => {
@@ -21,24 +31,25 @@ const ProfessionalStep = ({ onNext, onBack }) => {
       } catch (err) {
         console.error(err);
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     };
     load();
-  }, []);
+  }, [stopLoading]);
 
   return (
-    <div className="max-w-md  mx-auto p-6">
-      <Title
-        heading="Professional Information"
-        subheading="These details were provided during signup and verified by admin."
+    <div className="max-w-lg mx-auto px-2 py-4">
+      <StepHeader
+        title="Professional Information"
+        subtitle="These details were provided during signup and verified by admin."
       />
 
       {loading ? (
-        // <LoadingText text="Loading professional info..." />
-        <LoadingSpinner text="Loading doctors..." />
+        <div className="flex justify-center py-10">
+          <LoadingSpinner />
+        </div>
       ) : (
-        <div className="grid grid-cols-2 gap-6 bg-gray-50 p-10 rounded-lg shadow-lg shadow-gray-200 ">
+        <div className="grid grid-cols-2 gap-3">
           <Info label="Specialization" value={info?.specializationName} />
           <Info
             label="Experience"
@@ -52,39 +63,22 @@ const ProfessionalStep = ({ onNext, onBack }) => {
         </div>
       )}
 
-      <div className="mt-8 flex justify-between text-sm">
-        <span
+      <div className="mt-8 flex items-center justify-between">
+        <button
           onClick={onBack}
-          className="cursor-pointer text-gray-600 hover:text-blue-600"
+          className="text-sm font-semibold text-[#4A6680] hover:text-[#1A6FA8] transition"
         >
           ← Back
-        </span>
-
-        <span
+        </button>
+        <button
           onClick={onNext}
-          className="cursor-pointer bg-blue-600 py-2 px-5 
-          border border-gray-400 rounded-lg text-white 
-          font-medium hover:underline"
+          className="px-6 py-2.5 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-semibold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
           Next →
-        </span>
+        </button>
       </div>
     </div>
   );
 };
-
-/* ✅ SMALL INTERNAL COMPONENT */
-const Info = ({ label, value }) => (
-  <div>
-    <p className="text-base text-gray-800">{label}</p>
-    <p className="font-medium text-gray-600 text-xs">
-      {value ? (
-        value
-      ) : (
-        <span className="text-gray-400 font-light text-xs">Not provided</span>
-      )}
-    </p>
-  </div>
-);
 
 export default ProfessionalStep;

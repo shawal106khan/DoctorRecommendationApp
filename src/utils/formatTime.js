@@ -1,5 +1,5 @@
 export const formatTime = (time) => {
-  if (!time) return "—";
+  if (!time || !time.includes(":")) return time || "Pending";
   const [h, m] = time.split(":");
   const hour = Number(h);
   const suffix = hour >= 12 ? "PM" : "AM";

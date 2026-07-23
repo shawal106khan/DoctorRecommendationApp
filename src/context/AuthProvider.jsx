@@ -3,7 +3,7 @@ import { AuthContext } from "./AuthContext";
 import { supabase } from "../lib/supabase";
 import { getAdminByUserId } from "../services/adminService";
 import { getDoctorByUserId, getPatientByUserId } from "../services/userService";
-
+import { fetchDoctorsTopbarInfo } from "../services/doctorService";
 const STORAGE_KEY = "auth_user";
 
 export const AuthProvider = ({ children }) => {
@@ -12,7 +12,23 @@ export const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem(STORAGE_KEY);
-    return storedUser ? JSON.parse(storedUser) : null;
+
+    if (!storedUser) return null;
+
+    const parsedUser = JSON.parse(storedUser);
+
+    // ✅ prevent suspended doctor cached login
+    if (
+      parsedUser?.role === "doctor" &&
+      (parsedUser?.account_status === "suspended" ||
+        parsedUser?.account_status === "deleted")
+    ) {
+      localStorage.removeItem(STORAGE_KEY);
+
+      return null;
+    }
+
+    return parsedUser;
   });
 
   useEffect(() => {
@@ -44,7 +60,28 @@ export const AuthProvider = ({ children }) => {
       try {
         const doctor = await getDoctorByUserId(authUser.id);
         if (doctor) {
-          setUser({ ...doctor, role: "doctor" });
+          // ✅ BLOCK SUSPENDED DOCTORS
+          if (
+            doctor?.account_status === "suspended" ||
+            doctor?.account_status === "deleted"
+          ) {
+            await supabase.auth.signOut();
+
+            localStorage.removeItem(STORAGE_KEY);
+
+            setUser(null);
+
+            return;
+          }
+
+          const topbarInfo = await fetchDoctorsTopbarInfo(doctor.doctors_id);
+
+          setUser({
+            ...doctor,
+            role: "doctor",
+            avatar: topbarInfo?.avatarUrl || null,
+          });
+
           return;
         }
       } catch (err) {
@@ -54,7 +91,11 @@ export const AuthProvider = ({ children }) => {
       try {
         const patient = await getPatientByUserId(authUser.id);
         if (patient) {
-          setUser({ ...patient, role: "patient" });
+          setUser({
+            ...patient,
+            role: "patient",
+            avatar: patient.profile_picture || null, // ✅
+          });
           return;
         }
       } catch (err) {
@@ -76,7 +117,8 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut(); // ✅ real Supabase logout
     setUser(null);
     localStorage.removeItem(STORAGE_KEY);
   };

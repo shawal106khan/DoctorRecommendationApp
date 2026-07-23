@@ -9,6 +9,7 @@ import AvailabilityStep from "./steps/AvailabilityStep";
 import LocationStep from "./steps/LocationStep";
 import VerificationStep from "./steps/VerificationStep";
 import ReviewStep from "./steps/ReviewStep";
+import ConsultationStep from "./steps/ConsultationsStep";
 import {
   getCurrentUserId,
   getDoctorIdByUser,
@@ -17,6 +18,7 @@ import {
   upsertDoctorAvailability,
   upsertDoctorLocation,
   upsertDoctorProfile,
+  saveDoctorFee,
 } from "../../../../services/doctorService";
 
 // ? Initial profile state
@@ -30,7 +32,7 @@ const initialProfile = {
   availableDays: [],
   startTime: "",
   endTime: "",
-  slotDuration: 30,
+  slotDuration: "",
   address: "",
   city: "",
   hospitalName: "",
@@ -41,6 +43,7 @@ const initialProfile = {
 const steps = [
   "Basic Info",
   "Professional",
+  "Consultation",
   "Availability",
   "Location",
   "Verification",
@@ -84,7 +87,7 @@ const CompleteProfile = () => {
       });
       await upsertDoctorAvailability(doctorsId, profile);
       await upsertDoctorLocation(doctorsId, profile);
-
+      await saveDoctorFee(doctorsId, profile.consultationFee);
       await markProfileCompleted(doctorsId);
 
       setUser((prev) => ({
@@ -100,54 +103,67 @@ const CompleteProfile = () => {
   console.log(profile);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow p-6">
-        <ProfileStepper steps={steps} currentStep={currentStep} />
+    <div className="min-h-screen bg-[#F0F4F8]">
+      <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
+        <p className="text-white/75 text-xs font-medium tracking-wide">
+          Complete your profile to start receiving patients
+        </p>
+      </div>
+      <div className="max-w-3xl mx-auto px-4 py-8">
+        <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] p-8">
+          <ProfileStepper steps={steps} currentStep={currentStep} />
 
-        {currentStep === 0 && (
-          <BasicInfoStep
-            profile={profile}
-            setProfile={setProfile}
-            onNext={next}
-          />
-        )}
-
-        {currentStep === 1 && (
-          <ProfessionalStep
-            profile={profile}
-            setProfile={setProfile}
-            onNext={next}
-            onBack={back}
-          />
-        )}
-
-        {currentStep === 2 && (
-          <AvailabilityStep
-            profile={profile}
-            setProfile={setProfile}
-            onNext={next}
-            onBack={back}
-          />
-        )}
-
-        {currentStep === 3 && (
-          <LocationStep
-            profile={profile}
-            setProfile={setProfile}
-            onNext={next}
-            onBack={back}
-          />
-        )}
-
-        {currentStep === 4 && <VerificationStep onNext={next} onBack={back} />}
-
-        {currentStep === 5 && (
-          <ReviewStep
-            profile={profile}
-            onBack={back}
-            onFinish={finishProfile}
-          />
-        )}
+          {currentStep === 0 && (
+            <BasicInfoStep
+              profile={profile}
+              setProfile={setProfile}
+              onNext={next}
+            />
+          )}
+          {currentStep === 1 && (
+            <ProfessionalStep
+              profile={profile}
+              setProfile={setProfile}
+              onNext={next}
+              onBack={back}
+            />
+          )}
+          {currentStep === 2 && ( // ✅ new
+            <ConsultationStep
+              profile={profile}
+              setProfile={setProfile}
+              onNext={next}
+              onBack={back}
+            />
+          )}
+          {currentStep === 3 && (
+            <AvailabilityStep
+              profile={profile}
+              setProfile={setProfile}
+              onNext={next}
+              onBack={back}
+            />
+          )}
+          {currentStep === 4 && (
+            <LocationStep
+              profile={profile}
+              setProfile={setProfile}
+              onNext={next}
+              onBack={back}
+            />
+          )}
+          {currentStep === 5 && (
+            <VerificationStep onNext={next} onBack={back} />
+          )}
+          {currentStep === 6 && (
+            <ReviewStep
+              profile={profile}
+              onBack={back}
+              onFinish={finishProfile}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

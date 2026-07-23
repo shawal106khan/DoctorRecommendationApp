@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import Title from "../../components/common/components/Title";
 import Button from "../../components/common/components/Button";
+import AuthLayout from "../../components/common/components/AuthLayout";
 
 const SignupSuccess = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-10 rounded-xl shadow-lg max-w-md text-center">
+    // <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <AuthLayout>
+      <div className="">
         {/* Success Icon */}
         <div className="mb-6">
           <svg
@@ -43,7 +45,8 @@ const SignupSuccess = () => {
           <Button text="Go to Login" onClick={() => navigate("/login")} />
         </div>
       </div>
-    </div>
+    </AuthLayout>
+    // </div>
   );
 };
 

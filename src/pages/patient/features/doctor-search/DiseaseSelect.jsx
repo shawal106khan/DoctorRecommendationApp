@@ -1,15 +1,17 @@
-import Select from "../../../../components/common/components/Select";
-import { diseaseOptions } from "../../../../config/diseaseOptions";
+import DropdownSelect from "../../../../components/common/components/DropdownSelect";
+import useDiseaseOptions from "../../../../hooks/useDiseaseOptions";
 
 const DiseaseSelect = ({ value, onChange }) => {
+  const { options } = useDiseaseOptions();
+
   return (
-    <div className="flex-1 mb-0 mt-2">
-      <Select
+    <div className="flex-1">
+      <DropdownSelect
         name="disease"
-        value={value}
+        value={value ?? ""}
         onChange={onChange}
         placeholder="Select Disease"
-        options={diseaseOptions}
+        options={options}
       />
     </div>
   );

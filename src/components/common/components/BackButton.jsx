@@ -7,8 +7,7 @@ const BackButton = ({ label = "Back to Dashboard", to = -1 }) => {
   return (
     <button
       onClick={() => navigate(to)}
-      className="flex items-center gap-2 text-sm font-medium
-                 text-blue-600 hover:text-blue-700 transition"
+      className="flex items-center gap-2 text-sm font-semibold text-[#1A6FA8] hover:text-[#155e8f] transition"
     >
       <ArrowLeft size={16} />
       {label}

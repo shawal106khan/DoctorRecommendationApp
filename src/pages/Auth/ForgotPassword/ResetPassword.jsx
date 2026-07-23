@@ -1,18 +1,29 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 
 import Input from "../../../components/common/components/Input";
+
 import Button from "../../../components/common/components/Button";
+
 import Title from "../../../components/common/components/Title";
+
 import AuthLayout from "../../../components/common/components/AuthLayout";
 
 import illustration from "../../../assets/LoginPage-img.png";
+
 import { useRequiredValidation } from "../../../hooks/useRequiredValidation";
-import { authService } from "../ForgotPassword/Services/authService"; // ✅ CORRECT PATH
+
+import { useLoading } from "../../../hooks/useLoading";
+
+import ButtonLoader from "../../../components/common/components/ButtonLoader";
+
+import { resetPassword } from "../../../services/authService";
 
 const ResetPassword = () => {
-  const { token } = useParams();
   const navigate = useNavigate();
+
+  const { loading, startLoading, stopLoading } = useLoading(false);
 
   const [passwords, setPasswords] = useState({
     password: "",
@@ -21,31 +32,33 @@ const ResetPassword = () => {
 
   const { errors, validate, setErrors } = useRequiredValidation({
     password: "Password is required",
+
     confirmPassword: "Confirm password is required",
   });
 
-  useEffect(() => {
-    if (!token) {
-      navigate("/login"); // safety
-    }
-  }, [token, navigate]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validate(passwords)) return;
 
     if (passwords.password !== passwords.confirmPassword) {
-      setErrors({ confirmPassword: "Passwords do not match" });
+      setErrors({
+        confirmPassword: "Passwords do not match",
+      });
+
       return;
     }
 
-    // ✅ CORRECT CALL
+    startLoading();
+
     try {
-      authService.resetPassword(token, passwords.password);
+      await resetPassword(passwords.password);
+
       navigate("/login");
     } catch (err) {
       alert(err.message);
+    } finally {
+      stopLoading();
     }
   };
 
@@ -64,8 +77,16 @@ const ResetPassword = () => {
           value={passwords.password}
           error={errors.password}
           onChange={(e) => {
-            setPasswords({ ...passwords, password: e.target.value });
-            if (errors.password) setErrors((p) => ({ ...p, password: null }));
+            setPasswords({
+              ...passwords,
+              password: e.target.value,
+            });
+
+            if (errors.password)
+              setErrors((p) => ({
+                ...p,
+                password: null,
+              }));
           }}
         />
 
@@ -76,13 +97,26 @@ const ResetPassword = () => {
           value={passwords.confirmPassword}
           error={errors.confirmPassword}
           onChange={(e) => {
-            setPasswords({ ...passwords, confirmPassword: e.target.value });
+            setPasswords({
+              ...passwords,
+              confirmPassword: e.target.value,
+            });
+
             if (errors.confirmPassword)
-              setErrors((p) => ({ ...p, confirmPassword: null }));
+              setErrors((p) => ({
+                ...p,
+                confirmPassword: null,
+              }));
           }}
         />
 
-        <Button text="Reset Password" type="submit" />
+        <Button
+          type="submit"
+          disabled={loading}
+          text={
+            loading ? <ButtonLoader text="Resetting..." /> : "Reset Password"
+          }
+        />
       </form>
     </AuthLayout>
   );

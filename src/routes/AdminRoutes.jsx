@@ -1,8 +1,12 @@
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminDoctors from "../pages/admin/AdminDoctors";
 import AdminAppointments from "../pages/admin/appointments/AdminAppointments";
+import AdminHealthAssistant from "../pages/admin/Assistant/AdminHealthAssistant";
+import AdminComplaintsPage from "../pages/admin/complaints/AdminComplaintsPage";
+import AdminDiseaseManagement from "../pages/admin/disease/AdminDiseaseManagement";
 import AdminPatients from "../pages/admin/patient/AdminPatients";
 import AdminProfilePage from "../pages/admin/profile/AdminProfilePage";
+import AdminMonthlyReportPage from "../pages/admin/report/AdminMonthlyReportPage";
 import AdminSettingsPage from "../pages/admin/setting/AdminSettingsPage";
 import ProtectedRoute from "./ProtectedRoute";
 function AdminRoutes() {
@@ -52,6 +56,38 @@ function AdminRoutes() {
       element: (
         <ProtectedRoute role="admin" loginPath="/admin/login">
           <AdminProfilePage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/admin/disease-management",
+      element: (
+        <ProtectedRoute role="admin">
+          <AdminDiseaseManagement />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/admin/complaints",
+      element: (
+        <ProtectedRoute role="admin">
+          <AdminComplaintsPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/admin/health-assistant",
+      element: (
+        <ProtectedRoute role="admin">
+          <AdminHealthAssistant />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/admin/monthly-reports",
+      element: (
+        <ProtectedRoute role="admin">
+          <AdminMonthlyReportPage />
         </ProtectedRoute>
       ),
     },

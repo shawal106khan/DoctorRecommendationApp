@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import Button from "../../../../../components/common/components/Button";
 import Input from "../../../../../components/common/components/Input";
-import Title from "../../../../../components/common/components/Title";
 import { useRequiredValidation } from "../../../../../hooks/useRequiredValidation";
+import { StepHeader } from "../../../../../components/common/components/StepComponents";
 
 const LocationStep = ({ profile, setProfile, onNext, onBack }) => {
   const { errors, validate, setErrors } = useRequiredValidation({
@@ -25,95 +24,81 @@ const LocationStep = ({ profile, setProfile, onNext, onBack }) => {
       city: profile.city,
       landmark: profile.landmark,
     });
-
     if (!isValid) return;
     onNext();
   };
 
   return (
-    <div className="max-w-md  mx-auto p-6">
-      <Title
-        heading="Location"
-        subheading="Help patients easily find your clinic"
+    <div className="max-w-lg mx-auto px-2 py-4">
+      <StepHeader
+        title="Location"
+        subtitle="Help patients easily find your clinic"
       />
-      <Input
-        label="Hospital Name"
-        error={errors.hospitalName}
-        placeholder="e.g. City Health Hospital"
-        value={profile.hospitalName || ""}
-        onChange={(e) => {
-          setProfile({ ...profile, hospitalName: e.target.value });
-          if (errors.hospitalName) {
-            setErrors((prev) => ({ ...prev, hospitalName: null }));
-          }
-        }}
-      />
-
-      <Input
-        label="Full Address"
-        error={errors.address}
-        placeholder="e.g. 123 Main Street, Apt 4B"
-        value={profile.address}
-        onChange={(e) => {
-          setProfile({ ...profile, address: e.target.value });
-          if (errors.address) {
-            setErrors((prev) => ({ ...prev, address: null }));
-          }
-        }}
-      />
-
-      <div className="grid grid-cols-2 gap-4">
+      <div className="space-y-1">
         <Input
-          label="City"
-          error={errors.city}
-          placeholder="e.g Swat"
-          value={profile.city}
+          label="Hospital Name"
+          error={errors.hospitalName}
+          placeholder="e.g. City Health Hospital"
+          value={profile.hospitalName || ""}
           onChange={(e) => {
-            setProfile({ ...profile, city: e.target.value });
-            if (errors.city) {
-              setErrors((prev) => ({ ...prev, city: null }));
-            }
+            setProfile({ ...profile, hospitalName: e.target.value });
+            if (errors.hospitalName)
+              setErrors((p) => ({ ...p, hospitalName: null }));
           }}
         />
-
         <Input
-          label="Nearby Landmark"
-          error={errors.landmark}
-          placeholder="e.g. Near the bus stop"
-          value={profile.landmark || ""}
+          label="Full Address"
+          error={errors.address}
+          placeholder="e.g. 123 Main Street"
+          value={profile.address}
           onChange={(e) => {
-            setProfile({ ...profile, landmark: e.target.value });
-            if (errors.landmark) {
-              setErrors((prev) => ({ ...prev, landmark: null }));
-            }
+            setProfile({ ...profile, address: e.target.value });
+            if (errors.address) setErrors((p) => ({ ...p, address: null }));
           }}
+        />
+        <div className="grid grid-cols-2 gap-4">
+          <Input
+            label="City"
+            error={errors.city}
+            placeholder="e.g Swat"
+            value={profile.city}
+            onChange={(e) => {
+              setProfile({ ...profile, city: e.target.value });
+              if (errors.city) setErrors((p) => ({ ...p, city: null }));
+            }}
+          />
+          <Input
+            label="Nearby Landmark"
+            error={errors.landmark}
+            placeholder="e.g. Near the bus stop"
+            value={profile.landmark || ""}
+            onChange={(e) => {
+              setProfile({ ...profile, landmark: e.target.value });
+              if (errors.landmark) setErrors((p) => ({ ...p, landmark: null }));
+            }}
+          />
+        </div>
+        <Input
+          label="Google Maps Link (optional)"
+          placeholder="https://maps.google.com/..."
+          value={profile.mapLink || ""}
+          onChange={(e) => setProfile({ ...profile, mapLink: e.target.value })}
         />
       </div>
 
-      <Input
-        label="Google Maps Link (optional)"
-        placeholder="https://maps.google.com/..."
-        value={profile.mapLink || ""}
-        onChange={(e) => setProfile({ ...profile, mapLink: e.target.value })}
-      />
-
-      <div className="mt-8 flex justify-between text-sm">
-        <span
+      <div className="mt-8 flex items-center justify-between">
+        <button
           onClick={onBack}
-          className="cursor-pointer text-gray-600 hover:text-blue-600"
+          className="text-sm font-semibold text-[#4A6680] hover:text-[#1A6FA8] transition"
         >
           ← Back
-        </span>
-
-        <span
+        </button>
+        <button
           onClick={handleNext}
-          className="cursor-pointer bg-blue-600 
-          border border-gray-400 
-          py-2 px-5 rounded-lg text-white font-medium 
-          hover:underline"
+          className="px-6 py-2.5 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-semibold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
           Next →
-        </span>
+        </button>
       </div>
     </div>
   );

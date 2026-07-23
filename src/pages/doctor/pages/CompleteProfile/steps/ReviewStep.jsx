@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Button from "../../../../../components/common/components/Button";
-import Title from "../../../../../components/common/components/Title";
 import { getCurrentUser } from "../../../../../services/authService";
 import { getDoctorByUserId } from "../../../../../services/userService";
 import {
@@ -8,9 +6,47 @@ import {
   fetchDoctorVerificationStatus,
 } from "../../../../../services/doctorService";
 import LoadingSpinner from "../../../../../components/common/components/LoadingSpinner";
+import { useLoading } from "../../../../../hooks/useLoading";
+import { StepHeader } from "../../../../../components/common/components/StepComponents";
+import ButtonLoader from "../../../../../components/common/components/ButtonLoader";
+
+const Section = ({ title, children }) => (
+  <div className="mb-4 bg-white border border-[#D6E6F2] rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(26,111,168,0.06)]">
+    <div className="bg-[#F7FAFE] border-b border-[#D6E6F2] px-4 py-2.5">
+      <p className="text-[11px] font-bold text-[#1A6FA8] uppercase tracking-widest">
+        {title}
+      </p>
+    </div>
+    <div className="grid grid-cols-2 gap-px bg-[#EEF5FC] p-px rounded-b-2xl overflow-hidden">
+      {children}
+    </div>
+  </div>
+);
+
+const Item = ({ label, value, isLink }) => (
+  <div className="bg-white px-4 py-3">
+    <p className="text-[10px] font-semibold text-[#4A6680] uppercase tracking-wide mb-0.5">
+      {label}
+    </p>
+    {isLink && value ? (
+      <a
+        href={value}
+        target="_blank"
+        rel="noreferrer"
+        className="text-xs text-[#1A6FA8] underline font-medium"
+      >
+        View on Map
+      </a>
+    ) : (
+      <p className="text-sm font-semibold text-[#0D2E4E]">
+        {value || <span className="text-[#AAC2D4] font-normal">—</span>}
+      </p>
+    )}
+  </div>
+);
 
 const ReviewStep = ({ profile, onBack, onFinish }) => {
-  const [loading, setLoading] = useState(true);
+  const { loading, stopLoading } = useLoading(true);
   const [profInfo, setProfInfo] = useState(null);
   const [verificationStatus, setVerificationStatus] = useState("pending");
 
@@ -20,47 +56,49 @@ const ReviewStep = ({ profile, onBack, onFinish }) => {
       try {
         const userId = await getCurrentUser();
         const doctor = await getDoctorByUserId(userId);
-
         const [prof, status] = await Promise.all([
           fetchDoctorProfessionalInfo(userId),
           fetchDoctorVerificationStatus(doctor.doctors_id),
         ]);
-
         if (!mounted) return;
         setProfInfo(prof);
         setVerificationStatus(status);
       } catch {
         // keep defaults
       } finally {
-        if (mounted) setLoading(false);
+        if (mounted) stopLoading();
       }
     };
-
     load();
-
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [stopLoading]);
+
+  const statusBadge = {
+    approved: "bg-green-50 border border-green-100 text-green-700",
+    rejected: "bg-red-50 border border-red-100 text-red-700",
+    pending: "bg-yellow-50 border border-yellow-100 text-yellow-700",
+  };
 
   return (
-    <div className="max-w-md mx-auto p-5">
-      <Title
-        heading="Review Your Profile"
-        subheading="Please review your information carefully before finishing."
+    <div className="max-w-lg mx-auto px-2 py-4">
+      <StepHeader
+        title="Review Your Profile"
+        subtitle="Please review your information carefully before finishing."
       />
 
       {loading ? (
-        <LoadingSpinner text="Loading review data..." />
+        <div className="flex justify-center py-10">
+          <LoadingSpinner />
+        </div>
       ) : (
         <>
-          {/* BASIC INFO (LOCAL STATE) */}
           <Section title="Basic Information">
             <Item label="About" value={profile?.bio} />
             <Item label="Languages" value={profile?.languages?.join(", ")} />
           </Section>
 
-          {/* PROFESSIONAL INFO (FROM SIGNUP) */}
           <Section title="Professional Information">
             <Item label="Specialization" value={profInfo?.specializationName} />
             <Item
@@ -74,9 +112,16 @@ const ReviewStep = ({ profile, onBack, onFinish }) => {
             <Item label="Qualification" value={profInfo?.qualifications} />
             <Item label="License Number" value={profInfo?.license_number} />
             <Item label="Phone" value={profInfo?.phone_number} />
+            <Item
+              label="Consultation Fee"
+              value={
+                profInfo?.consultation_fee
+                  ? `PKR ${profInfo.consultation_fee}`
+                  : null
+              }
+            />
           </Section>
 
-          {/* AVAILABILITY (LOCAL STATE) */}
           <Section title="Availability">
             <Item
               label="Available Days"
@@ -87,18 +132,17 @@ const ReviewStep = ({ profile, onBack, onFinish }) => {
               value={
                 profile?.startTime && profile?.endTime
                   ? `${profile.startTime} - ${profile.endTime}`
-                  : "�"
+                  : "—"
               }
             />
             <Item
               label="Slot Duration"
               value={
-                profile?.slotDuration ? `${profile.slotDuration} minutes` : "�"
+                profile?.slotDuration ? `${profile.slotDuration} minutes` : "—"
               }
             />
           </Section>
 
-          {/* LOCATION (LOCAL STATE) */}
           <Section title="Clinic Location">
             <Item
               label="Clinic Name"
@@ -110,74 +154,37 @@ const ReviewStep = ({ profile, onBack, onFinish }) => {
             <Item label="Google Maps" value={profile?.mapLink} isLink />
           </Section>
 
-          {/* VERIFICATION */}
-          <Section title="Verification Status">
-            {verificationStatus === "approved" ? (
-              <span className="inline-block px-2 text-center py-2 text-sm rounded-lg bg-green-100 text-green-800 font-body">
-                Approved
-              </span>
-            ) : verificationStatus === "rejected" ? (
-              <span className="inline-block px-2 text-center py-2 text-sm rounded-lg bg-red-100 text-red-800 font-body">
-                Rejected
-              </span>
-            ) : (
-              <span className="inline-block px-2 text-center py-2 text-sm rounded-lg bg-yellow-100 text-yellow-800 font-body">
-                Pending
-              </span>
-            )}
-          </Section>
+          {/* Verification */}
+          <div className="mb-4">
+            <p className="text-[11px] font-bold text-[#4A6680] uppercase tracking-widest mb-2">
+              Verification Status
+            </p>
+            <span
+              className={`inline-flex items-center px-3 py-1.5 text-xs font-bold rounded-full capitalize ${statusBadge[verificationStatus] || statusBadge.pending}`}
+            >
+              {verificationStatus}
+            </span>
+          </div>
         </>
       )}
 
-      {/* ACTIONS */}
-      <div className="mt-8 flex justify-between text-sm">
-        <span
+      <div className="mt-8 flex items-center justify-between">
+        <button
           onClick={onBack}
-          className="cursor-pointer text-gray-600 hover:text-blue-600"
+          className="text-sm font-semibold text-[#4A6680] hover:text-[#1A6FA8] transition"
         >
-          Back
-        </span>
-
-        <span
+          ← Back
+        </button>
+        <button
+          disabled={loading}
           onClick={onFinish}
-          className="cursor-pointer bg-blue-600 py-2 px-5 
-           border border-gray-400 rounded-lg text-white
-            font-medium hover:underline"
+          className="px-6 py-2.5 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-semibold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60"
         >
-          Go to Dashboard
-        </span>
+          {loading ? <ButtonLoader text="Loading..." /> : "Go to Dashboard"}
+        </button>
       </div>
     </div>
   );
 };
 
 export default ReviewStep;
-
-const Section = ({ title, children }) => (
-  <div className="mb-6 border rounded-lg p-4">
-    <h3 className="font-semibold mb-3 text-sm text-gray-600 font-body">
-      {title}
-    </h3>
-    <div className="grid grid-cols-2 gap-4 text-gray-700 text-xs font-body">
-      {children}
-    </div>
-  </div>
-);
-
-const Item = ({ label, value, isLink }) => (
-  <div>
-    <p className="text-xs text-gray-500">{label}</p>
-    {isLink && value ? (
-      <a
-        href={value}
-        target="_blank"
-        rel="noreferrer"
-        className="text-blue-600 underline"
-      >
-        View on Map
-      </a>
-    ) : (
-      <p className="font-medium">{value || "�"}</p>
-    )}
-  </div>
-);

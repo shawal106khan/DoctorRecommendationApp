@@ -3,13 +3,15 @@ import DashboardLayout from "../../../components/layout/DashboardLayout";
 import GeneralPanel from "./components/GeneralPanel";
 import ProfilePanel from "./components/ProfilePanel";
 import SecurityPanel from "./components/SecurityPanel";
+import { Settings, User, Shield, Globe } from "lucide-react";
+
 const AdminSettingsPage = () => {
   const [activeTab, setActiveTab] = useState("general");
 
   const tabs = [
-    { id: "general", label: "General" },
-    { id: "profile", label: "Profile" },
-    { id: "security", label: "Login & Security" },
+    { id: "general", label: "General", icon: Globe },
+    { id: "profile", label: "Profile", icon: User },
+    { id: "security", label: "Login & Security", icon: Shield },
   ];
 
   const renderPanel = () => {
@@ -20,36 +22,66 @@ const AdminSettingsPage = () => {
 
   return (
     <DashboardLayout role="admin">
-      <div className="min-h-screen bg-gray-100 p-8">
-        <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="grid md:grid-cols-[240px_1fr]">
-            {/* Sidebar */}
-            <div className="bg-gray-50 border-r p-6 space-y-2">
-              <h2 className="text-lg font-semibold text-gray-700 mb-4">
-                Settings
-              </h2>
+      <div className="bg-[#F0F4F8] min-h-screen">
+        {/* Top strip */}
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
+          <p className="text-white/75 text-xs font-medium tracking-wide">
+            Manage your account settings and preferences
+          </p>
+        </div>
 
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`w-full text-left px-4 py-2 rounded-lg transition text-sm ${
-                    activeTab === tab.id
-                      ? "bg-blue-600 text-white"
-                      : "text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+        <div className="px-6 lg:px-12 py-8">
+          {/* Page header */}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
+            <div>
+              <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-[2px]">
+                Admin Portal
+              </p>
+              <h1 className="text-xl font-bold text-[#0D2E4E]">Settings</h1>
             </div>
+          </div>
 
-            {/* Content */}
-            <div className="p-8 bg-white">{renderPanel()}</div>
+          <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
+            <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
+            <div className="grid md:grid-cols-[220px_1fr]">
+              {/* Sidebar */}
+              <div className="bg-[#F7FAFE] border-r border-[#D6E6F2] p-5 space-y-1">
+                <div className="flex items-center gap-2 mb-5">
+                  <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-[#1A6FA8] to-[#336aac] flex items-center justify-center">
+                    <Settings size={14} className="text-white" />
+                  </div>
+                  <p className="text-sm font-bold text-[#0D2E4E]">Settings</p>
+                </div>
+
+                {tabs.map(({ id, label, icon }) => {
+                  const Icon = icon;
+                  return (
+                    <button
+                      key={id}
+                      onClick={() => setActiveTab(id)}
+                      className={`w-full text-left px-4 py-2.5 rounded-xl transition-all text-sm flex items-center gap-2.5 font-medium ${
+                        activeTab === id
+                          ? "bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white shadow-[0_4px_12px_rgba(26,111,168,0.25)]"
+                          : "text-[#4A6680] hover:bg-[#E8F4FD] hover:text-[#1A6FA8]"
+                      }`}
+                    >
+                      <Icon size={15} />
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Content */}
+              <div className="p-8 bg-white">{renderPanel()}</div>
+            </div>
           </div>
         </div>
       </div>
     </DashboardLayout>
   );
 };
+
 export default AdminSettingsPage;

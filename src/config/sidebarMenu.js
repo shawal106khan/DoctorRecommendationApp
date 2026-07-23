@@ -9,6 +9,9 @@ import {
   Users,
   Calendar,
   LogOut,
+  List,
+  FileText,
+  AlertCircle,
 } from "lucide-react";
 
 export const sidebarMenu = {
@@ -28,6 +31,7 @@ export const sidebarMenu = {
       path: "/patient/appointments",
       icon: CalendarCheck,
     },
+    { label: "Queue Status", path: "/patient/queue", icon: List }, // ✅
     {
       label: "Profile",
       path: "/patient/profile",
@@ -56,6 +60,7 @@ export const sidebarMenu = {
       path: "/doctor/reviews",
       icon: Star,
     },
+    { label: "Monthly Report", path: "/doctor/report", icon: FileText },
   ],
 
   // ⭐ NEW ADMIN ROLE
@@ -64,6 +69,26 @@ export const sidebarMenu = {
     { label: "Doctors", path: "/admin/doctors", icon: UserCheck },
     { label: "Patients", path: "/admin/patients", icon: Users },
     { label: "Appointments", path: "/admin/appointments", icon: Calendar },
+    {
+      label: "Disease Management",
+      path: "/admin/disease-management",
+      icon: List,
+    },
+    {
+      label: "Health Assistant",
+      path: "/admin/health-assistant",
+      icon: FileText,
+    },
     { label: "Settings", path: "/admin/settings", icon: Settings },
+    {
+      label: "Complaints",
+      path: "/admin/complaints",
+      icon: AlertCircle,
+    },
+    {
+      label: "Monthly Reports",
+      path: "/admin/monthly-reports",
+      icon: FileText,
+    },
   ],
 };

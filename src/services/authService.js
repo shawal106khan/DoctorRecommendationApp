@@ -32,3 +32,17 @@ export async function getCurrentUserProfile() {
   if (error || !data?.user) throw new Error("User not found");
   return data.user;
 }
+
+export async function sendResetLink(email) {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/reset-password`,
+  });
+  if (error) throw error;
+}
+
+export async function resetPassword(newPassword) {
+  const { error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+  if (error) throw error;
+}
