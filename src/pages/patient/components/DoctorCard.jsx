@@ -43,7 +43,7 @@ const DoctorCard = ({ doctor }) => {
   return (
     <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_24px_rgba(26,111,168,0.10)] hover:shadow-[0_12px_40px_rgba(26,111,168,0.18)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col">
       {/* ── CARD HEADER ── */}
-      <div className="relative bg-gradient-to-br from-[#F0F7FF] to-[#E8F4FD] px-5 pt-5 pb-4">
+      <div className="relative bg-gradient-to-br from-[#F0F7FF] to-[#E8F4FD] px-4 sm:px-5 pt-4 sm:pt-5 pb-4">
         {/* Category ribbon — top right */}
         {doctor.recommendationCategory && catCfg && (
           <div
@@ -57,7 +57,7 @@ const DoctorCard = ({ doctor }) => {
         <div className="flex gap-4 items-start">
           {/* Avatar */}
           <div className="relative flex-shrink-0">
-            <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-white shadow-[0_4px_12px_rgba(26,111,168,0.15)]">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden border-2 border-white shadow-[0_4px_12px_rgba(26,111,168,0.15)]">
               <img
                 src={doctor.avatar}
                 alt={doctor.name}
@@ -83,7 +83,7 @@ const DoctorCard = ({ doctor }) => {
         </div>
       </div>
 
-      <div className="px-5 py-4 flex flex-col flex-1">
+      <div className="px-4 sm:px-5 py-4 flex flex-col flex-1">
         {/* Score bar */}
         {doctor.recommendationScore && (
           <div className="mb-4">
@@ -125,7 +125,7 @@ const DoctorCard = ({ doctor }) => {
         <div className="flex flex-wrap gap-2 mb-4">
           <div className="flex items-center gap-1.5 bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-3 py-1.5">
             <Briefcase size={11} className="text-[#1A6FA8] flex-shrink-0" />
-            <span className="text-[11px] font-semibold text-[#0D2E4E]">
+            <span className="text-[10px] sm:text-[11px] font-semibold text-[#0D2E4E]">
               {doctor.experienceYears} yrs exp
             </span>
           </div>
@@ -133,7 +133,7 @@ const DoctorCard = ({ doctor }) => {
           {doctor.consultationFee && (
             <div className="flex items-center gap-1.5 bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-3 py-1.5">
               <Banknote size={11} className="text-[#38B2A0] flex-shrink-0" />
-              <span className="text-[11px] font-semibold text-[#0D2E4E]">
+              <span className="text-[10px] sm:text-[11px] font-semibold text-[#0D2E4E]">
                 Rs. {doctor.consultationFee}
               </span>
             </div>
@@ -142,7 +142,7 @@ const DoctorCard = ({ doctor }) => {
           {doctor.hospitalName && (
             <div className="flex items-center gap-1.5 bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-3 py-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] flex-shrink-0" />
-              <span className="text-[11px] font-medium text-[#6B839A] truncate max-w-[120px]">
+              <span className="text-[10px] sm:text-[11px] font-medium text-[#6B839A] truncate max-w-[120px]">
                 {doctor.hospitalName}
               </span>
             </div>
