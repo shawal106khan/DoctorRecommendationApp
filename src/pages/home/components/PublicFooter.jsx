@@ -8,9 +8,9 @@ const PublicFooter = () => {
       {/* Top gradient bar */}
       <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
 
-      <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-4 gap-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10">
         {/* Brand */}
-        <div className="md:col-span-1">
+        <div className="col-span-1 md:col-span-1">
           <div className="flex items-center gap-2.5 mb-4">
             <p className="text-white font-bold text-sm">
               Doctor Recommendation and Appointment Platform
@@ -75,9 +75,8 @@ const PublicFooter = () => {
       </div>
 
       {/* Bottom */}
-      <div className="border-t border-white/10 py-5 text-center text-xs text-white/40">
-        © {new Date().getFullYear()} MedConnect Swat. All rights reserved.
-        &nbsp;·&nbsp; Built for Swat District Healthcare
+      <div className="border-t border-white/10 py-5  px-4 text-center text-xs text-white/40">
+        © {new Date().getFullYear()} All rights reserved &nbsp;
       </div>
     </footer>
   );

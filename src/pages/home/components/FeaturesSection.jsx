@@ -61,13 +61,13 @@ const FeaturesSection = () => {
   return (
     <section
       id="services"
-      className="py-24 bg-[#336aac] px-6 relative overflow-hidden"
+      className="py-12 sm:py-20 bg-[#336aac] px-4 sm:px-6 relative overflow-hidden"
     >
       {/* Background decoration */}
       <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-white opacity-[0.04]" />
       <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full bg-[#38B2A0] opacity-10" />
       <svg
-        className="absolute top-10 right-20 w-16 h-16 text-white opacity-10 rotate-45"
+        className="hidden sm:block absolute top-10 right-20 w-16 h-16 text-white opacity-10 rotate-45"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -80,11 +80,11 @@ const FeaturesSection = () => {
       </svg>
 
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide">
             Platform Features
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">
             What You Can Do
           </h2>
           <div className="w-16 h-1 bg-[#38B2A0] rounded-full mt-3 mx-auto" />
@@ -94,11 +94,11 @@ const FeaturesSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
           {features.map(({ icon, title, desc }) => (
             <div
               key={title}
-              className="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/15 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+              className="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-5 sm:p-8 hover:bg-white/15 hover:-translate-y-1 transition-all duration-300 flex flex-col"
             >
               <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/25 text-white flex items-center justify-center mb-5 flex-shrink-0">
                 {icon}

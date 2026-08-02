@@ -54,14 +54,14 @@ const ContactSection = () => {
     "w-full h-11 px-4 rounded-xl text-sm text-[#0D2E4E] bg-[#F7FAFE] border-[1.5px] border-[#D6E6F2] outline-none transition focus:bg-white focus:border-[#1A6FA8] focus:ring-4 focus:ring-[#1A6FA8]/10";
 
   return (
-    <section id="contact" className="py-24 bg-[#F7FAFE] px-6">
+    <section id="contact" className="py-12 sm:py-20 bg-[#F7FAFE] px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
         {/* Heading */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide">
             Get In Touch
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#0D2E4E] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0D2E4E] tracking-tight">
             Contact Support
           </h2>
           <div className="w-16 h-1 bg-gradient-to-r from-[#1A6FA8] to-[#38B2A0] rounded-full mt-3 mx-auto" />
@@ -75,7 +75,7 @@ const ContactSection = () => {
           {/* Contact info card */}
           <div className="md:col-span-2 bg-white border border-[#D6E6F2] rounded-2xl shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden flex flex-col">
             <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] to-[#38B2A0]" />
-            <div className="p-7 flex flex-col flex-1">
+            <div className="p-5 sm:p-7 flex flex-col flex-1">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1A6FA8] to-[#336aac] flex items-center justify-center mb-5 shadow-[0_4px_12px_rgba(26,111,168,0.30)]">
                 <Mail size={20} className="text-white" />
               </div>
@@ -118,7 +118,7 @@ const ContactSection = () => {
           {/* Complaint form */}
           <div className="md:col-span-3 bg-white border border-[#D6E6F2] rounded-2xl shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
             <div className="h-1 w-full bg-gradient-to-r from-[#336aac] to-[#38B2A0]" />
-            <div className="p-7">
+            <div className="p-5 sm:p-7">
               <div className="flex items-center gap-2 mb-6">
                 <div className="w-1 h-6 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
                 <h3 className="text-[#0D2E4E] font-bold text-lg">
@@ -191,7 +191,7 @@ const ContactSection = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-bold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60"
+                  className=" w-full sm:w-auto flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-bold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60"
                 >
                   <Send size={14} />
                   {loading ? "Submitting..." : "Submit Complaint"}

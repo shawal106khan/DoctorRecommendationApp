@@ -1,13 +1,13 @@
 const AboutSection = () => {
   return (
-    <section id="about" className="py-24 bg-white px-6">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+    <section id="about" className="py-12 sm:py-20 bg-white px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 sm:gap-16 items-center">
         {/* Left */}
         <div>
           <div className="inline-flex items-center gap-2 bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold px-4 py-1.5 rounded-full mb-6 uppercase tracking-wide">
             About Our Platform
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#0D2E4E] tracking-tight leading-tight mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0D2E4E] tracking-tight leading-tight mb-4">
             Built for Trust,{" "}
             <span className="text-[#1A6FA8]">Transparency</span> & Accessibility
           </h2>
@@ -33,7 +33,7 @@ const AboutSection = () => {
         </div>
 
         {/* Right */}
-        <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-2xl p-8 shadow-[0_8px_30px_rgba(26,111,168,0.08)]">
+        <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-2xl p-5 sm:p-8 shadow-[0_8px_30px_rgba(26,111,168,0.08)]">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1A6FA8] to-[#336aac] flex items-center justify-center shadow-[0_4px_12px_rgba(26,111,168,0.30)]">
               <svg

@@ -26,17 +26,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-[100vh] sm:min-h-[92vh] flex items-center overflow-hidden sm:py-0">
-      {/* Background image */}
-
-      {/* <div
-
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-
-        style={{ backgroundImage: `url(${HeroImg})` }}
-
-      /> */}
-
+    <section className="relative min-h-[80vh] py-9 flex items-center overflow-hidden ">
       {/* Overlay — brand blue gradient */}
 
       <div className="absolute inset-0 bg-gradient-to-br from-[#0D2E4E]/95 via-[#1A6FA8]/85 to-[#336aac]/80" />
@@ -123,7 +113,7 @@ const HeroSection = () => {
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <button
               onClick={handleFindDoctor}
-              className="w-full sm:w-auto h-12 sm:h-13 px-6 sm:px-8 py-3 sm:py-3.5 bg-white text-[#1A6FA8] text-sm font-bold rounded-xl hover:bg-[#F7FAFE] active:scale-[0.99] transition-all shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center justify-center gap-2"
+              className="w-full sm:w-auto h-12 sm:h-13 px-6 sm:px-8 py-3 sm:py-3.5 bg-white text-[#1A6FA8] text-sm font-bold rounded-xl  hover:bg-[#bed7f7] active:scale-[0.99] transition-all shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center justify-center gap-2"
             >
               <svg
                 width="16"
@@ -143,7 +133,7 @@ const HeroSection = () => {
 
             <button
               onClick={handleJoinDoctor}
-              className="w-full sm:w-auto h-12 sm:h-13 px-6 sm:px-8 py-3 sm:py-3.5 border-2 border-white/40 text-white text-sm font-bold rounded-xl hover:bg-white/10 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto h-12 sm:h-13 px-6 sm:px-8 py-3 sm:py-3.5 border-2 border-white/40 text-white text-sm font-bold rounded-xl hover:bg-white/20 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
             >
               <svg
                 width="16"
@@ -168,7 +158,7 @@ const HeroSection = () => {
 
           {/* Trust indicators */}
 
-          <div className="mt-6 flex flex-wrap gap-2 sm:gap-5">
+          <div className="mt-6 grid grid-cols-1 sm:flex sm:flex-wrap gap-2 sm:gap-5">
             {[
               {
                 label: "Verified Doctors",

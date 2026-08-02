@@ -58,23 +58,23 @@ const trustItems = [
 
 const TrustSection = () => {
   return (
-    <section className="py-20 bg-[#F7FAFE] px-6">
+    <section className="py-12 sm:py-10 bg-[#F7FAFE] px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
+        <div className="text-center mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide">
             Why Trust Us
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#0D2E4E] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0D2E4E] tracking-tight px-2">
             Why Patients Trust Our Platform
           </h2>
           <div className="w-16 h-1 bg-gradient-to-r from-[#1A6FA8] to-[#38B2A0] rounded-full mt-3 mx-auto" />
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
           {trustItems.map(({ icon, title, desc, color }) => (
             <div
               key={title}
-              className="bg-white rounded-2xl p-7 shadow-[0_4px_20px_rgba(26,111,168,0.08)] border border-[#D6E6F2] hover:shadow-[0_8px_32px_rgba(26,111,168,0.14)] hover:-translate-y-1 transition-all duration-300 flex flex-col"
+              className="bg-white rounded-2xl p-5 sm:p-7 shadow-[0_4px_20px_rgba(26,111,168,0.08)] border border-[#D6E6F2] hover:shadow-[0_8px_32px_rgba(26,111,168,0.14)] hover:-translate-y-1 transition-all duration-300 flex flex-col"
             >
               <div
                 className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 flex-shrink-0 ${color}`}
