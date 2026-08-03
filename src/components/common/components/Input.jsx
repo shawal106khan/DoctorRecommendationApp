@@ -26,7 +26,7 @@ const Input = ({
           error ? "border-red-400 bg-red-50" : "border-[#D6E6F2]"
         }`}
       />
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p className="text-red-500 text-xs mt-1.5">{error}</p>}
     </div>
   );
 };

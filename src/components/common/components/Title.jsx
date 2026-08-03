@@ -16,7 +16,7 @@ const Title = ({
       {/* <div className="w-40 h-1 bg-[#1A6FA8] rounded-full mt-2 mx-auto" /> */}
       {subheading && (
         <p
-          className={` hidden sm:block text-[#6B839A] text-xs sm:text-sm mt-1.5 sm:mt-3 leading-relaxed ${classNameSubheading || ""}`}
+          className={` hidden sm:bloc text-[#6B839A] text-xs sm:text-sm mt-1.5 sm:mt-3 leading-relaxed ${classNameSubheading || ""}`}
         >
           {subheading}
         </p>
