@@ -5,7 +5,7 @@ const Title = ({
   classNameSubheading,
 }) => {
   return (
-    <div className="mb-4 sm:mb-8 text-center">
+    <div className="mb-5 sm:mb-8 text-center">
       {heading && (
         <h1
           className={`text-lg sm:text-3xl font-bold tracking-tight text-[#0D2E4E] ${classNameHeading || ""}`}
@@ -16,7 +16,7 @@ const Title = ({
       {/* <div className="w-40 h-1 bg-[#1A6FA8] rounded-full mt-2 mx-auto" /> */}
       {subheading && (
         <p
-          className={` hidden sm:bloc text-[#6B839A] text-xs sm:text-sm mt-1.5 sm:mt-3 leading-relaxed ${classNameSubheading || ""}`}
+          className={`text-[#6B839A] text-xs sm:text-sm mt-1.5 sm:mt-3 leading-relaxed ${classNameSubheading || ""}`}
         >
           {subheading}
         </p>
