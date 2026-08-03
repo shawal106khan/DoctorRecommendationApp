@@ -1,13 +1,13 @@
 const RadioGroup = ({ label, name, options, value, onChange }) => {
   return (
-    <div className="mb-5">
+    <div className="mb-2 sm:mb-5">
       {label && (
-        <p className="block text-[11.5px] font-semibold text-[#4A6680] uppercase tracking-wide mb-1.5">
+        <p className="block text-[10px] sm:text-[11.5px] font-semibold text-[#4A6680] uppercase tracking-wide mb-1.5">
           {label}
         </p>
       )}
 
-      <div className="gap-4">
+      <div className="flex felx-wrap gap-4">
         {options.map((option) => (
           <label
             key={option.value}

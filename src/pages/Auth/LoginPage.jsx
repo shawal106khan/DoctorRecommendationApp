@@ -153,7 +153,7 @@ const LoginPage = () => {
           subheading="Find the right doctor and manage appointments easily"
         />
 
-        <div className="mb-5">
+        <div className="mb-3 sm:mb-5">
           <Input
             label="Email address"
             error={errors.email}
@@ -165,7 +165,7 @@ const LoginPage = () => {
           />
         </div>
 
-        <div className="mb-6">
+        <div className="mb-3 sm:mb-6">
           <Input
             label="Password"
             error={errors.password}
@@ -178,7 +178,7 @@ const LoginPage = () => {
           <ForgotPasswordLink />
         </div>
 
-        <div className="mb-8">
+        <div className="mb-3 sm:mb-8">
           <RadioGroup
             label="Select Role"
             name="role"
@@ -197,7 +197,7 @@ const LoginPage = () => {
           text={loading ? <ButtonLoader text="Logging in..." /> : "Login"}
         />
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-xs sm:text-sm text-gray-500 mt-3 sm:mt-6">
           Don&apos;t have an account?
           <Link
             to={`/signup?redirect=${redirectTo || ""}`} // ✅

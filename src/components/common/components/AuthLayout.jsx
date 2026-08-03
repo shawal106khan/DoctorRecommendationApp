@@ -2,7 +2,7 @@ import AuthSideImage from "./AuthSideImage";
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-[#336aac] flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-[#336aac] flex items-center justify-center px-4 py-3 sm:p-6 relative overflow-hidden">
       {/* Background circles */}
       <div className="hidden lg:block">
         <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-white opacity-5" />
@@ -135,8 +135,7 @@ const AuthLayout = ({ children }) => {
       </div>
 
       {/* White card */}
-      {/* White card */}
-      <div className="relative z-10 w-full max-w-md bg-white rounded-2xl px-10 py-10 shadow-[0_20px_60px_rgba(0,0,0,0.20)]">
+      <div className="relative z-10 w-full max-w-md bg-white rounded-2xl px-5 py-5 sm:px-10 sm:py-10 shadow-[0_20px_60px_rgba(0,0,0,0.20)]">
         {children}
       </div>
     </div>
