@@ -197,7 +197,7 @@ const LoginPage = () => {
           text={loading ? <ButtonLoader text="Logging in..." /> : "Login"}
         />
 
-        <p className="text-center text-xs sm:text-sm text-gray-500 mt-3 sm:mt-6">
+        <p className="text-center text-xs sm:text-sm text-gray-500 mt-4 sm:mt-6">
           Don&apos;t have an account?
           <Link
             to={`/signup?redirect=${redirectTo || ""}`} // ✅

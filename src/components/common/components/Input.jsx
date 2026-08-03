@@ -22,7 +22,7 @@ const Input = ({
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}
-        className={`w-full h-10 sm:h-12 px-4 rounded-xl text-sm text-[#0D2E4E] bg-[#F7FAFE] border-[1.5px] outline-none transition placeholder:text-[#AAC2D4] focus:bg-white focus:border-[#1A6FA8] focus:ring-4 focus:ring-[#1A6FA8]/10 ${
+        className={`w-full h-11 sm:h-12 px-4 rounded-xl text-sm text-[#0D2E4E] bg-[#F7FAFE] border-[1.5px] outline-none transition placeholder:text-[#AAC2D4] focus:bg-white focus:border-[#1A6FA8] focus:ring-4 focus:ring-[#1A6FA8]/10 ${
           error ? "border-red-400 bg-red-50" : "border-[#D6E6F2]"
         }`}
       />
