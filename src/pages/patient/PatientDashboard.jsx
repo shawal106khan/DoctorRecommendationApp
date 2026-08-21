@@ -160,38 +160,18 @@ const PatientDashboard = () => {
           />
         </div>
       </div>
-      {/* future remove */}
-      {/* {searchType && (
-        <div className="mb-6 bg-white rounded-2xl border border-[#D6E6F2] p-5 shadow-sm">
-          <h3 className="font-bold text-[#1A6FA8] text-lg">
-            AI Recommendation Result
-          </h3>
 
-          <p className="mt-2 text-sm text-gray-600">
-            Doctors have been ranked based on multiple factors to help you find
-            the most suitable specialist.
-          </p>
-
-          <ul className="mt-3 text-sm text-gray-600 space-y-1">
-            <li>• Experience</li>
-            <li>• Patient Ratings</li>
-            <li>• Review History</li>
-            <li>• Consultation Fee</li>
-            <li>• Verification Status</li>
-          </ul>
-        </div>
-      )} */}
       {/* Doctors Section */}
       <div
         ref={recommendationRef}
-        className={`px-6 lg:px-12 py-10 bg-[#F0F4F8] transition-all duration-700
+        className={`px-4 sm:px-6 lg:px-12 py-6 sm:py-10 bg-[#F0F4F8] transition-all duration-700
     ${recommendationHighlight ? "ring-4 ring-[#D6E6F2] animate-pulse rounded-xl" : ""}`}
       >
         {/* Section header */}
-        <div className="flex items-center justify-between mb-7">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5 sm:mb-7">
+          <div className="flex items-center gap-3 sm:gap-4">
             {/* Icon */}
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1A6FA8] to-[#336aac] flex items-center justify-center shadow-[0_4px_16px_rgba(26,111,168,0.30)] flex-shrink-0">
+            <div className="hidden sm:flex w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-[#1A6FA8] to-[#336aac]  items-center justify-center shadow-[0_4px_16px_rgba(26,111,168,0.30)] flex-shrink-0">
               {searchType ? (
                 <img
                   src={recommendDoctorImg}
@@ -214,7 +194,7 @@ const PatientDashboard = () => {
               </div>
 
               {/* Title */}
-              <h2 className="text-xl lg:text-2xl font-bold text-[#0D2E4E] leading-tight">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#0D2E4E] leading-tight my-3 sm:my-1">
                 {searchType === "disease" ? (
                   <>
                     Doctors for
@@ -246,11 +226,11 @@ const PatientDashboard = () => {
 
           {/* Count badge */}
           {filteredDoctors.length > 0 && (
-            <div className="flex flex-col items-center bg-gradient-to-br from-[#1A6FA8] to-[#336aac] text-white px-4 py-2 rounded-2xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] flex-shrink-0">
-              <span className="text-lg font-bold leading-none">
+            <div className="flex flex-row sm:flex-col items-center absolute sm:right-4 right-2 gap-1.5 sm:gap-0 bg-gradient-to-br from-[#1A6FA8] to-[#336aac] text-white px-2 py-1 sm:px-4 sm:py-2 rounded-md sm:rounded-2xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] flex-shrink-0 self-start sm:self-auto">
+              <span className="text-sm sm:text-lg font-bold leading-none">
                 {filteredDoctors.length}
               </span>
-              <span className="text-[9px] font-medium opacity-75 mt-0.5">
+              <span className="text-[9px] sm:text-[9px] font-medium opacity-90 sm:opacity-75 sm:mt-0.5">
                 Doctors
               </span>
             </div>
@@ -258,7 +238,7 @@ const PatientDashboard = () => {
         </div>
         {/* Empty state */}
         {filteredDoctors.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center bg-white rounded-2xl border border-[#D6E6F2]">
+          <div className="flex flex-col items-center justify-center py-10 sm:py-16 px-4 text-center bg-white rounded-2xl border border-[#D6E6F2]">
             <div className="w-14 h-14 rounded-2xl bg-[#E8F4FD] flex items-center justify-center mb-4">
               <Star size={22} className="text-[#1A6FA8]" />
             </div>
@@ -270,7 +250,7 @@ const PatientDashboard = () => {
             </p>
           </div>
         ) : showRecommendationGroups ? (
-          <div className="space-y-10">
+          <div className="space-y-6 sm:space-y-10">
             {bestMatches.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-4">
@@ -282,7 +262,7 @@ const PatientDashboard = () => {
                     {bestMatches.length} Doctors
                   </span>
                 </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {bestMatches.map((doc) => (
                     <DoctorCard
                       key={doc.doctors_id}
@@ -314,7 +294,7 @@ const PatientDashboard = () => {
                     {highlyRecommended.length} Doctors
                   </span>
                 </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {highlyRecommended.map((doc) => (
                     <DoctorCard
                       key={doc.doctors_id}
@@ -346,7 +326,7 @@ const PatientDashboard = () => {
                     {recommended.length} Doctors
                   </span>
                 </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {recommended.map((doc) => (
                     <DoctorCard
                       key={doc.doctors_id}
@@ -368,7 +348,7 @@ const PatientDashboard = () => {
             )}
 
             {searchType && assistantQuestions.length > 0 && (
-              <div className="fixed bottom-6 right-6 z-50">
+              <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
                 <HealthAssistant
                   specializationName={selectedSpecializationName}
                   questions={assistantQuestions}
@@ -378,7 +358,7 @@ const PatientDashboard = () => {
             )}
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {topDoctors.map((doc) => (
               <DoctorCard
                 key={doc.doctors_id}

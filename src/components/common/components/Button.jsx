@@ -3,7 +3,7 @@ const Button = ({ text, type = "button", onClick }) => {
     <button
       type={type}
       onClick={onClick}
-      className="w-full h-12 bg-[#1A6FA8] hover:bg-[#155e8f] active:scale-[0.99] text-white text-[15px] font-semibold rounded-xl flex items-center justify-center gap-2 transition-all"
+      className="w-full h-12 sm:my-7 bg-[#1A6FA8] hover:bg-[#155e8f] active:scale-[0.99] text-white text-[15px] font-semibold rounded-xl flex items-center justify-center gap-2 transition-all"
     >
       {text}
       <svg

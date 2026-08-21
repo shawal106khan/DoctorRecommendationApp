@@ -163,7 +163,7 @@ const SignupPage = () => {
       />
 
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
           <Input
             label="Full Name"
             error={errors.fullName}
@@ -185,7 +185,7 @@ const SignupPage = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
           <Input
             label="Password"
             error={errors.password}

@@ -112,21 +112,21 @@ const QueueStatusPage = () => {
   return (
     <DashboardLayout role="patient">
       <div className="bg-[#F0F4F8] min-h-screen">
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             See your appointment number and waiting status
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8 max-w-3xl mx-auto">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8 max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
             <div>
               <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-[2px]">
                 Appointment Status
               </p>
-              <h1 className="text-xl font-bold text-[#0D2E4E]">
+              <h1 className="text-lg sm:text-xl font-bold text-[#0D2E4E] leading-snug">
                 {doctorName ? `Dr. ${doctorName}` : "Doctor"} —{" "}
                 {date
                   ? new Date(date).toLocaleDateString("en-US", {
@@ -145,7 +145,7 @@ const QueueStatusPage = () => {
             <>
               {/* My position card — shown if myAppointmentId exists */}
               {myAppointmentId && myPosition > 0 && (
-                <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] rounded-2xl p-5 mb-6 text-white">
+                <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] rounded-2xl p-4 sm:p-5 mb-5 sm:mb-6 text-white">
                   <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">
                     Your Appointment Number
                   </p>
@@ -159,13 +159,13 @@ const QueueStatusPage = () => {
               )}
 
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="bg-white rounded-2xl border border-[#D6E6F2] p-4 text-center">
+              <div className="grid  grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 mb-5 sm:mb-6">
+                <div className="bg-white rounded-2xl border border-[#D6E6F2] p-2.5 sm:p-4 text-center">
                   <CheckCircle
                     size={18}
                     className="text-green-500 mx-auto mb-1"
                   />
-                  <p className="text-2xl font-bold text-green-600">
+                  <p className="text-lg sm:text-2xl font-bold text-green-600">
                     {completed}
                   </p>
                   <p className="text-xs text-[#6B839A] mt-0.5">
@@ -195,7 +195,7 @@ const QueueStatusPage = () => {
 
               {/* Queue list */}
               <div className="bg-white rounded-2xl border border-[#D6E6F2] overflow-hidden">
-                <div className="px-5 py-4 border-b border-[#D6E6F2] flex items-center justify-between">
+                <div className="px-4 sm:px-5 py-3 sm:py-4 border-b border-[#D6E6F2] flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <CalendarCheck size={16} className="text-[#1A6FA8]" />
                     <p className="font-bold text-[#0D2E4E] text-sm">
@@ -218,13 +218,13 @@ const QueueStatusPage = () => {
                       return (
                         <div
                           key={q.appointment_id}
-                          className={`px-5 py-4 flex items-center justify-between gap-4 transition ${
+                          className={`px-4 sm:px-5 py-3 sm:py-4 flex flex-wrap items-center justify-between gap-3 transition ${
                             isMe ? "bg-blue-50 border-l-4 border-[#1A6FA8]" : ""
                           }`}
                         >
-                          <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-3 sm:gap-4">
                             <div
-                              className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm flex-shrink-0 ${
+                              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-sm flex-shrink-0 ${
                                 isMe
                                   ? "bg-[#1A6FA8] text-white"
                                   : "bg-[#F0F4F8] text-[#4A6680]"
@@ -309,7 +309,7 @@ const QueueFromAppointments = () => {
 
   if (appointments.length === 0) {
     return (
-      <div className="bg-white rounded-2xl border border-[#D6E6F2] p-10 text-center">
+      <div className="bg-white rounded-2xl border border-[#D6E6F2] p-6 sm:p-10 text-center">
         <CalendarCheck size={32} className="text-[#1A6FA8] mx-auto mb-3" />
         <p className="text-[#0D2E4E] font-bold">No Active Appointments</p>
         <p className="text-[#6B839A] text-sm mt-1">
@@ -332,7 +332,7 @@ const QueueFromAppointments = () => {
               `/patient/queue?doctorId=${a.doctors_id}&date=${a.appointment_date}&myAppointmentId=${a.appointment_id}`,
             )
           }
-          className="w-full bg-white rounded-2xl border border-[#D6E6F2] p-4 flex items-center justify-between hover:border-[#1A6FA8]/40 hover:shadow-sm transition text-left"
+          className="w-full bg-white rounded-2xl border border-[#D6E6F2] p-3 sm:p-4 flex items-center justify-between gap-2 hover:border-[#1A6FA8]/40 hover:shadow-sm transition text-left"
         >
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#E8F4FD] flex items-center justify-center">

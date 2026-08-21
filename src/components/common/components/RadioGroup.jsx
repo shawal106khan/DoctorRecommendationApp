@@ -1,6 +1,6 @@
 const RadioGroup = ({ label, name, options, value, onChange }) => {
   return (
-    <div className="mb-5 sm:mb-5">
+    <div className="mb-5 sm:mb-8 mt-2">
       {label && (
         <p className="block text-[10px] sm:text-[11.5px] font-semibold text-[#4A6680] uppercase tracking-wide mb-1.5">
           {label}

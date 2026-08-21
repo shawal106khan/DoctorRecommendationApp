@@ -43,18 +43,18 @@ const DoctorCard = ({ doctor }) => {
   return (
     <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_24px_rgba(26,111,168,0.10)] hover:shadow-[0_12px_40px_rgba(26,111,168,0.18)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col">
       {/* ── CARD HEADER ── */}
-      <div className="relative bg-gradient-to-br from-[#F0F7FF] to-[#E8F4FD] px-4 sm:px-5 pt-4 sm:pt-5 pb-4">
+      <div className="relative bg-gradient-to-br from-[#F0F7FF] to-[#E8F4FD] px-4  pt-4 sm:pt-5 pb-4">
         {/* Category ribbon — top right */}
         {doctor.recommendationCategory && catCfg && (
           <div
-            className={`absolute top-0 right-0 bg-gradient-to-r ${catCfg.bg} text-white text-[9px] font-bold px-3 py-1.5 rounded-bl-xl flex items-center gap-1`}
+            className={`absolute top-0 right-0 bg-gradient-to-r ${catCfg.bg} text-white text-[8px]  font-bold px-2 py-1  rounded-bl-xl flex items-center gap-1`}
           >
             <span>{catCfg.icon}</span>
             {doctor.recommendationCategory}
           </div>
         )}
 
-        <div className="flex gap-4 items-start">
+        <div className="flex gap-3 sm:gap-4 items-start">
           {/* Avatar */}
           <div className="relative flex-shrink-0">
             <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden border-2 border-white shadow-[0_4px_12px_rgba(26,111,168,0.15)]">
@@ -69,7 +69,7 @@ const DoctorCard = ({ doctor }) => {
 
           {/* Name + rating + specialization */}
           <div className="flex-1 min-w-0 pt-0.5">
-            <h3 className="font-bold text-[#0D2E4E] text-base leading-tight truncate mb-1">
+            <h3 className="font-bold text-[#0D2E4E] text-sm sm:text-base leading-tight truncate mb-1 pr-16 sm:pr-0">
               Dr. {doctor.name}
             </h3>
             <DoctorRating average={average} count={count} size="lg" />
@@ -123,7 +123,7 @@ const DoctorCard = ({ doctor }) => {
 
         {/* Info pills */}
         <div className="flex flex-wrap gap-2 mb-4">
-          <div className="flex items-center gap-1.5 bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-3 py-1.5">
+          <div className="flex items-center gap-1.5 bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-2.5  sm:px-3 py-1 sm:py-1.5">
             <Briefcase size={11} className="text-[#1A6FA8] flex-shrink-0" />
             <span className="text-[10px] sm:text-[11px] font-semibold text-[#0D2E4E]">
               {doctor.experienceYears} yrs exp

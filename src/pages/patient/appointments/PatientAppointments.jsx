@@ -69,15 +69,15 @@ const PatientAppointments = () => {
   return (
     <DashboardLayout role="patient">
       <div className="bg-[#F0F4F8] min-h-screen">
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             Track and manage your appointments
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8">
-          <div className="flex items-center justify-between mb-6">
+        <div className="px-4  sm:px-6 lg:px-12 py-5 sm:py-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5 sm:mb-6">
             <div className="flex items-center gap-3">
               <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
               <div>
@@ -90,14 +90,14 @@ const PatientAppointments = () => {
               </div>
             </div>
             {appointments.length > 0 && (
-              <div className="bg-white border border-[#D6E6F2] text-[#1A6FA8] text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+              <div className="bg-white border border-[#D6E6F2] text-[#1A6FA8] text-xs font-bold px-3 py-1.5 rounded-full shadow-sm self-start sm:self-auto">
                 {appointments.length} Total
               </div>
             )}
           </div>
 
           {appointments.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl border border-[#D6E6F2]">
+            <div className="flex flex-col items-center justify-center py-12 sm:py-20 px-4 text-center bg-white rounded-2xl border border-[#D6E6F2]">
               <div className="w-14 h-14 rounded-2xl bg-[#E8F4FD] flex items-center justify-center mb-4">
                 <CalendarCheck size={24} className="text-[#1A6FA8]" />
               </div>
@@ -137,7 +137,7 @@ const PatientAppointments = () => {
                   >
                     <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
 
-                    <div className="px-5 pt-4 flex items-center justify-between">
+                    <div className="px-4 sm:px-5 pt-4 flex flex-wrap items-center justify-between gap-2">
                       <div
                         className={`text-xs font-bold capitalize px-3 py-1.5 rounded-full ${statusColor(a.status)}`}
                       >
@@ -150,7 +150,7 @@ const PatientAppointments = () => {
                       </p>
                     </div>
 
-                    <div className="p-5 flex flex-col lg:flex-row gap-0">
+                    <div className="p-4 sm:p-5 flex flex-col lg:flex-row gap-0">
                       {/* LEFT — Doctor Details */}
                       <div className="flex-1 pr-0 lg:pr-6">
                         <div className="flex items-center gap-2 mb-3">
@@ -316,7 +316,7 @@ const PatientAppointments = () => {
                                   `/patient/queue?doctorId=${a.doctors_id}&date=${a.appointment_date}&myAppointmentId=${a.appointment_id}`,
                                 )
                               }
-                              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-50 border border-blue-200 text-blue-600 text-xs font-semibold hover:bg-blue-100 transition"
+                              className="flex items-center justify-center gap-1.5 px-3 py-2.5 sm:py-2 rounded-xl bg-blue-50 border border-blue-200 text-blue-600 text-xs font-semibold hover:bg-blue-100 transition w-full sm:w-auto"
                             >
                               <List size={12} />
                               View Queue
