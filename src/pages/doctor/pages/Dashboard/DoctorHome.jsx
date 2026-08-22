@@ -118,9 +118,14 @@ const DoctorHome = () => {
               <p className="text-white/60 text-xs font-semibold uppercase tracking-[2px] mb-1">
                 Doctor Dashboard
               </p>
-              <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                {getGreeting()}, Dr. {user?.name}
-                <Stethoscope size={24} className="text-white/80" />
+              <h1 className="text-lg sm:text-2xl font-bold text-white flex flex-wrap items-center gap-1.5 sm:gap-2 leading-snug">
+                <span>
+                  {getGreeting()}, Dr. {user?.name}
+                </span>
+                <Stethoscope
+                  size={18}
+                  className="text-white/80 flex-shrink-0 sm:w-6 sm:h-6"
+                />
               </h1>
               <p className="text-white/60 text-sm mt-1">
                 Here's an overview of your activity today
