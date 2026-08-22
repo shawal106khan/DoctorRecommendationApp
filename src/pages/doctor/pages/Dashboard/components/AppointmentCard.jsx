@@ -5,16 +5,16 @@ import { formatTime } from "../../../../../utils/formatTime";
 import { User, MapPin, CalendarCheck, Clock, Hash } from "lucide-react";
 import ButtonLoader from "../../../../../components/common/components/ButtonLoader";
 const AppointmentCard = ({ appointment, onStatusChange }) => {
-  const [loading, setLoading] = useState(false);
+  const [loadingAction, setLoadingAction] = useState(null); // "approved" | "rejected" | null
 
   const handleAction = async (status) => {
-    setLoading(true);
+    setLoadingAction(status);
     await onStatusChange(appointment.id, status);
-    setTimeout(() => setLoading(false), 300);
+    setTimeout(() => setLoadingAction(null), 300);
   };
 
   return (
-    <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:shadow-sm transition-all">
+    <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 hover:shadow-sm transition-all">
       <div className="flex-1 min-w-0">
         {/* Patient name */}
         <div className="flex items-center gap-2 mb-2">
@@ -36,7 +36,7 @@ const AppointmentCard = ({ appointment, onStatusChange }) => {
         </div>
 
         {/* Details grid */}
-        <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+        <div className="grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1.5">
           <p className="text-xs text-[#6B839A] flex items-center gap-1.5">
             <User size={9} className="text-[#1A6FA8]" />
             Age:{" "}
@@ -51,9 +51,9 @@ const AppointmentCard = ({ appointment, onStatusChange }) => {
               {appointment.patientGender}
             </strong>
           </p>
-          <p className="text-xs text-[#6B839A] flex items-center gap-1.5">
-            <MapPin size={9} className="text-[#1A6FA8]" />
-            <strong className="text-[#0D2E4E]">
+          <p className="text-xs text-[#6B839A] flex items-center gap-1.5 min-w-0">
+            <MapPin size={9} className="text-[#1A6FA8] flex-shrink-0" />
+            <strong className="text-[#0D2E4E] truncate">
               {appointment.patientAddress}
             </strong>
           </p>
@@ -90,22 +90,31 @@ const AppointmentCard = ({ appointment, onStatusChange }) => {
       </div>
 
       {/* Actions */}
-      <div className="flex flex-col gap-2 flex-shrink-0">
+
+      <div className="flex flex-row sm:flex-col gap-2 flex-shrink-0">
         {appointment.status === "pending" ? (
           <>
             <button
-              disabled={loading}
+              disabled={loadingAction === "approved"}
               onClick={() => handleAction("approved")}
-              className="px-5 py-2 text-xs font-bold rounded-xl bg-green-500 text-white hover:bg-green-600 active:scale-95 transition disabled:opacity-50"
+              className="flex-1 sm:flex-none px-4 sm:px-5 py-2 text-xs font-bold rounded-xl bg-green-500 text-white hover:bg-green-600 active:scale-95 transition disabled:opacity-50"
             >
-              {loading ? <ButtonLoader text="Accepting..." /> : "Accept"}
+              {loadingAction === "approved" ? (
+                <ButtonLoader text="Accepting..." />
+              ) : (
+                "Accept"
+              )}
             </button>
             <button
-              disabled={loading}
+              disabled={loadingAction !== null}
               onClick={() => handleAction("rejected")}
-              className="px-5 py-2 text-xs font-bold rounded-xl bg-red-50 border border-red-200 text-red-500 hover:bg-red-100 active:scale-95 transition disabled:opacity-50"
+              className="flex-1 sm:flex-none px-4 sm:px-5 py-2 text-xs font-bold rounded-xl bg-red-50 border border-red-200 text-red-500 hover:bg-red-100 active:scale-95 transition disabled:opacity-50"
             >
-              {loading ? <ButtonLoader text="Rejecting..." /> : "Reject"}
+              {loadingAction === "rejected" ? (
+                <ButtonLoader text="Rejecting..." />
+              ) : (
+                "Reject"
+              )}
             </button>
           </>
         ) : (

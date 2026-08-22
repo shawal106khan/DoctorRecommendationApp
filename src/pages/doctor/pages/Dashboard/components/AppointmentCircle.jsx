@@ -31,7 +31,7 @@ const AppointmentCircle = ({ data, total }) => {
         </PieChart>
       </ResponsiveContainer>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <p className="text-3xl font-bold text-[#0D2E4E]">{total}</p>
+        <p className="text-2xl sm:text-3xl font-bold text-[#0D2E4E]">{total}</p>
         <p className="text-[10px] text-[#6B839A] font-semibold uppercase tracking-wide">
           Appointments
         </p>

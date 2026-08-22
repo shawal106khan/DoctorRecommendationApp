@@ -25,7 +25,7 @@ const DoctorHome = () => {
   const { user } = useAuth();
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [showAll, setShowAll] = useState(false);
   const loadAppointments = async () => {
     const { userId } = await getUserData();
     const doctor = await getDoctorByUserId(userId);
@@ -92,28 +92,33 @@ const DoctorHome = () => {
     { label: "Accepted", value: accepted },
     { label: "Completed", value: completed },
   ];
-
+  const sortedAppointments = [...appointments].sort(
+    (a, b) => new Date(b.date) - new Date(a.date),
+  );
+  const visibleAppointments = showAll
+    ? sortedAppointments
+    : sortedAppointments.slice(0, 3);
   return (
     <div className="bg-[#F0F4F8] min-h-screen">
       {/* Top strip */}
-      <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+      <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4  sm:px-8 py-2.5 flex items-center gap-2">
         <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
         <p className="text-white/75 text-xs font-medium tracking-wide">
           Doctor Portal — Manage your appointments and patients
         </p>
       </div>
 
-      <div className="px-6 lg:px-12 py-8 space-y-6">
+      <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8 space-y-5 sm:space-y-6">
         {/* Greeting banner */}
-        <div className="relative bg-gradient-to-br from-[#1A6FA8] via-[#1e7bbf] to-[#336aac] rounded-2xl p-7 overflow-hidden shadow-[0_8px_32px_rgba(26,111,168,0.25)]">
+        <div className="relative bg-gradient-to-br from-[#1A6FA8] via-[#1e7bbf] to-[#336aac] rounded-2xl p-5 sm:p-7 overflow-hidden shadow-[0_8px_32px_rgba(26,111,168,0.25)]">
           <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-white opacity-5" />
           <div className="absolute bottom-0 left-1/3 w-32 h-32 rounded-full bg-[#38B2A0] opacity-10 blur-2xl" />
-          <div className="relative z-10 flex items-center justify-between">
+          <div className="relative z-10 flex flex-col sm:flex-row  sm:items-center justify-between gap-4">
             <div>
               <p className="text-white/60 text-xs font-semibold uppercase tracking-[2px] mb-1">
                 Doctor Dashboard
               </p>
-              <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
                 {getGreeting()}, Dr. {user?.name}
                 <Stethoscope size={24} className="text-white/80" />
               </h1>
@@ -121,7 +126,7 @@ const DoctorHome = () => {
                 Here's an overview of your activity today
               </p>
             </div>
-            <div className="hidden md:flex flex-col items-end gap-1.5">
+            <div className="flex sm:hidden md:flex flex-row sm:flex-col items-center sm:items-end gap-1.5">
               <div className="bg-white/15 border border-white/20 rounded-xl px-4 py-2 text-center">
                 <p className="text-white font-bold text-2xl leading-none">
                   {totalAppointments}
@@ -133,13 +138,13 @@ const DoctorHome = () => {
         </div>
 
         {/* Stats + Chart */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
-          <div className="grid grid-cols-2 gap-5 xl:col-span-2">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-5">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 xl:col-span-2">
             {stats.map((stat) => (
               <StatCard key={stat.label} {...stat} />
             ))}
           </div>
-          <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] p-6 flex items-center justify-center">
+          <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] p-4 sm:p-6 flex items-center justify-center">
             <AppointmentCircle data={stats} total={totalAppointments} />
           </div>
         </div>
@@ -147,8 +152,8 @@ const DoctorHome = () => {
         {/* Appointments list */}
         <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
           <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-          <div className="px-6 py-5">
-            <div className="flex items-center justify-between mb-5">
+          <div className="px-4 sm:px-6 py-4 sm:py-5">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 sm:mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-7 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
                 <div>
@@ -161,14 +166,14 @@ const DoctorHome = () => {
                 </div>
               </div>
               {appointments.length > 0 && (
-                <div className="bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold px-3 py-1.5 rounded-full">
+                <div className="bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold px-3 py-1.5 rounded-full self-start sm:self-auto">
                   {appointments.length} Total
                 </div>
               )}
             </div>
 
             {appointments.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-14 text-center">
+              <div className="flex flex-col items-center justify-center py-10 sm:py-14 px-4 text-center">
                 <div className="w-14 h-14 rounded-2xl bg-[#E8F4FD] flex items-center justify-center mb-4">
                   <Stethoscope size={24} className="text-[#1A6FA8]" />
                 </div>
@@ -181,13 +186,26 @@ const DoctorHome = () => {
               </div>
             ) : (
               <div className="space-y-3">
-                {appointments.map((appt) => (
+                {visibleAppointments.map((appt) => (
                   <AppointmentCard
                     key={appt.id}
                     appointment={appt}
                     onStatusChange={handleStatusChange}
                   />
                 ))}
+
+                {appointments.length > 3 && (
+                  <div className="flex justify-center mt-4">
+                    <button
+                      onClick={() => setShowAll(!showAll)}
+                      className="text-[#1A6FA8] text-sm font-semibold px-4 py-2 rounded-xl border border-[#D6E6F2] hover:bg-[#F7FAFE] transition"
+                    >
+                      {showAll
+                        ? "Show Less"
+                        : `Show More (${appointments.length - 3} more)`}
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
