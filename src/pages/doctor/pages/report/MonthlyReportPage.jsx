@@ -155,14 +155,14 @@ const MonthlyReportPage = () => {
   return (
     <DashboardLayout role="doctor">
       <div className="bg-[#F0F4F8] min-h-screen">
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             Generate your monthly appointment and fee report
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8 max-w-4xl mx-auto">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8 max-w-4xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-3 mb-6">
             <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
@@ -177,7 +177,7 @@ const MonthlyReportPage = () => {
           </div>
 
           {/* Month/Year selector */}
-          <div className="bg-white rounded-2xl border border-[#D6E6F2] p-6 mb-6">
+          <div className="bg-white rounded-2xl border border-[#D6E6F2] p-4 sm:p-6 mb-5 sm:mb-6">
             <div className="flex items-center gap-2 mb-4">
               <FileText size={16} className="text-[#1A6FA8]" />
               <p className="font-bold text-[#0D2E4E] text-sm">Select Period</p>
@@ -222,7 +222,7 @@ const MonthlyReportPage = () => {
                 <button
                   onClick={generateReport}
                   disabled={generating}
-                  className="h-11 px-6 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-bold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60"
+                  className="w-full sm:w-auto h-11 px-6 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-bold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60"
                 >
                   {generating ? (
                     <ButtonLoader text="Generating..." />
@@ -238,22 +238,22 @@ const MonthlyReportPage = () => {
           {report && (
             <>
               {/* Title */}
-              <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] rounded-2xl p-5 mb-6 text-white">
+              <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] rounded-2xl p-4 sm:p-5 mb-5 sm:mb-6 text-white">
                 <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">
                   Monthly Report
                 </p>
-                <h2 className="text-2xl font-bold">
+                <h2 className="text-xl sm:text-2xl font-bold">
                   {report.month} {report.year}
                 </h2>
               </div>
 
               {/* Stats cards */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <div className="bg-white rounded-2xl border border-[#D6E6F2] p-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
+                <div className="bg-white rounded-2xl border border-[#D6E6F2] p-3 sm:p-4">
                   <div className="w-8 h-8 rounded-xl bg-[#E8F4FD] flex items-center justify-center mb-3">
                     <Users size={15} className="text-[#1A6FA8]" />
                   </div>
-                  <p className="text-2xl font-bold text-[#0D2E4E]">
+                  <p className="text-lg sm:text-2xl font-bold text-[#0D2E4E]">
                     {report.totalAppointments}
                   </p>
                   <p className="text-xs text-[#6B839A] mt-0.5">
@@ -261,11 +261,11 @@ const MonthlyReportPage = () => {
                   </p>
                 </div>
 
-                <div className="bg-white rounded-2xl border border-[#D6E6F2] p-4">
+                <div className="bg-white rounded-2xl border border-[#D6E6F2] p-3 sm:p-4">
                   <div className="w-8 h-8 rounded-xl bg-green-50 flex items-center justify-center mb-3">
                     <CalendarCheck size={15} className="text-green-600" />
                   </div>
-                  <p className="text-2xl font-bold text-green-600">
+                  <p className="text-lg  sm:text-2xl font-bold text-green-600">
                     {report.completed}
                   </p>
                   <p className="text-xs text-[#6B839A] mt-0.5">Completed</p>
@@ -275,7 +275,7 @@ const MonthlyReportPage = () => {
                   <div className="w-8 h-8 rounded-xl bg-green-50 flex items-center justify-center mb-3">
                     <Banknote size={15} className="text-green-600" />
                   </div>
-                  <p className="text-2xl font-bold text-green-600">
+                  <p className="text-lg sm:text-2xl font-bold text-green-600">
                     PKR {report.totalFeeCollected.toLocaleString()}
                   </p>
                   <p className="text-xs text-[#6B839A] mt-0.5">
@@ -287,7 +287,7 @@ const MonthlyReportPage = () => {
                   <div className="w-8 h-8 rounded-xl bg-yellow-50 flex items-center justify-center mb-3">
                     <TrendingUp size={15} className="text-yellow-600" />
                   </div>
-                  <p className="text-2xl font-bold text-yellow-600">
+                  <p className="text-lg sm:text-2xl  font-bold text-yellow-600">
                     {report.waivedCount}
                   </p>
                   <p className="text-xs text-[#6B839A] mt-0.5">Fee Waived</p>
@@ -326,7 +326,7 @@ const MonthlyReportPage = () => {
                       key={s.label}
                       className={`rounded-xl px-4 py-3 ${s.color}`}
                     >
-                      <p className="text-xl font-bold">{s.value}</p>
+                      <p className="text-lg sm:text-2xl font-bold">{s.value}</p>
                       <p className="text-xs font-semibold mt-0.5">{s.label}</p>
                     </div>
                   ))}

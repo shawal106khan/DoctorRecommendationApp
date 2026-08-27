@@ -112,7 +112,7 @@ const DoctorProfileEdit = ({ onCancel }) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto px-4 sm:px-0">
       <div className="m-4">
         <BackButton to="/doctor/dashboard" />
       </div>
@@ -197,7 +197,7 @@ const DoctorProfileEdit = ({ onCancel }) => {
                   key={day}
                   type="button"
                   onClick={() => toggleDay(day)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold border-[1.5px] transition-all ${
+                  className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-bold border-[1.5px] transition-all  ${
                     form.availableDays.includes(day)
                       ? "bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white border-[#1A6FA8] shadow-[0_2px_8px_rgba(26,111,168,0.30)]"
                       : "bg-[#F7FAFE] text-[#4A6680] border-[#D6E6F2] hover:border-[#1A6FA8]/40"
@@ -231,18 +231,18 @@ const DoctorProfileEdit = ({ onCancel }) => {
           </div>
 
           {/* Actions */}
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-2">
             <button
               type="button"
               onClick={onCancel}
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#F7FAFE] border-[1.5px] border-[#D6E6F2] text-[#4A6680] text-sm font-semibold hover:bg-[#EEF5FC] transition"
+              className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#F7FAFE] border-[1.5px] border-[#D6E6F2] text-[#4A6680] text-sm font-semibold hover:bg-[#EEF5FC] transition"
             >
               <X size={14} /> Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-semibold shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-semibold shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               {loading ? (
                 <ButtonLoader text="Saving..." />

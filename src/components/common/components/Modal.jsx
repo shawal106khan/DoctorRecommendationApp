@@ -2,9 +2,9 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 ">
-      <div className="bg-slate-200 w-full max-w-lg rounded-lg shadow-lg">
-        <div className="flex justify-between items-center px-4 py-3 border-b">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+      <div className="bg-slate-200 w-full max-w-lg rounded-lg shadow-lg max-h-[90vh] flex flex-col">
+        <div className="flex justify-between items-center px-4 py-3 border-b flex-shrink-0">
           <h2 className="font-semibold text-lg font-mono text-blue-600">
             {title}
           </h2>
@@ -16,7 +16,9 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           </button>
         </div>
 
-        <div className="p-4 font-serif text-gray-700">{children}</div>
+        <div className="p-4 font-serif text-gray-700 overflow-y-auto">
+          {children}
+        </div>
       </div>
     </div>
   );

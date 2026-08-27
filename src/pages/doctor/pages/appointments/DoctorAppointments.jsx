@@ -159,15 +159,15 @@ const DoctorAppointments = () => {
   return (
     <DashboardLayout role="doctor">
       <div className="bg-[#F0F4F8] min-h-screen">
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             Review and manage patient appointment requests
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8">
-          <div className="flex items-center justify-between mb-6">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5 sm:mb-6">
             {/* Left Side */}
             <div className="flex items-center gap-3">
               <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
@@ -184,10 +184,10 @@ const DoctorAppointments = () => {
             </div>
 
             {/* Right Side */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <button
                 onClick={handlePrint}
-                className="no-print bg-[#1A6FA8] text-white px-4 py-2 rounded-lg hover:bg-[#1d8bd4] text-sm font-semibold"
+                className="no-print bg-[#1A6FA8] text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-[#1d8bd4] text-xs sm:text-sm font-semibold"
               >
                 Print Appointments
               </button>
@@ -201,7 +201,7 @@ const DoctorAppointments = () => {
           </div>
 
           {appointments.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl border border-[#D6E6F2]">
+            <div className="flex flex-col items-center justify-center py-12 sm:py-20 px-4 text-center bg-white rounded-2xl border border-[#D6E6F2]">
               <div className="w-14 h-14 rounded-2xl bg-[#E8F4FD] flex items-center justify-center mb-4">
                 <CalendarCheck size={24} className="text-[#1A6FA8]" />
               </div>
@@ -231,9 +231,9 @@ const DoctorAppointments = () => {
                     {/* Date header — clickable to collapse */}
                     <button
                       onClick={() => toggleDate(date)}
-                      className="w-full flex items-center justify-between mb-3 group"
+                      className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3 group"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                         {/* Date pill */}
                         <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white px-4 py-2 rounded-xl flex items-center gap-2 shadow-[0_2px_8px_rgba(26,111,168,0.30)]">
                           <CalendarCheck size={13} />
@@ -243,7 +243,7 @@ const DoctorAppointments = () => {
                         </div>
 
                         {/* Stats badges */}
-                        <div className="flex items-center gap-1.5">
+                        <div className="flex flex-wrap items-center gap-1.5">
                           <span className="text-[10px] font-bold bg-white border border-[#D6E6F2] text-[#1A6FA8] px-2 py-0.5 rounded-full">
                             {dateAppointments.length} total
                           </span>
@@ -266,7 +266,7 @@ const DoctorAppointments = () => {
                       </div>
 
                       {/* Collapse icon */}
-                      <div className="text-[#4A6680] group-hover:text-[#1A6FA8] transition">
+                      <div className="text-[#4A6680] group-hover:text-[#1A6FA8] transition self-end sm:self-auto">
                         {isCollapsed ? (
                           <ChevronDown size={16} />
                         ) : (
@@ -297,7 +297,7 @@ const DoctorAppointments = () => {
                                 className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden"
                               >
                                 <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-                                <div className="p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                <div className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
                                   <div className="flex gap-3 flex-1 min-w-0">
                                     <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#1A6FA8] to-[#336aac] flex items-center justify-center flex-shrink-0">
                                       <span className="text-white font-bold text-sm">
@@ -316,7 +316,7 @@ const DoctorAppointments = () => {
                                           {a.status}
                                         </div>
                                       </div>
-                                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1">
+                                      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1">
                                         <InfoRow
                                           icon={User}
                                           value={`Age: ${a.patient_age || "-"}`}
@@ -357,7 +357,7 @@ const DoctorAppointments = () => {
                                     onClick={() =>
                                       setSelectedAppointment({ ...a, timeline })
                                     }
-                                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold hover:bg-[#1A6FA8] hover:text-white transition-all flex-shrink-0"
+                                    className="flex items-center justify-center gap-1.5 px-4 py-2.5 sm:py-2 rounded-xl bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold hover:bg-[#1A6FA8] hover:text-white transition-all flex-shrink-0 w-full sm:w-auto"
                                   >
                                     <Eye size={13} />
                                     View
@@ -432,9 +432,9 @@ const DoctorAppointments = () => {
             ].map(({ label, value }) => (
               <div
                 key={label}
-                className="flex items-start gap-3 bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-4 py-3"
+                className="flex items-start gap-2 sm:gap-3 bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-3 sm:px-4 py-2.5 sm:py-3"
               >
-                <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-wide w-24 flex-shrink-0 mt-0.5">
+                <p className="text-[9px] sm:text-[10px] font-bold text-[#4A6680] uppercase tracking-wide w-20 sm:w-24 flex-shrink-0 mt-0.5">
                   {label}
                 </p>
                 <p className="text-sm font-medium text-[#0D2E4E] capitalize">
@@ -448,7 +448,7 @@ const DoctorAppointments = () => {
             />
 
             {selectedAppointment.status === "pending" && (
-              <div className="flex gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2">
                 <button
                   disabled={actionLoading}
                   onClick={() =>
@@ -457,7 +457,7 @@ const DoctorAppointments = () => {
                       "approved",
                     )
                   }
-                  className="flex-1 h-11 bg-green-500 hover:bg-green-600 text-white text-sm font-bold rounded-xl transition disabled:opacity-60"
+                  className="flex-1 h-10 sm:h-11 bg-green-500 hover:bg-green-600 text-white text-sm font-bold rounded-xl transition disabled:opacity-60"
                 >
                   {actionLoading ? (
                     <ButtonLoader text="Accepting..." />
@@ -473,7 +473,7 @@ const DoctorAppointments = () => {
                       "rejected",
                     )
                   }
-                  className="flex-1 h-11 bg-red-50 border border-red-200 text-red-500 hover:bg-red-100 text-sm font-bold rounded-xl transition disabled:opacity-60"
+                  className="flex-1 h-10 sm:h-11 bg-red-50 border border-red-200 text-red-500 hover:bg-red-100 text-sm font-bold rounded-xl transition disabled:opacity-60"
                 >
                   {actionLoading ? (
                     <ButtonLoader text="Rejecting..." />
@@ -494,7 +494,7 @@ const DoctorAppointments = () => {
                     Mark as Completed
                   </button>
                 ) : (
-                  <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl p-4 space-y-3">
+                  <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl p-3 sm:p-4 space-y-3 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
                       <Banknote size={14} className="text-[#1A6FA8]" />
                       <p className="text-xs font-bold text-[#0D2E4E]">
@@ -513,17 +513,17 @@ const DoctorAppointments = () => {
                         className="w-full h-10 px-3 rounded-xl text-sm text-[#0D2E4E] bg-white border-[1.5px] border-[#D6E6F2] outline-none focus:border-[#1A6FA8] focus:ring-2 focus:ring-[#1A6FA8]/10"
                       />
                     </div>
-                    <div className="flex gap-2 pt-1">
+                    <div className="flex flex-col sm:flex-row gap-2 pt-1">
                       <button
                         onClick={() => setShowFeeInput(false)}
-                        className="flex-1 h-10 border border-[#D6E6F2] text-[#4A6680] text-sm font-semibold rounded-xl hover:bg-[#F0F4F8] transition"
+                        className="w-full sm:flex-1 h-10 border border-[#D6E6F2] text-[#4A6680] text-sm font-semibold rounded-xl hover:bg-[#F0F4F8] transition"
                       >
                         Cancel
                       </button>
                       <button
                         disabled={actionLoading}
                         onClick={handleMarkComplete}
-                        className="flex-1 h-10 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-bold rounded-xl transition disabled:opacity-60"
+                        className="w-full sm:flex-1 h-10 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-bold rounded-xl transition disabled:opacity-60"
                       >
                         {actionLoading ? (
                           <ButtonLoader text="Completing..." />

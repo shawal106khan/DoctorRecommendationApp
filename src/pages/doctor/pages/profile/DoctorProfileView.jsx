@@ -17,11 +17,13 @@ import { useLoading } from "../../../../hooks/useLoading";
 import { MapPin, ExternalLink } from "lucide-react";
 
 const Info = ({ label, value }) => (
-  <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-4 py-3">
-    <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-wide mb-0.5">
+  <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-3.5 sm:px-4 py-2.5 sm:py-3">
+    <p className="text-[9px] sm:text-[10px] font-bold text-[#4A6680] uppercase tracking-wide mb-0.5">
       {label}
     </p>
-    <p className="text-sm font-semibold text-[#0D2E4E]">{value || "—"}</p>
+    <p className="text-sm font-semibold text-[#0D2E4E] break-words">
+      {value || "—"}
+    </p>
   </div>
 );
 
@@ -83,7 +85,7 @@ const DoctorProfileView = ({ onEdit }) => {
     );
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto px-4 sm:px-0">
       <ProfileHeader user={headerUser} onEdit={onEdit} />
 
       {/* About */}
@@ -140,7 +142,7 @@ const DoctorProfileView = ({ onEdit }) => {
 
       {/* Location */}
       <ProfileSection title="Hospital Location">
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-2.5 sm:gap-3">
           <div className="w-9 h-9 rounded-xl bg-[#E8F4FD] flex items-center justify-center flex-shrink-0 mt-0.5">
             <MapPin size={16} className="text-[#1A6FA8]" />
           </div>

@@ -25,7 +25,7 @@ const DoctorReviewsPage = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [doctorId, setDoctorId] = useState(null);
-
+  const [showAllReviews, setShowAllReviews] = useState(false);
   useEffect(() => {
     const getDoctorId = async () => {
       const { userId } = await getUserData();
@@ -58,18 +58,19 @@ const DoctorReviewsPage = () => {
     if (doctorId) fetchAllReviews();
   }, [doctorId]);
 
+  const visibleReviews = showAllReviews ? reviews : reviews.slice(0, 3);
   return (
     <DashboardLayout role="doctor">
       <div className="bg-[#F0F4F8] min-h-screen">
         {/* Top strip */}
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             See what your patients are saying
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8 space-y-5">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8 space-y-5">
           {/* Header */}
           <div className="flex items-center gap-3 mb-2">
             <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
@@ -86,7 +87,7 @@ const DoctorReviewsPage = () => {
           {/* Analytics card */}
           <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
             <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-            <div className="p-6 grid md:grid-cols-3 gap-6">
+            <div className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
               {/* Average score */}
               <div className="flex flex-col items-center justify-center">
                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#1A6FA8] to-[#336aac] flex flex-col items-center justify-center shadow-[0_4px_16px_rgba(26,111,168,0.30)] mb-3">
@@ -140,7 +141,7 @@ const DoctorReviewsPage = () => {
           </div>
 
           {/* Reviews list */}
-          <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] p-6">
+          <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] p-4 sm:p-6">
             <div className="flex items-center gap-2 mb-5">
               <div className="w-1 h-6 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
               <h2 className="text-base font-bold text-[#0D2E4E]">
@@ -166,7 +167,7 @@ const DoctorReviewsPage = () => {
               </div>
             ) : (
               <div className="space-y-4">
-                {reviews.map((review, index) => (
+                {visibleReviews.map((review, index) => (
                   <div
                     key={review.reviews_id}
                     className={`${index !== 0 ? "border-t border-[#EEF5FC] pt-4" : ""}`}
@@ -197,11 +198,23 @@ const DoctorReviewsPage = () => {
                         ))}
                       </div>
                     </div>
-                    <p className="text-sm text-[#6B839A] leading-relaxed pl-12">
+                    <p className="text-sm text-[#6B839A] leading-relaxed pl-0 sm:pl-12 mt-2 sm:mt-0">
                       {review.comment}
                     </p>
                   </div>
                 ))}
+                {reviews.length > 3 && (
+                  <div className="flex justify-center mt-5">
+                    <button
+                      onClick={() => setShowAllReviews(!showAllReviews)}
+                      className="text-[#1A6FA8] text-sm font-semibold px-4 py-2 rounded-xl border border-[#D6E6F2] hover:bg-[#F7FAFE] transition"
+                    >
+                      {showAllReviews
+                        ? "Show Less"
+                        : `Show More (${reviews.length - 3} more)`}
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
