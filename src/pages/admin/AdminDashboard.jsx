@@ -163,14 +163,14 @@ const AdminDashboard = () => {
     <DashboardLayout role="admin">
       <div className="bg-[#F0F4F8] min-h-screen">
         {/* Top strip */}
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             Welcome back — here's a complete overview of your platform
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8 space-y-6">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8 space-y-5 sm:space-y-6">
           {/* Page header */}
           <div className="flex items-center gap-3">
             <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
@@ -187,7 +187,7 @@ const AdminDashboard = () => {
           {/* ── DOCTOR OVERVIEW ── */}
           <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
             <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-            <div className="px-6 py-6">
+            <div className="px-4 sm:px-6 py-4 sm:py-6">
               <SectionHeader title="Doctor Overview" />
               <div className="flex flex-col lg:flex-row gap-6">
                 <div className="flex-1 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -196,7 +196,7 @@ const AdminDashboard = () => {
                     return (
                       <div
                         key={label}
-                        className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-2xl px-4 py-4 flex items-center gap-3 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200"
+                        className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-2xl px-3 sm:px-4 py-3 sm:py-4 flex items-center gap-2.5 sm:gap-3 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200"
                       >
                         <div
                           className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${bg}`}
@@ -216,7 +216,7 @@ const AdminDashboard = () => {
                   })}
                 </div>
 
-                <div className="lg:w-72 flex items-center justify-center bg-[#F7FAFE] border border-[#D6E6F2] rounded-2xl p-4">
+                <div className="w-full lg:w-72 flex items-center justify-center bg-[#F7FAFE] border border-[#D6E6F2] rounded-2xl p-4">
                   <DoctorStatusCircle
                     data={stats.doctorStatusData}
                     total={stats.totalDoctors}
@@ -230,7 +230,7 @@ const AdminDashboard = () => {
           <div className="grid md:grid-cols-2 gap-5">
             <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
               <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] to-[#38B2A0]" />
-              <div className="px-6 py-5">
+              <div className="px-4 sm:px-6 py-4 sm:py-5">
                 <SectionHeader title="Top Rated Doctors" />
                 {!stats.topRatedDoctors?.length ? (
                   <p className="text-xs text-[#8AAEC8] text-center py-6">
@@ -241,7 +241,7 @@ const AdminDashboard = () => {
                     {stats.topRatedDoctors.map((doc, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-4 py-2.5"
+                        className="flex flex-wrap items-center justify-between gap-2 bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-3 sm:px-4 py-2.5"
                       >
                         <div className="flex items-center gap-2.5">
                           <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#1A6FA8] to-[#336aac] flex items-center justify-center flex-shrink-0">
@@ -347,7 +347,7 @@ const AdminDashboard = () => {
           {/* ── PATIENT & APPOINTMENT OVERVIEW ── */}
           <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
             <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-            <div className="px-6 py-6">
+            <div className="px-4 sm:px-6 py-4 sm:py-6">
               <SectionHeader title="Patient & Appointment Overview" />
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {patientCards.map(({ label, value, icon, bg, color }) => {
@@ -355,7 +355,7 @@ const AdminDashboard = () => {
                   return (
                     <div
                       key={label}
-                      className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-2xl px-4 py-4 flex items-center gap-3 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200"
+                      className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-2xl px-3 sm:px-4 py-3 sm:py-4 flex items-center gap-2.5 sm:gap-3 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200"
                     >
                       <div
                         className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${bg}`}

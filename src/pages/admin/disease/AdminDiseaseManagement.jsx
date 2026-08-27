@@ -131,16 +131,16 @@ const AdminDiseaseManagement = () => {
     <DashboardLayout role="admin">
       <div className="bg-[#F0F4F8] min-h-screen">
         {/* Top strip */}
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             Manage diseases and specializations for the recommendation system
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8">
           {/* Page header */}
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-5 sm:mb-6">
             <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
             <div>
               <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-[2px]">
@@ -163,7 +163,7 @@ const AdminDiseaseManagement = () => {
                 {/* Add Specialization */}
                 <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
                   <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] to-[#38B2A0]" />
-                  <div className="p-5">
+                  <div className="p-4 sm:p-5">
                     <div className="flex items-center gap-2 mb-4">
                       <div className="w-7 h-7 rounded-xl bg-[#E8F4FD] flex items-center justify-center">
                         <Stethoscope size={14} className="text-[#1A6FA8]" />
@@ -174,7 +174,7 @@ const AdminDiseaseManagement = () => {
                     </div>
                     <form
                       onSubmit={handleAddSpecialization}
-                      className="flex gap-3"
+                      className="flex flex-col sm:flex-row gap-3"
                     >
                       <input
                         type="text"
@@ -185,7 +185,7 @@ const AdminDiseaseManagement = () => {
                       />
                       <button
                         type="submit"
-                        className="h-11 px-5 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-xs font-bold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all flex-shrink-0 flex items-center gap-1.5"
+                        className="w-full sm:w-auto h-11 px-5 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-xs font-bold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all flex-shrink-0 flex items-center justify-center gap-1.5"
                       >
                         <Plus size={13} /> Add
                       </button>
@@ -233,7 +233,7 @@ const AdminDiseaseManagement = () => {
                       </select>
                       <button
                         type="submit"
-                        className="h-11 px-5 bg-gradient-to-r from-[#38B2A0] to-[#2d9e8f] text-white text-xs font-bold rounded-xl shadow-[0_4px_12px_rgba(56,178,160,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all flex-shrink-0 flex items-center gap-1.5"
+                        className="w-full sm:w-auto h-11 px-5 bg-gradient-to-r from-[#38B2A0] to-[#2d9e8f] text-white text-xs font-bold rounded-xl shadow-[0_4px_12px_rgba(56,178,160,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all flex-shrink-0 flex items-center justify-center gap-1.5"
                       >
                         <Plus size={13} /> Add
                       </button>
@@ -245,15 +245,15 @@ const AdminDiseaseManagement = () => {
               {/* Disease list */}
               <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
                 <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-                <div className="px-6 py-5 border-b border-[#D6E6F2] flex items-center justify-between">
+                <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[#D6E6F2] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <SectionHeader title="Diseases List" />
-                  <div className="bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold px-3 py-1.5 rounded-full -mt-5">
+                  <div className="bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold px-3 py-1.5 rounded-full self-start sm:self-auto sm:-mt-5">
                     {diseases.length} Total
                   </div>
                 </div>
 
                 {diseases.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <div className="flex flex-col items-center justify-center py-12 sm:py-16 px-4 text-center">
                     <div className="w-12 h-12 rounded-2xl bg-[#E8F4FD] flex items-center justify-center mb-3">
                       <Activity size={20} className="text-[#1A6FA8]" />
                     </div>

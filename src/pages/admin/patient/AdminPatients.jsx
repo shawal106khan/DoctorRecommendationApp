@@ -111,16 +111,16 @@ const AdminPatients = () => {
     <DashboardLayout role="admin">
       <div className="bg-[#F0F4F8] min-h-screen">
         {/* Top strip */}
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             Manage and monitor registered patient accounts
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8">
           {/* Page header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5 sm:mb-6">
             <div className="flex items-center gap-3">
               <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
               <div>
@@ -131,7 +131,7 @@ const AdminPatients = () => {
               </div>
             </div>
             {patients.length > 0 && (
-              <div className="flex items-center gap-2 bg-white border border-[#D6E6F2] rounded-full px-4 py-1.5 shadow-sm">
+              <div className="flex items-center gap-2 bg-white border border-[#D6E6F2] rounded-full px-4 py-1.5 shadow-sm self-start sm:self-auto">
                 <Users size={13} className="text-[#1A6FA8]" />
                 <span className="text-xs font-bold text-[#1A6FA8]">
                   {patients.length} Registered
@@ -146,7 +146,7 @@ const AdminPatients = () => {
               <LoadingSpinner text="Loading Patients..." />
             </div>
           ) : patients.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl border border-[#D6E6F2]">
+            <div className="flex flex-col items-center justify-center py-12 sm:py-20 px-4 text-center bg-white rounded-2xl border border-[#D6E6F2]">
               <div className="w-14 h-14 rounded-2xl bg-[#E8F4FD] flex items-center justify-center mb-4">
                 <Users size={24} className="text-[#1A6FA8]" />
               </div>
@@ -156,7 +156,7 @@ const AdminPatients = () => {
               </p>
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {patients.map((patient) => (
                 <div
                   key={patient.patients_id}
@@ -165,7 +165,7 @@ const AdminPatients = () => {
                   {/* Top bar */}
                   <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
 
-                  <div className="p-5 flex flex-col gap-4 flex-1">
+                  <div className="p-4 sm:p-5 flex flex-col gap-3 sm:gap-4 flex-1">
                     {/* Patient info */}
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#1A6FA8] to-[#336aac] flex items-center justify-center flex-shrink-0 shadow-[0_2px_8px_rgba(26,111,168,0.25)]">

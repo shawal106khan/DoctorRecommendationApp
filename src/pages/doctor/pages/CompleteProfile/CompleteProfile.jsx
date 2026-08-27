@@ -104,14 +104,14 @@ const CompleteProfile = () => {
 
   return (
     <div className="min-h-screen bg-[#F0F4F8]">
-      <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+      <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
         <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
         <p className="text-white/75 text-xs font-medium tracking-wide">
           Complete your profile to start receiving patients
         </p>
       </div>
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] p-8">
+      <div className="max-w-3xl mx-auto px-3 sm:px-4 py-5 sm:py-8">
+        <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] p-4 sm:p-8">
           <ProfileStepper steps={steps} currentStep={currentStep} />
 
           {currentStep === 0 && (

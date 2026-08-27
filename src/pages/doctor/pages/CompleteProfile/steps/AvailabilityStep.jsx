@@ -31,7 +31,7 @@ const AvailabilityStep = ({ profile, setProfile, onNext, onBack }) => {
   };
 
   return (
-    <div className="max-w-lg mx-auto px-2 py-4">
+    <div className="max-w-lg mx-auto px-1 sm:px-2 py-3 sm:py-4">
       <StepHeader
         title="Availability"
         subtitle="Select the days and times you are available for consultations"
@@ -56,7 +56,7 @@ const AvailabilityStep = ({ profile, setProfile, onNext, onBack }) => {
                   if (errors.availableDays)
                     setErrors((prev) => ({ ...prev, availableDays: null }));
                 }}
-                className={`px-4 py-2 rounded-xl text-xs font-bold border-[1.5px] transition-all ${
+                className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-bold border-[1.5px] transition-all ${
                   selected
                     ? "bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white border-[#1A6FA8] shadow-[0_2px_8px_rgba(26,111,168,0.30)]"
                     : "bg-[#F7FAFE] text-[#4A6680] border-[#D6E6F2] hover:border-[#1A6FA8]/40"
@@ -108,7 +108,7 @@ const AvailabilityStep = ({ profile, setProfile, onNext, onBack }) => {
         }}
       />
 
-      <div className="mt-8 flex items-center justify-between">
+      <div className="mt-6 sm:mt-8 flex items-center justify-between">
         <button
           onClick={onBack}
           className="text-sm font-semibold text-[#4A6680] hover:text-[#1A6FA8] transition"

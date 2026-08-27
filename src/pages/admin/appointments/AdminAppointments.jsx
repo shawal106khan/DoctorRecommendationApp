@@ -81,16 +81,16 @@ const AdminAppointments = () => {
     <DashboardLayout role="admin">
       <div className="bg-[#F0F4F8] min-h-screen">
         {/* Top strip */}
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             Monitor and track all patient appointments across the platform
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8">
           {/* Page header */}
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-5 sm:mb-6">
             <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
             <div>
               <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-[2px]">
@@ -109,7 +109,7 @@ const AdminAppointments = () => {
           ) : (
             <>
               {/* Stats */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
                 {[
                   {
                     icon: CalendarCheck,
@@ -144,7 +144,7 @@ const AdminAppointments = () => {
                   return (
                     <div
                       key={label}
-                      className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] px-5 py-4 flex items-center gap-3"
+                      className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] px-3 sm:px-5 py-3 sm:py-4 flex items-center gap-2.5 sm:gap-3"
                     >
                       <div
                         className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${bg}`}
@@ -152,7 +152,7 @@ const AdminAppointments = () => {
                         <Icon size={18} className={color} />
                       </div>
                       <div>
-                        <p className="text-2xl font-bold text-[#0D2E4E] leading-none">
+                        <p className="text-lg sm:text-2xl font-bold text-[#0D2E4E] leading-none">
                           {value}
                         </p>
                         <p className="text-[10px] text-[#6B839A] font-semibold mt-0.5">
@@ -165,18 +165,18 @@ const AdminAppointments = () => {
               </div>
 
               {/* Filters */}
-              <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] p-5 mb-6">
+              <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] p-4 sm:p-5 mb-5 sm:mb-6">
                 <div className="flex items-center gap-2 mb-3">
                   <Filter size={13} className="text-[#1A6FA8]" />
                   <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-wide">
                     Filter Appointments
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    className={inputClass}
+                    className={`${inputClass} w-full sm:w-auto`}
                   >
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
@@ -188,7 +188,7 @@ const AdminAppointments = () => {
                     type="date"
                     value={dateFilter}
                     onChange={(e) => setDateFilter(e.target.value)}
-                    className={inputClass}
+                    className={`${inputClass} w-full sm:w-auto`}
                   />
                   {(statusFilter || dateFilter) && (
                     <button
@@ -206,7 +206,7 @@ const AdminAppointments = () => {
 
               {/* Appointments */}
               {filteredAppointments.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl border border-[#D6E6F2]">
+                <div className="flex flex-col items-center justify-center py-12 sm:py-20 px-4 text-center bg-white rounded-2xl border border-[#D6E6F2]">
                   <div className="w-14 h-14 rounded-2xl bg-[#E8F4FD] flex items-center justify-center mb-4">
                     <CalendarCheck size={24} className="text-[#1A6FA8]" />
                   </div>
@@ -218,14 +218,14 @@ const AdminAppointments = () => {
                   </p>
                 </div>
               ) : (
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   {filteredAppointments.map((appt) => (
                     <div
                       key={appt.appointment_id}
                       className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden flex flex-col"
                     >
                       <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-                      <div className="p-5 flex flex-col gap-3 flex-1">
+                      <div className="p-4 sm:p-5 flex flex-col gap-3 flex-1">
                         {/* Patient + status */}
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-2.5">

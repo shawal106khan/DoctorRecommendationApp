@@ -6,11 +6,11 @@ import { useLoading } from "../../../../../hooks/useLoading";
 import { StepHeader } from "../../../../../components/common/components/StepComponents";
 
 const Info = ({ label, value }) => (
-  <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-4 py-3">
-    <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-wide mb-0.5">
+  <div className="bg-[#F7FAFE] border border-[#D6E6F2] rounded-xl px-3.5 sm:px-4 py-2.5 sm:py-3">
+    <p className="text-[9px] sm:text-[10px] font-bold text-[#4A6680] uppercase tracking-wide mb-0.5">
       {label}
     </p>
-    <p className="text-sm font-semibold text-[#0D2E4E]">
+    <p className="text-sm font-semibold text-[#0D2E4E] break-words">
       {value || (
         <span className="text-[#AAC2D4] font-normal text-xs">Not provided</span>
       )}
@@ -38,7 +38,7 @@ const ProfessionalStep = ({ onNext, onBack }) => {
   }, [stopLoading]);
 
   return (
-    <div className="max-w-lg mx-auto px-2 py-4">
+    <div className="max-w-lg mx-auto px-1 sm:px-2 py-3 sm:py-4">
       <StepHeader
         title="Professional Information"
         subtitle="These details were provided during signup and verified by admin."
@@ -49,7 +49,7 @@ const ProfessionalStep = ({ onNext, onBack }) => {
           <LoadingSpinner />
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Info label="Specialization" value={info?.specializationName} />
           <Info
             label="Experience"
@@ -63,7 +63,7 @@ const ProfessionalStep = ({ onNext, onBack }) => {
         </div>
       )}
 
-      <div className="mt-8 flex items-center justify-between">
+      <div className="mt-6 sm:mt-8 flex items-center justify-between">
         <button
           onClick={onBack}
           className="text-sm font-semibold text-[#4A6680] hover:text-[#1A6FA8] transition"

@@ -3,7 +3,7 @@ import { StepHeader } from "../../../../../components/common/components/StepComp
 
 const ConsultationStep = ({ profile, setProfile, onNext, onBack }) => {
   return (
-    <div className="max-w-lg mx-auto px-2 py-4">
+    <div className="max-w-lg mx-auto px-1 sm:px-2 py-3 sm:py-4">
       <StepHeader title="Consultation Details" />
 
       <div className="space-y-1">
@@ -18,7 +18,7 @@ const ConsultationStep = ({ profile, setProfile, onNext, onBack }) => {
         />
       </div>
 
-      <div className="mt-8 flex items-center justify-between">
+      <div className="mt-6 sm:mt-8 flex items-center justify-between">
         <button
           onClick={onBack}
           className="text-sm font-semibold text-[#4A6680] hover:text-[#1A6FA8] transition"

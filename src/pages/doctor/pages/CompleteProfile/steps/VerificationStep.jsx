@@ -71,7 +71,7 @@ const VerificationStep = ({ onNext, onBack }) => {
   const IconComp = cfg.icon;
 
   return (
-    <div className="max-w-lg mx-auto px-2 py-4">
+    <div className="max-w-lg mx-auto px-1 sm:px-2 py-3 sm:py-4">
       <StepHeader
         title="Verification Status"
         subtitle="Your profile is verified by our admin team"
@@ -83,7 +83,7 @@ const VerificationStep = ({ onNext, onBack }) => {
         </div>
       ) : (
         <div
-          className={`border rounded-2xl p-6 flex items-start gap-4 ${cfg.bg}`}
+          className={`border rounded-2xl p-4 sm:p-6 flex items-start gap-3 sm:gap-4 ${cfg.bg}`}
         >
           <div
             className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${cfg.iconBg}`}
@@ -101,7 +101,7 @@ const VerificationStep = ({ onNext, onBack }) => {
         </div>
       )}
 
-      <div className="mt-8 flex items-center justify-between">
+      <div className="mt-6 sm:mt-8 flex items-center justify-between">
         <button
           onClick={onBack}
           className="text-sm font-semibold text-[#4A6680] hover:text-[#1A6FA8] transition"

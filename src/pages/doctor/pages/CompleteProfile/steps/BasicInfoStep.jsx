@@ -20,7 +20,7 @@ const BasicInfoStep = ({ profile, setProfile, onNext }) => {
   };
 
   return (
-    <div className="max-w-lg mx-auto px-2 py-4">
+    <div className="max-w-lg mx-auto px-1 sm:px-2 py-3 sm:py-4">
       <StepHeader title="Complete Your Profile" subtitle="Basic Information" />
       <AvatarUpload
         image={profile.avatar || null}
@@ -30,7 +30,7 @@ const BasicInfoStep = ({ profile, setProfile, onNext }) => {
         }}
       />
 
-      <div className="mt-6 space-y-5">
+      <div className="mt-5 sm:mt-6 space-y-4 sm:space-y-5">
         {/* Bio */}
         <div>
           <label className="block text-[11.5px] font-semibold text-[#4A6680] uppercase tracking-wide mb-1.5">
@@ -47,7 +47,7 @@ const BasicInfoStep = ({ profile, setProfile, onNext }) => {
               setProfile({ ...profile, bio: e.target.value });
               if (errors.bio) setErrors((prev) => ({ ...prev, bio: null }));
             }}
-            className="w-full px-4 py-3 rounded-xl text-sm text-[#0D2E4E] bg-[#F7FAFE] border-[1.5px] border-[#D6E6F2] outline-none transition placeholder:text-[#AAC2D4] focus:bg-white focus:border-[#1A6FA8] focus:ring-4 focus:ring-[#1A6FA8]/10 resize-none"
+            className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl text-sm text-[#0D2E4E] bg-[#F7FAFE] border-[1.5px] border-[#D6E6F2] outline-none transition placeholder:text-[#AAC2D4] focus:bg-white focus:border-[#1A6FA8] focus:ring-4 focus:ring-[#1A6FA8]/10 resize-none"
           />
         </div>
 
@@ -80,7 +80,7 @@ const BasicInfoStep = ({ profile, setProfile, onNext }) => {
           <select
             value={profile.gender || ""}
             onChange={(e) => setProfile({ ...profile, gender: e.target.value })}
-            className="w-full h-12 px-4 rounded-xl text-sm text-[#0D2E4E] bg-[#F7FAFE] border-[1.5px] border-[#D6E6F2] outline-none transition focus:bg-white focus:border-[#1A6FA8] focus:ring-4 focus:ring-[#1A6FA8]/10"
+            className="w-full h-11 sm:h-12 px-3.5 sm:px-4 rounded-xl text-sm text-[#0D2E4E] bg-[#F7FAFE] border-[1.5px] border-[#D6E6F2] outline-none transition focus:bg-white focus:border-[#1A6FA8] focus:ring-4 focus:ring-[#1A6FA8]/10"
           >
             <option value="">Gender</option>
             <option value="male">Male</option>
@@ -89,7 +89,7 @@ const BasicInfoStep = ({ profile, setProfile, onNext }) => {
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-6 sm:mt-8">
         <Button text="Next" onClick={handleNext} />
       </div>
     </div>

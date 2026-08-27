@@ -11,21 +11,21 @@ import { StepHeader } from "../../../../../components/common/components/StepComp
 import ButtonLoader from "../../../../../components/common/components/ButtonLoader";
 
 const Section = ({ title, children }) => (
-  <div className="mb-4 bg-white border border-[#D6E6F2] rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(26,111,168,0.06)]">
-    <div className="bg-[#F7FAFE] border-b border-[#D6E6F2] px-4 py-2.5">
+  <div className="mb-3 sm:mb-4 bg-white border border-[#D6E6F2] rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(26,111,168,0.06)]">
+    <div className="bg-[#F7FAFE] border-b border-[#D6E6F2] px-3.5 sm:px-4 py-2 sm:py-2.5">
       <p className="text-[11px] font-bold text-[#1A6FA8] uppercase tracking-widest">
         {title}
       </p>
     </div>
-    <div className="grid grid-cols-2 gap-px bg-[#EEF5FC] p-px rounded-b-2xl overflow-hidden">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#EEF5FC] p-px rounded-b-2xl overflow-hidden">
       {children}
     </div>
   </div>
 );
 
 const Item = ({ label, value, isLink }) => (
-  <div className="bg-white px-4 py-3">
-    <p className="text-[10px] font-semibold text-[#4A6680] uppercase tracking-wide mb-0.5">
+  <div className="bg-white px-3.5 sm:px-4 py-2 sm:py-3">
+    <p className="text-[9px] sm:text-[10px] font-semibold text-[#4A6680] uppercase tracking-wide mb-0.5">
       {label}
     </p>
     {isLink && value ? (
@@ -38,7 +38,7 @@ const Item = ({ label, value, isLink }) => (
         View on Map
       </a>
     ) : (
-      <p className="text-sm font-semibold text-[#0D2E4E]">
+      <p className="text-sm font-semibold text-[#0D2E4E] break-words">
         {value || <span className="text-[#AAC2D4] font-normal">—</span>}
       </p>
     )}
@@ -82,7 +82,7 @@ const ReviewStep = ({ profile, onBack, onFinish }) => {
   };
 
   return (
-    <div className="max-w-lg mx-auto px-2 py-4">
+    <div className="max-w-lg mx-auto px-1 sm:px-2 py-3 sm:py-4">
       <StepHeader
         title="Review Your Profile"
         subtitle="Please review your information carefully before finishing."
@@ -168,7 +168,7 @@ const ReviewStep = ({ profile, onBack, onFinish }) => {
         </>
       )}
 
-      <div className="mt-8 flex items-center justify-between">
+      <div className="mt-6 sm:mt-8 flex items-center justify-between">
         <button
           onClick={onBack}
           className="text-sm font-semibold text-[#4A6680] hover:text-[#1A6FA8] transition"
