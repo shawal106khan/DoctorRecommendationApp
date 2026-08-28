@@ -54,16 +54,16 @@ const AdminComplaintsPage = () => {
     <DashboardLayout role="admin">
       <div className="bg-[#F0F4F8] min-h-screen">
         {/* Top strip */}
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             Review and respond to user complaints and feedback
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8">
           {/* Page header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-5 sm:mb-6">
             <div className="flex items-center gap-3">
               <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
               <div>
@@ -99,7 +99,7 @@ const AdminComplaintsPage = () => {
               <LoadingSpinner text="Loading Complaints..." />
             </div>
           ) : complaints.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl border border-[#D6E6F2]">
+            <div className="flex flex-col items-center justify-center py-12 sm:py-20 px-4 text-center bg-white rounded-2xl border border-[#D6E6F2]">
               <div className="w-14 h-14 rounded-2xl bg-[#E8F4FD] flex items-center justify-center mb-4">
                 <MessageSquare size={24} className="text-[#1A6FA8]" />
               </div>
@@ -122,9 +122,9 @@ const AdminComplaintsPage = () => {
                     className={`h-1 w-full ${complaint.status === "resolved" ? "bg-gradient-to-r from-green-400 to-emerald-500" : "bg-gradient-to-r from-yellow-400 to-orange-400"}`}
                   />
 
-                  <div className="p-5">
+                  <div className="p-4 sm:p-5">
                     {/* Header row */}
-                    <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                       <div className="flex items-start gap-3">
                         <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#1A6FA8] to-[#336aac] flex items-center justify-center flex-shrink-0 shadow-[0_2px_8px_rgba(26,111,168,0.25)]">
                           <span className="text-white font-bold text-sm">
@@ -143,7 +143,7 @@ const AdminComplaintsPage = () => {
                       </div>
 
                       <span
-                        className={`text-[10px] font-bold capitalize px-2.5 py-1 rounded-full border flex-shrink-0 ${
+                        className={`text-[10px] font-bold capitalize px-2.5 py-1 rounded-full border flex-shrink-0 self-start sm:self-auto ml-[52px] sm:ml-0 ${
                           complaint.status === "resolved"
                             ? "bg-green-50 text-green-700 border-green-100"
                             : "bg-yellow-50 text-yellow-600 border-yellow-100"
@@ -172,11 +172,11 @@ const AdminComplaintsPage = () => {
                     <div className="h-px bg-gradient-to-r from-transparent via-[#D6E6F2] to-transparent mb-4" />
 
                     {/* Actions */}
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                       {complaint.status !== "resolved" && (
                         <button
                           onClick={() => handleResolve(complaint.complaint_id)}
-                          className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl bg-green-50 border border-green-100 text-green-600 hover:bg-green-500 hover:text-white transition"
+                          className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl bg-green-50 border border-green-100 text-green-600 hover:bg-green-500 hover:text-white transition"
                         >
                           <CheckCircle2 size={13} />
                           Mark Resolved
@@ -184,7 +184,7 @@ const AdminComplaintsPage = () => {
                       )}
                       <button
                         onClick={() => handleDelete(complaint.complaint_id)}
-                        className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl bg-red-50 border border-red-100 text-red-500 hover:bg-red-500 hover:text-white transition"
+                        className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl bg-red-50 border border-red-100 text-red-500 hover:bg-red-500 hover:text-white transition"
                       >
                         <Trash2 size={13} />
                         Delete

@@ -50,16 +50,16 @@ const AdminMonthlyReportPage = () => {
     <DashboardLayout role="admin">
       <div className="bg-[#F0F4F8] min-h-screen">
         {/* Top strip */}
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             Generate platform-wide monthly fee and appointment reports
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8 max-w-5xl mx-auto">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8 max-w-5xl mx-auto">
           {/* Page header */}
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-5 sm:mb-6">
             <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
             <div>
               <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-[2px]">
@@ -74,10 +74,10 @@ const AdminMonthlyReportPage = () => {
           {/* Selector card */}
           <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden mb-6">
             <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <SectionHeader title="Select Report Period" />
-              <div className="flex flex-wrap gap-4 items-end">
-                <div className="flex-1 min-w-[140px]">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:items-end">
+                <div className="w-full sm:flex-1 sm:min-w-[140px]">
                   <label className="block text-[10px] font-bold text-[#4A6680] uppercase tracking-wide mb-1.5">
                     Month
                   </label>
@@ -94,7 +94,7 @@ const AdminMonthlyReportPage = () => {
                   </select>
                 </div>
 
-                <div className="flex-1 min-w-[120px]">
+                <div className="w-full sm:flex-1 sm:min-w-[120px]">
                   <label className="block text-[10px] font-bold text-[#4A6680] uppercase tracking-wide mb-1.5">
                     Year
                   </label>
@@ -112,7 +112,7 @@ const AdminMonthlyReportPage = () => {
                 <button
                   onClick={handleGenerate}
                   disabled={loading}
-                  className="h-11 px-6 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-bold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60 whitespace-nowrap"
+                  className="w-full sm:w-auto h-11 px-6 bg-gradient-to-r from-[#1A6FA8] to-[#336aac] text-white text-sm font-bold rounded-xl shadow-[0_4px_12px_rgba(26,111,168,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60 whitespace-nowrap"
                 >
                   {loading ? "Generating..." : "Generate Report"}
                 </button>
@@ -124,15 +124,15 @@ const AdminMonthlyReportPage = () => {
           {report.length > 0 && (
             <>
               {/* Report banner */}
-              <div className="bg-gradient-to-br from-[#1A6FA8] via-[#1e7bbf] to-[#336aac] rounded-2xl p-6 mb-5 text-white relative overflow-hidden shadow-[0_8px_32px_rgba(26,111,168,0.25)]">
+              <div className="bg-gradient-to-br from-[#1A6FA8] via-[#1e7bbf] to-[#336aac] rounded-2xl p-4 sm:p-6 mb-5 text-white relative overflow-hidden shadow-[0_8px_32px_rgba(26,111,168,0.25)]">
                 <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white opacity-5" />
                 <div className="absolute bottom-0 left-1/3 w-24 h-24 rounded-full bg-[#38B2A0] opacity-10 blur-xl" />
-                <div className="relative z-10 flex items-center justify-between">
+                <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-1">
                       Admin Report
                     </p>
-                    <h2 className="text-2xl font-bold">
+                    <h2 className="text-xl sm:text-2xl font-bold">
                       {MONTHS[month]} {year}
                     </h2>
                   </div>
@@ -152,7 +152,7 @@ const AdminMonthlyReportPage = () => {
               {/* Table */}
               <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
                 <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-                <div className="px-5 py-5 border-b border-[#D6E6F2]">
+                <div className="px-4 sm:px-5 py-4 sm:py-5 border-b border-[#D6E6F2]">
                   <SectionHeader
                     title={`Doctor-wise Breakdown — ${MONTHS[month]} ${year}`}
                   />
@@ -217,7 +217,7 @@ const AdminMonthlyReportPage = () => {
                               key={`day-${index}-${i}`}
                               className="bg-[#F7FAFE] border-b border-[#EEF5FC]"
                             >
-                              <td className="px-5 py-2.5 pl-14">
+                              <td className="px-3 sm:px-5 py-2.5 pl-8 sm:pl-14">
                                 <div className="flex items-center gap-2 text-xs text-[#6B839A]">
                                   <div className="w-1 h-1 rounded-full bg-[#38B2A0]" />
                                   {day.date}

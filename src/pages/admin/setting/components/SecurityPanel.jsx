@@ -141,7 +141,7 @@ const SecurityPanel = () => {
         <button
           onClick={handleUpdate}
           disabled={loading}
-          className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white text-sm font-bold rounded-xl shadow-[0_4px_12px_rgba(239,68,68,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white text-sm font-bold rounded-xl shadow-[0_4px_12px_rgba(239,68,68,0.30)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60"
         >
           <Shield size={14} />
           {loading ? "Updating..." : "Update Password"}

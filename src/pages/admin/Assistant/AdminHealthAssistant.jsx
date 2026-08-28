@@ -120,16 +120,16 @@ const AdminHealthAssistant = () => {
     <DashboardLayout role="admin">
       <div className="bg-[#F0F4F8] min-h-screen">
         {/* Top strip */}
-        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-8 py-2.5 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A6FA8] to-[#336aac] px-4 sm:px-8 py-2.5 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#38B2A0] animate-pulse" />
           <p className="text-white/75 text-xs font-medium tracking-wide">
             Manage health assistant questions and answers by specialization
           </p>
         </div>
 
-        <div className="px-6 lg:px-12 py-8">
+        <div className="px-4 sm:px-6 lg:px-12 py-5 sm:py-8">
           {/* Page header */}
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-5 sm:mb-6">
             <div className="w-1 h-8 bg-gradient-to-b from-[#1A6FA8] to-[#38B2A0] rounded-full" />
             <div>
               <p className="text-[10px] font-bold text-[#4A6680] uppercase tracking-[2px]">
@@ -144,9 +144,9 @@ const AdminHealthAssistant = () => {
           <div className="grid lg:grid-cols-5 gap-6">
             {/* ── FORM ── */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden sticky top-6">
+              <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden lg:sticky lg:top-6">
                 <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   {/* Form header */}
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-2.5">
@@ -268,15 +268,15 @@ const AdminHealthAssistant = () => {
             <div className="lg:col-span-3">
               <div className="bg-white rounded-2xl border border-[#D6E6F2] shadow-[0_4px_20px_rgba(26,111,168,0.08)] overflow-hidden">
                 <div className="h-1 w-full bg-gradient-to-r from-[#1A6FA8] via-[#336aac] to-[#38B2A0]" />
-                <div className="px-6 py-5 border-b border-[#D6E6F2] flex items-center justify-between">
+                <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[#D6E6F2] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <SectionHeader title="Assistant Questions" />
-                  <div className="bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold px-3 py-1.5 rounded-full -mt-5">
+                  <div className="bg-[#E8F4FD] text-[#1A6FA8] text-xs font-bold px-3 py-1.5 rounded-full self-start sm:self-auto sm:-mt-5">
                     {questions.length} Total
                   </div>
                 </div>
 
                 {questions.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <div className="flex flex-col items-center justify-center py-12 sm:py-16 px-4 text-center">
                     <div className="w-14 h-14 rounded-2xl bg-[#E8F4FD] flex items-center justify-center mb-4">
                       <Bot size={24} className="text-[#1A6FA8]" />
                     </div>
@@ -292,7 +292,7 @@ const AdminHealthAssistant = () => {
                     {questions.map((item) => (
                       <div
                         key={item.id}
-                        className="px-6 py-4 hover:bg-[#F7FAFE] transition"
+                        className="px-4 sm:px-6 py-4 hover:bg-[#F7FAFE] transition"
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
