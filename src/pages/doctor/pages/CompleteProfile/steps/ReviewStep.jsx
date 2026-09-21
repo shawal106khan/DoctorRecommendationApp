@@ -112,14 +112,14 @@ const ReviewStep = ({ profile, onBack, onFinish }) => {
             <Item label="Qualification" value={profInfo?.qualifications} />
             <Item label="License Number" value={profInfo?.license_number} />
             <Item label="Phone" value={profInfo?.phone_number} />
-            <Item
+            {/* <Item
               label="Consultation Fee"
               value={
                 profInfo?.consultation_fee
                   ? `PKR ${profInfo.consultation_fee}`
                   : null
               }
-            />
+            /> */}
           </Section>
 
           <Section title="Availability">

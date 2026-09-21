@@ -67,7 +67,7 @@ const BasicInfoStep = ({ profile, setProfile, onNext }) => {
                 setErrors((prev) => ({ ...prev, languages: null }));
             }}
           />
-          <p className="text-xs text-[#8AAEC8] -mt-3">
+          <p className="text-xs text-[#8AAEC8] mt-3">
             Separate languages with commas.
           </p>
         </div>

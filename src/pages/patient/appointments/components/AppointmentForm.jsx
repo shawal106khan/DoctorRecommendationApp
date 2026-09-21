@@ -240,7 +240,7 @@ const AppointmentForm = ({ doctor }) => {
                   e.key === "-" ||
                   e.key === "e" ||
                   e.key === "+" ||
-                  e.key === "0"
+                  e.key === "."
                 ) {
                   e.preventDefault();
                 }
